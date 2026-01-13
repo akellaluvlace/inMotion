@@ -7,309 +7,302 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 export interface ImageItem {
   src: string;
   alt?: string;
+  label?: string;
 }
 
 export interface ScrollRevealProps {
-  centerImage: ImageItem;
-  layer1Images?: ImageItem[];
-  layer2Images?: ImageItem[];
-  layer3Images?: ImageItem[];
+  centerContent?: React.ReactNode;
+  images?: ImageItem[];
   className?: string;
+  showLabels?: boolean;
 }
-
-const defaultLayer1: ImageItem[] = [
-  { src: 'https://images.unsplash.com/photo-1463100099107-aa0980c362e6?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1556304044-0699e31c6a34?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1590330297626-d7aff25a0431?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1488161628813-04466f872be2?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1565321590372-09331b9dd1eb?w=800&auto=format&fit=crop&q=60' },
-];
-
-const defaultLayer2: ImageItem[] = [
-  { src: 'https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1637414165749-9b3cd88b8271?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1699911251220-8e0de3b5ce88?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1667483629944-6414ad0648c5?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://plus.unsplash.com/premium_photo-1706078438060-d76ced26d8d5?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1525385444278-b7968e7e28dc?w=800&auto=format&fit=crop&q=60' },
-];
-
-const defaultLayer3: ImageItem[] = [
-  { src: 'https://images.unsplash.com/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?w=800&auto=format&fit=crop&q=60' },
-  { src: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=60' },
-];
-
-const defaultCenter: ImageItem = {
-  src: 'https://assets.codepen.io/605876/model-shades.jpg?format=auto&quality=100',
-};
 
 const styles = `
 .scroll-reveal-wrapper {
   --sr-gutter: 2rem;
-  --sr-gap: clamp(10px, 7.35vw, 80px);
+  --sr-gap: clamp(8px, 2vw, 16px);
+  --sr-max-height: 80vh;
   position: relative;
   width: 100%;
-  background: #000;
+  background: #030712;
+  overflow: hidden;
 }
 
 @media (max-width: 600px) {
   .scroll-reveal-wrapper {
     --sr-gutter: 1rem;
+    --sr-gap: 8px;
   }
 }
 
 .scroll-reveal-wrapper .sr-section {
-  height: 100vh;
+  height: var(--sr-max-height);
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8vh;
 }
 
 .scroll-reveal-wrapper .sr-content {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
-  place-items: center;
-  align-content: center;
+  align-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
 }
 
+/* 3x3 Grid */
 .scroll-reveal-wrapper .sr-grid {
-  --sr-offset: 0;
-  width: 1600px;
-  max-width: calc(100% - (2 * var(--sr-gutter)));
+  width: min(1200px, calc(100% - 2 * var(--sr-gutter)));
+  height: min(calc(var(--sr-max-height) - 4rem), 600px);
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: var(--sr-gap);
-  margin: 0 auto;
-  align-content: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
 }
 
-@media (max-width: 600px) {
-  .scroll-reveal-wrapper .sr-grid {
-    grid-template-columns: repeat(3, 1fr);
-    --sr-offset: -1;
-  }
-  .scroll-reveal-wrapper .sr-grid > div:nth-of-type(1) {
-    display: none;
-  }
-}
-
-.scroll-reveal-wrapper .sr-layer {
-  display: grid;
-  grid-column: 1 / -1;
-  grid-row: 1 / -1;
-  grid-template-columns: subgrid;
-  grid-template-rows: subgrid;
+/* Grid items */
+.scroll-reveal-wrapper .sr-grid-item {
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
   opacity: 0;
   transform: scale(0);
 }
 
-.scroll-reveal-wrapper .sr-grid > div:nth-of-type(1) div:nth-of-type(odd) {
-  grid-column: 1;
-}
-.scroll-reveal-wrapper .sr-grid > div:nth-of-type(1) div:nth-of-type(even) {
-  grid-column: -2;
-}
-
-.scroll-reveal-wrapper .sr-grid > div:nth-of-type(2) div:nth-of-type(odd) {
-  grid-column: calc(2 + var(--sr-offset));
-}
-.scroll-reveal-wrapper .sr-grid > div:nth-of-type(2) div:nth-of-type(even) {
-  grid-column: calc(-3 - var(--sr-offset));
-}
-
-.scroll-reveal-wrapper .sr-grid > div:nth-of-type(3) div {
-  grid-column: calc(3 + var(--sr-offset));
-}
-.scroll-reveal-wrapper .sr-grid > div:nth-of-type(3) div:last-of-type {
-  grid-row: -1;
-}
-
-.scroll-reveal-wrapper .sr-scaler {
-  z-index: 2;
+.scroll-reveal-wrapper .sr-grid-item img {
   width: 100%;
   height: 100%;
-  position: relative;
-  grid-area: 2 / calc(3 + var(--sr-offset));
+  object-fit: cover;
 }
 
-.scroll-reveal-wrapper .sr-scaler img {
+.scroll-reveal-wrapper .sr-grid-item .sr-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.75rem 0.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  color: white;
+  font-size: clamp(0.6rem, 1.2vw, 0.8rem);
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Center scaler - overlays the grid */
+.scroll-reveal-wrapper .sr-scaler {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  object-fit: cover;
+  z-index: 10;
   border-radius: 1rem;
+  overflow: hidden;
 }
 
-.scroll-reveal-wrapper .sr-grid img {
+/* Center card styles - Split layout */
+.sr-center-card {
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  border: 1px solid rgba(99, 102, 241, 0.3);
   border-radius: 1rem;
+  overflow: hidden;
+}
+
+.sr-center-card .sr-card-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, transparent 100%);
+}
+
+.sr-center-card .sr-card-left h3 {
+  font-size: clamp(1.1rem, 3vw, 2rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, #c7d2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.sr-center-card .sr-card-left p {
+  font-size: clamp(0.7rem, 1.3vw, 1rem);
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.sr-center-card .sr-card-right {
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+.sr-center-card .sr-card-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sr-center-card .sr-card-right .sr-preview-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.75rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+  color: white;
+  font-size: clamp(0.65rem, 1vw, 0.85rem);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .sr-center-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .sr-center-card .sr-card-left {
+    padding: 1rem;
+  }
 }
 `;
 
 export default function ScrollReveal({
-  centerImage = defaultCenter,
-  layer1Images = defaultLayer1,
-  layer2Images = defaultLayer2,
-  layer3Images = defaultLayer3,
+  centerContent,
+  images = [],
   className = '',
+  showLabels = true,
 }: ScrollRevealProps) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const scalerImgRef = useRef<HTMLImageElement>(null);
-  const layer1Ref = useRef<HTMLDivElement>(null);
-  const layer2Ref = useRef<HTMLDivElement>(null);
-  const layer3Ref = useRef<HTMLDivElement>(null);
+  const scalerRef = useRef<HTMLDivElement>(null);
+  const gridItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const section = sectionRef.current;
-    const scalerImg = scalerImgRef.current;
-    const layer1 = layer1Ref.current;
-    const layer2 = layer2Ref.current;
-    const layer3 = layer3Ref.current;
+    const scaler = scalerRef.current;
+    const gridItems = gridItemsRef.current.filter(Boolean);
 
-    if (!section || !scalerImg || !layer1 || !layer2 || !layer3) return;
+    if (!section || !scaler || gridItems.length === 0) return;
 
     const gutter = window.innerWidth <= 600 ? 16 : 32;
-    const fullWidth = window.innerWidth - gutter * 2;
-    const fullHeight = window.innerHeight - gutter * 2;
+    const maxHeight = window.innerHeight * 0.8;
+    const fullWidth = Math.min(window.innerWidth - gutter * 2, 1000);
+    const fullHeight = Math.min(maxHeight - gutter * 2, 500);
 
-    // Set initial state - center image full screen
-    gsap.set(scalerImg, {
+    // Set initial state - center card full size
+    gsap.set(scaler, {
       width: fullWidth,
       height: fullHeight,
     });
 
-    // Create main timeline
+    // Create main timeline with smooth scrub
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: '+=300%', // Pin for 3x viewport height of scrolling
+        end: '+=250%',
         pin: true,
-        scrub: 1,
+        scrub: 2, // Smoother scrub (higher = smoother)
         anticipatePin: 1,
       },
     });
 
-    // Phase 1: Bull shrinks, images appear (0% to 50% of scroll)
-    tl.to(scalerImg, {
-      width: '100%',
-      height: '100%',
-      duration: 1,
-      ease: 'power2.inOut',
+    // Phase 1: Center shrinks smoothly, grid items appear
+    tl.to(scaler, {
+      width: 0,
+      height: 0,
+      opacity: 0,
+      duration: 1.5,
+      ease: 'power3.inOut',
     }, 0);
 
-    tl.to(layer3, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.8,
-      ease: 'power2.out',
-    }, 0.1);
-
-    tl.to(layer2, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.8,
-      ease: 'power3.out',
-    }, 0.2);
-
-    tl.to(layer1, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.8,
-      ease: 'power4.out',
-    }, 0.3);
+    // Stagger grid items appearing with smooth easing
+    gridItems.forEach((item, index) => {
+      const row = Math.floor(index / 3);
+      const col = index % 3;
+      const delay = 0.2 + (row * 0.08) + (col * 0.06);
+      tl.to(item, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: 'power2.out',
+      }, delay);
+    });
 
     // Hold at fully revealed state
-    tl.to({}, { duration: 0.5 });
+    tl.to({}, { duration: 0.8 });
 
-    // Phase 2: Images assemble back, bull grows (50% to 100% of scroll)
-    tl.to(layer1, {
-      opacity: 0,
-      scale: 0,
-      duration: 0.8,
-      ease: 'power4.in',
-    }, '+=0');
+    // Phase 2: Grid items disappear smoothly, center grows back
+    gridItems.slice().reverse().forEach((item, index) => {
+      tl.to(item, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.6,
+        ease: 'power2.in',
+      }, index === 0 ? '+=0' : `<0.04`);
+    });
 
-    tl.to(layer2, {
-      opacity: 0,
-      scale: 0,
-      duration: 0.8,
-      ease: 'power3.in',
-    }, '<0.1');
-
-    tl.to(layer3, {
-      opacity: 0,
-      scale: 0,
-      duration: 0.8,
-      ease: 'power2.in',
-    }, '<0.1');
-
-    tl.to(scalerImg, {
+    tl.to(scaler, {
       width: fullWidth,
       height: fullHeight,
-      duration: 1,
-      ease: 'power2.inOut',
+      opacity: 1,
+      duration: 1.5,
+      ease: 'power3.inOut',
     }, '<0.2');
 
-    // Cleanup
     return () => {
       tl.kill();
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
-  }, []);
+  }, [images.length]);
 
   return (
-    <div ref={wrapperRef} className={`scroll-reveal-wrapper ${className}`}>
+    <div className={`scroll-reveal-wrapper ${className}`}>
       <style dangerouslySetInnerHTML={{ __html: styles }} />
 
       <section ref={sectionRef} className="sr-section">
         <div className="sr-content">
+          {/* 3x3 Grid of images */}
           <div className="sr-grid">
-            {/* Layer 1 - Outer layer (6 images) */}
-            <div ref={layer1Ref} className="sr-layer">
-              {layer1Images.slice(0, 6).map((img, i) => (
-                <div key={`l1-${i}`}>
-                  <img src={img.src} alt={img.alt || ''} />
-                </div>
-              ))}
-            </div>
+            {images.slice(0, 9).map((img, i) => (
+              <div
+                key={`grid-${i}`}
+                ref={(el) => { gridItemsRef.current[i] = el; }}
+                className="sr-grid-item"
+              >
+                <img src={img.src} alt={img.alt || ''} />
+                {showLabels && img.label && (
+                  <div className="sr-label">{img.label}</div>
+                )}
+              </div>
+            ))}
+          </div>
 
-            {/* Layer 2 - Middle layer (6 images) */}
-            <div ref={layer2Ref} className="sr-layer">
-              {layer2Images.slice(0, 6).map((img, i) => (
-                <div key={`l2-${i}`}>
-                  <img src={img.src} alt={img.alt || ''} />
+          {/* Center card - overlays grid */}
+          <div ref={scalerRef} className="sr-scaler">
+            {centerContent || (
+              <div className="sr-center-card">
+                <div className="sr-card-left">
+                  <h3>Our Work</h3>
+                  <p>Website Examples</p>
                 </div>
-              ))}
-            </div>
-
-            {/* Layer 3 - Inner layer (2 images) */}
-            <div ref={layer3Ref} className="sr-layer">
-              {layer3Images.slice(0, 2).map((img, i) => (
-                <div key={`l3-${i}`}>
-                  <img src={img.src} alt={img.alt || ''} />
-                </div>
-              ))}
-            </div>
-
-            {/* Center/Scaler image - starts full screen */}
-            <div className="sr-scaler">
-              <img ref={scalerImgRef} src={centerImage.src} alt={centerImage.alt || ''} />
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
