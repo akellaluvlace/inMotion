@@ -24,8 +24,10 @@ import {
   HelpCircle,
   Plus,
   Minus,
+  X,
 } from 'lucide-react';
-import ScrollReveal from './ScrollReveal';
+import ScrollReveal, { ImageItem } from './ScrollReveal';
+import Architect from './websitesExamples/Architect';
 
 // Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
 const customStyles = `
@@ -288,6 +290,20 @@ const customStyles = `
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [activeExample, setActiveExample] = useState<string | null>(null);
+
+  const handleExampleClick = (image: ImageItem, index: number) => {
+    // Map image index/id to component
+    if (index === 0 || image.id === 'architect') {
+      setActiveExample('architect');
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  const closeExample = () => {
+    setActiveExample(null);
+    document.body.style.overflow = '';
+  };
 
   useEffect(() => {
     AOS.init({
@@ -301,9 +317,19 @@ export default function LandingPage() {
       setIsScrolled(window.scrollY > 100);
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && activeExample) {
+        closeExample();
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeExample]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
@@ -988,7 +1014,7 @@ export default function LandingPage() {
           <div className="sr-center-card">
             <div className="sr-card-left">
               <h3>Check out styles we can build</h3>
-              <p>And many more...</p>
+              <p>Click to preview...</p>
             </div>
             <div className="sr-card-right">
               <img src="/assets/3.png" alt="FlowDesk Preview" />
@@ -997,18 +1023,61 @@ export default function LandingPage() {
           </div>
         }
         images={[
-          { src: '/assets/1.png', label: 'Kavanagh & Cole Architects' },
-          { src: '/assets/2.png', label: 'Camden Gentlemen Barbers' },
-          { src: '/assets/3.png', label: 'FlowDesk' },
-          { src: '/assets/4.png', label: 'Kieran Murphy & Associates' },
-          { src: '/assets/5.png', label: 'LOUD Studio' },
-          { src: '/assets/6.png', label: 'Bloom Wellness' },
-          { src: '/assets/7.png', label: 'Howth Road Roasters' },
-          { src: '/assets/8.png', label: 'Surge Fitness' },
-          { src: '/assets/9.png', label: 'Ashford House' },
+          { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop', label: 'Kavanagh & Cole Architects', id: 'architect' },
+          { src: '/assets/2.png', label: 'Camden Gentlemen Barbers', id: 'barbers' },
+          { src: '/assets/3.png', label: 'FlowDesk', id: 'flowdesk' },
+          { src: '/assets/4.png', label: 'Kieran Murphy & Associates', id: 'murphy' },
+          { src: '/assets/5.png', label: 'LOUD Studio', id: 'loud' },
+          { src: '/assets/6.png', label: 'Bloom Wellness', id: 'bloom' },
+          { src: '/assets/7.png', label: 'Howth Road Roasters', id: 'roasters' },
+          { src: '/assets/8.png', label: 'Surge Fitness', id: 'surge' },
+          { src: '/assets/9.png', label: 'Ashford House', id: 'ashford' },
         ]}
         showLabels={true}
+        onImageClick={handleExampleClick}
       />
+
+      {/* Website Example Popup Modal */}
+      {activeExample && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-sm"
+          style={{ animation: 'fadeIn 0.3s ease-out' }}
+        >
+          {/* Exit Button - Fixed at top */}
+          <div className="fixed top-0 left-0 right-0 z-[10001] bg-gradient-to-b from-black/80 to-transparent py-4 px-4">
+            <div className="max-w-6xl mx-auto flex justify-between items-center">
+              <span className="text-white/60 text-sm">Preview Mode</span>
+              <button
+                onClick={closeExample}
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 transition-all duration-300 group"
+                aria-label="Exit preview"
+              >
+                <X className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                <span className="text-white text-sm font-medium">Exit Preview</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Modal Content */}
+          <div
+            className="w-full h-full overflow-auto pt-16"
+            style={{ animation: 'slideUp 0.4s ease-out' }}
+          >
+            {activeExample === 'architect' && <Architect />}
+          </div>
+        </div>
+      )}
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}} />
 
       {/* FAQ Section */}
       <section className="py-24 px-4">

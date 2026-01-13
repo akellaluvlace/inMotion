@@ -8,6 +8,7 @@ export interface ImageItem {
   src: string;
   alt?: string;
   label?: string;
+  id?: string;
 }
 
 export interface ScrollRevealProps {
@@ -15,6 +16,7 @@ export interface ScrollRevealProps {
   images?: ImageItem[];
   className?: string;
   showLabels?: boolean;
+  onImageClick?: (image: ImageItem, index: number) => void;
 }
 
 const styles = `
@@ -185,6 +187,7 @@ export default function ScrollReveal({
   images = [],
   className = '',
   showLabels = true,
+  onImageClick,
 }: ScrollRevealProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const scalerRef = useRef<HTMLDivElement>(null);
@@ -284,6 +287,8 @@ export default function ScrollReveal({
                 key={`grid-${i}`}
                 ref={(el) => { gridItemsRef.current[i] = el; }}
                 className="sr-grid-item"
+                onClick={() => onImageClick?.(img, i)}
+                style={{ cursor: onImageClick ? 'pointer' : 'default' }}
               >
                 <img src={img.src} alt={img.alt || ''} />
                 {showLabels && img.label && (
