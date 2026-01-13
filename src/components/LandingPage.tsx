@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import ScrollReveal, { ImageItem } from './ScrollReveal';
 import Architect from './websitesExamples/Architect';
+import AshfordHouse from './websitesExamples/AshfordHouse';
 
 // Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
 const customStyles = `
@@ -296,6 +297,9 @@ export default function LandingPage() {
     // Map image index/id to component
     if (index === 0 || image.id === 'architect') {
       setActiveExample('architect');
+      document.body.style.overflow = 'hidden';
+    } else if (image.id === 'ashford') {
+      setActiveExample('ashford');
       document.body.style.overflow = 'hidden';
     }
   };
@@ -1031,7 +1035,7 @@ export default function LandingPage() {
           { src: '/assets/6.png', label: 'Bloom Wellness', id: 'bloom' },
           { src: '/assets/7.png', label: 'Howth Road Roasters', id: 'roasters' },
           { src: '/assets/8.png', label: 'Surge Fitness', id: 'surge' },
-          { src: '/assets/9.png', label: 'Ashford House', id: 'ashford' },
+          { src: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800&auto=format&fit=crop', label: 'Ashford House Estate', id: 'ashford' },
         ]}
         showLabels={true}
         onImageClick={handleExampleClick}
@@ -1064,6 +1068,7 @@ export default function LandingPage() {
             style={{ animation: 'slideUp 0.4s ease-out' }}
           >
             {activeExample === 'architect' && <Architect />}
+            {activeExample === 'ashford' && <AshfordHouse previewMode={true} />}
           </div>
         </div>
       )}
