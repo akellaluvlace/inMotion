@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LOUD Studio — We Make Brands Impossible to Ignore</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        'neo-yellow': '#FAFF00',
+                        'neo-pink': '#FF6B9D',
+                        'neo-blue': '#4D9FFF',
+                        'neo-lime': '#B8FF00',
+                        'neo-orange': '#FF9F1C',
+                        'neo-purple': '#C77DFF',
+                        'neo-black': '#121212',
+                        'neo-cream': '#FFFDF5',
+                    },
+                    borderWidth: {
+                        '3': '3px',
+                    },
+                    boxShadow: {
+                        'neo': '5px 5px 0px 0px #121212',
+                        'neo-sm': '3px 3px 0px 0px #121212',
+                        'neo-hover': '2px 2px 0px 0px #121212',
+                        'neo-flat': '0px 0px 0px 0px #121212',
+                    },
+                    animation: {
+                        'marquee': 'marquee 25s linear infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        /* Base & Reset */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        body { 
+            font-family: 'Inter', system-ui, sans-serif; 
+            background: #FFFDF5;
+            color: #121212;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        ::selection {
+            background: #FAFF00;
+            color: #000;
+        }
+
+        /* Components */
+        .neo-box {
+            background: #FFFFFF;
+            border: 3px solid #121212;
+            box-shadow: 5px 5px 0px 0px #121212;
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Nav specific box */
+        .neo-nav-box {
+            background: #FFFFFF;
+            border: 3px solid #121212;
+            box-shadow: 4px 4px 0px 0px #121212;
+            transition: all 0.2s ease;
+        }
+
+        .neo-box:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px 0px #121212;
+        }
+
+        .neo-box:active {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0px 0px #121212;
+        }
+
+        /* Buttons */
+        .neo-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 1rem 2rem;
+            border: 3px solid #121212;
+            background: #121212;
+            color: #FAFF00;
+            box-shadow: 4px 4px 0 0 #FAFF00;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .neo-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 0 #FAFF00;
+        }
+
+        .neo-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0 0 0 0 #FAFF00;
+        }
+
+        .neo-btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 1rem 2rem;
+            border: 3px solid #121212;
+            background: transparent;
+            color: #121212;
+            box-shadow: 4px 4px 0 0 #121212;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .neo-btn-outline:hover {
+            background: #FAFF00;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 0 #121212;
+        }
+
+        .neo-btn-outline:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0 0 0 0 #121212;
+        }
+
+        /* Utilities */
+        .text-stroke {
+            -webkit-text-stroke: 1px #121212;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .text-stroke-white {
+            -webkit-text-stroke: 1px #FFF;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .neo-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 2px solid #121212;
+            background: #FAFF00;
+            padding: 0.25rem 0.75rem;
+            box-shadow: 2px 2px 0 0 #121212;
+        }
+
+        /* Background Patterns */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+        }
+
+        .bg-dots {
+            background-image: radial-gradient(#121212 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.4;
+        }
+
+        /* 
+           IMAGE GRAYSCALE LOGIC 
+           ---------------------
+           Base state: Grayscale
+           Desktop: Color on Hover
+           Mobile: Color on .revealed class (added via JS on scroll)
+        */
+        .img-grayscale {
+            filter: grayscale(100%) contrast(1.1);
+            transition: filter 0.8s cubic-bezier(0.33, 1, 0.68, 1); /* Slower, smooth easing */
+            will-change: filter;
+        }
+
+        /* Desktop Hover Effect */
+        @media (min-width: 1024px) {
+            .group:hover .img-grayscale {
+                filter: grayscale(0%) contrast(1);
+            }
+        }
+
+        /* Mobile Scroll Reveal Effect */
+        .img-grayscale.revealed {
+            filter: grayscale(0%) contrast(1);
+        }
+
+        /* Nav Link Animation */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: #FAFF00;
+            border: 1px solid #121212;
+            transition: width 0.2s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #FFF; border-left: 2px solid #121212; }
+        ::-webkit-scrollbar-thumb { background: #FAFF00; border: 2px solid #121212; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF6B9D; }
+
+        /* Animation Classes */
+        .hover-wiggle:hover { animation: wiggle 0.4s ease-in-out infinite; }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        .floating { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body class="bg-neo-cream relative w-full overflow-x-hidden">
+
+    <!-- Noise Texture -->
+    <div class="noise-overlay"></div>
+
+    <!-- Floating Decor (Hidden on mobile) -->
+    <div class="fixed top-32 left-10 w-12 h-12 bg-neo-yellow border-3 border-neo-black rounded-full floating hidden lg:block" style="animation-delay: 0s;"></div>
+    <div class="fixed bottom-20 right-10 w-8 h-8 bg-neo-pink border-3 border-neo-black rotate-12 floating hidden lg:block" style="animation-delay: 1.5s;"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4 lg:py-6 w-full">
+        <div class="max-w-7xl mx-auto">
+            <div class="neo-nav-box px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between bg-white relative">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 sm:gap-3 group z-50 relative">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-neo-yellow border-3 border-neo-black flex items-center justify-center font-black text-lg sm:text-xl hover-wiggle">
+                        L
+                    </div>
+                    <span class="text-lg sm:text-xl font-black tracking-tighter">LOUD<span class="text-neo-pink">.</span></span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center gap-6 lg:gap-8">
+                    <a href="#work" class="nav-link font-bold text-sm uppercase tracking-widest">Work</a>
+                    <a href="#services" class="nav-link font-bold text-sm uppercase tracking-widest">Services</a>
+                    <a href="#about" class="nav-link font-bold text-sm uppercase tracking-widest">About</a>
+                    <a href="#contact" class="neo-btn py-2 px-6 text-xs shadow-neo-sm hover:shadow-neo">
+                        Let's Talk
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button id="menu-toggle" class="md:hidden w-10 h-10 border-3 border-neo-black bg-neo-black text-white flex items-center justify-center shadow-neo-sm active:shadow-neo-flat active:translate-x-[2px] active:translate-y-[2px] transition-all z-50 relative">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+
+                <!-- Mobile Menu Overlay -->
+                <div id="mobile-menu" class="fixed inset-0 bg-neo-yellow z-40 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-center items-center border-l-4 border-neo-black w-screen h-screen">
+                    <div class="flex flex-col gap-6 sm:gap-8 text-center">
+                        <a href="#work" class="mobile-link text-3xl sm:text-4xl font-black uppercase text-stroke hover:text-neo-black transition-colors">Work</a>
+                        <a href="#services" class="mobile-link text-3xl sm:text-4xl font-black uppercase text-stroke hover:text-neo-black transition-colors">Services</a>
+                        <a href="#about" class="mobile-link text-3xl sm:text-4xl font-black uppercase text-stroke hover:text-neo-black transition-colors">About</a>
+                        <a href="#contact" class="mobile-link text-3xl sm:text-4xl font-black uppercase text-neo-black underline decoration-4 underline-offset-4 decoration-white">Contact</a>
+                    </div>
+                    <div class="absolute bottom-10 text-sm font-mono font-bold">LOUD STUDIO 2025</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center pt-32 pb-20 relative bg-grid overflow-hidden">
+        <div class="max-w-7xl mx-auto w-full px-4 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                
+                <!-- Left Content -->
+                <div class="relative z-10 order-2 lg:order-1">
+                    <div data-aos="fade-down" class="mb-6 sm:mb-8">
+                        <span class="neo-badge inline-flex items-center gap-2">
+                            <span class="w-2 h-2 bg-neo-pink rounded-full animate-pulse"></span>
+                            Accepting New Projects
+                        </span>
+                    </div>
+
+                    <h1 data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-6xl md:text-7xl xl:text-8xl font-black leading-[0.95] sm:leading-[0.9] mb-6 sm:mb-8 tracking-tight break-words">
+                        We make<br>
+                        brands<br>
+                        <span class="relative inline-block px-2">
+                            <span class="absolute inset-0 bg-neo-pink border-3 border-neo-black transform -rotate-2 -z-10 shadow-neo-sm"></span>
+                            impossible
+                        </span><br>
+                        to ignore<span class="text-neo-pink">.</span>
+                    </h1>
+
+                    <p data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg sm:text-xl font-medium mb-8 sm:mb-10 max-w-lg leading-relaxed border-l-4 border-neo-yellow pl-4 sm:pl-6">
+                        Bold design for bold brands. We create visual identities that slap, websites that convert, and campaigns that stick.
+                    </p>
+
+                    <div data-aos="fade-up" data-aos-delay="300" class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                        <a href="#work" class="neo-btn w-full sm:w-auto">
+                            See Our Work
+                        </a>
+                        <a href="#contact" class="neo-btn-outline w-full sm:w-auto">
+                            Start a Project
+                        </a>
+                    </div>
+
+                    <!-- Mini Stats -->
+                    <div data-aos="fade-up" data-aos-delay="400" class="flex gap-8 mt-12 sm:mt-16 pt-8 border-t-3 border-neo-black/10">
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-black">150+</div>
+                            <div class="text-xs font-mono uppercase font-bold text-gray-500">Projects</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-black">8Y</div>
+                            <div class="text-xs font-mono uppercase font-bold text-gray-500">Experience</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual -->
+                <div data-aos="fade-left" data-aos-delay="200" class="relative order-1 lg:order-2 flex justify-center lg:justify-end mb-8 lg:mb-0">
+                    <!-- Main Image Card -->
+                    <div class="relative w-full max-w-sm sm:max-w-md">
+                        <div class="absolute top-4 left-4 w-full h-full bg-neo-pink border-3 border-neo-black z-0"></div>
+                        <div class="relative z-10 bg-neo-yellow border-3 border-neo-black p-4 sm:p-6 shadow-neo">
+                            <div class="flex justify-between items-center mb-4 border-b-3 border-neo-black pb-4">
+                                <span class="font-mono text-xs font-bold uppercase">Featured Project</span>
+                                <div class="flex gap-1">
+                                    <div class="w-3 h-3 rounded-full border-2 border-neo-black bg-white"></div>
+                                    <div class="w-3 h-3 rounded-full border-2 border-neo-black bg-white"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Image -->
+                            <div class="aspect-[4/3] w-full border-3 border-neo-black overflow-hidden mb-4 relative group cursor-pointer">
+                                <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2787&auto=format&fit=crop" 
+                                     alt="Neon Brand Project" 
+                                     class="w-full h-full object-cover img-grayscale transform group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-neo-blue/20 group-hover:bg-transparent transition-colors"></div>
+                            </div>
+
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-xl sm:text-2xl font-black leading-none">Neon Fitness</h3>
+                                    <p class="font-mono text-xs mt-1">Brand Identity / Web</p>
+                                </div>
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-neo-black text-white flex items-center justify-center border-2 border-neo-black hover:bg-white hover:text-neo-black transition-colors">
+                                    <i data-lucide="arrow-up-right" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -top-4 -right-2 sm:-top-6 sm:-right-6 bg-white border-3 border-neo-black px-3 py-1 sm:px-4 sm:py-2 shadow-neo-sm transform rotate-6 z-20">
+                            <span class="font-black text-xs sm:text-sm">★ TOP RATED</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Infinite Marquee -->
+    <div class="py-6 bg-neo-black text-white border-y-[3px] border-white overflow-hidden relative z-20 w-full">
+        <div class="flex whitespace-nowrap w-max animate-marquee">
+            <div class="flex items-center gap-8 sm:gap-12 mx-4 sm:mx-6">
+                <span class="text-2xl sm:text-4xl font-black italic">BRANDING</span>
+                <span class="text-xl sm:text-2xl text-neo-yellow">✦</span>
+                <span class="text-2xl sm:text-4xl font-black text-stroke-white">WEB DESIGN</span>
+                <span class="text-xl sm:text-2xl text-neo-pink">✦</span>
+                <span class="text-2xl sm:text-4xl font-black italic">UI/UX</span>
+                <span class="text-xl sm:text-2xl text-neo-blue">✦</span>
+                <span class="text-2xl sm:text-4xl font-black text-stroke-white">MOTION</span>
+                <span class="text-xl sm:text-2xl text-neo-lime">✦</span>
+                <span class="text-2xl sm:text-4xl font-black italic">STRATEGY</span>
+                <span class="text-xl sm:text-2xl text-neo-yellow">✦</span>
+            </div>
+            <div class="flex items-center gap-8 sm:gap-12 mx-4 sm:mx-6">
+                <span class="text-2xl sm:text-4xl font-black italic">BRANDING</span>
+                <span class="text-xl sm:text-2xl text-neo-yellow">✦</span>
+                <span class="text-2xl sm:text-4xl font-black text-stroke-white">WEB DESIGN</span>
+                <span class="text-xl sm:text-2xl text-neo-pink">✦</span>
+                <span class="text-2xl sm:text-4xl font-black italic">UI/UX</span>
+                <span class="text-xl sm:text-2xl text-neo-blue">✦</span>
+                <span class="text-2xl sm:text-4xl font-black text-stroke-white">MOTION</span>
+                <span class="text-xl sm:text-2xl text-neo-lime">✦</span>
+                <span class="text-2xl sm:text-4xl font-black italic">STRATEGY</span>
+                <span class="text-xl sm:text-2xl text-neo-yellow">✦</span>
+            </div>
+             <div class="flex items-center gap-8 sm:gap-12 mx-4 sm:mx-6">
+                <span class="text-2xl sm:text-4xl font-black italic">BRANDING</span>
+                <span class="text-xl sm:text-2xl text-neo-yellow">✦</span>
+                <span class="text-2xl sm:text-4xl font-black text-stroke-white">WEB DESIGN</span>
+                <span class="text-xl sm:text-2xl text-neo-pink">✦</span>
+                <span class="text-2xl sm:text-4xl font-black italic">UI/UX</span>
+                <span class="text-xl sm:text-2xl text-neo-blue">✦</span>
+                <span class="text-2xl sm:text-4xl font-black text-stroke-white">MOTION</span>
+                <span class="text-xl sm:text-2xl text-neo-lime">✦</span>
+                <span class="text-2xl sm:text-4xl font-black italic">STRATEGY</span>
+                <span class="text-xl sm:text-2xl text-neo-yellow">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Work Section -->
+    <section id="work" class="py-16 sm:py-24 px-4 relative">
+        <div class="absolute inset-0 bg-dots z-0"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 sm:mb-16">
+                <div>
+                    <span data-aos="fade-up" class="neo-badge inline-block mb-4">Selected Work</span>
+                    <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-black leading-none">
+                        Projects that<br>
+                        <span class="bg-neo-lime px-2 border-3 border-neo-black shadow-neo-sm inline-block transform -rotate-1 mt-1">make noise</span>
+                    </h2>
+                </div>
+                <div data-aos="fade-left" data-aos-delay="200">
+                    <a href="#" class="neo-btn-outline group w-full md:w-auto">
+                        View All Projects
+                        <i data-lucide="arrow-right" class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid md:grid-cols-2 gap-8 md:gap-10">
+                <!-- Item 1 -->
+                <div data-aos="fade-up" class="group cursor-pointer">
+                    <div class="neo-box p-3 sm:p-4 bg-neo-pink mb-4 sm:mb-5">
+                        <div class="aspect-[4/3] border-3 border-neo-black overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" 
+                                 alt="Tech Brand" 
+                                 class="w-full h-full object-cover img-grayscale transform group-hover:scale-105 transition-all duration-500">
+                            <div class="absolute top-3 left-3 sm:top-4 sm:left-4 neo-badge">Tech</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-black mb-1 group-hover:text-neo-blue transition-colors">Volt Energy</h3>
+                            <p class="font-mono text-xs sm:text-sm font-bold text-gray-500">Brand Identity / Packaging</p>
+                        </div>
+                        <span class="font-mono text-xs sm:text-sm font-bold border-2 border-neo-black px-2 py-1">2024</span>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div data-aos="fade-up" data-aos-delay="100" class="group cursor-pointer md:mt-16">
+                    <div class="neo-box p-3 sm:p-4 bg-neo-blue mb-4 sm:mb-5">
+                        <div class="aspect-[4/3] border-3 border-neo-black overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop" 
+                                 alt="App Design" 
+                                 class="w-full h-full object-cover img-grayscale transform group-hover:scale-105 transition-all duration-500">
+                            <div class="absolute top-3 left-3 sm:top-4 sm:left-4 neo-badge">Fintech</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-black mb-1 group-hover:text-neo-pink transition-colors">Stack Finance</h3>
+                            <p class="font-mono text-xs sm:text-sm font-bold text-gray-500">Web Design / App UI</p>
+                        </div>
+                        <span class="font-mono text-xs sm:text-sm font-bold border-2 border-neo-black px-2 py-1">2024</span>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div data-aos="fade-up" class="group cursor-pointer">
+                    <div class="neo-box p-3 sm:p-4 bg-neo-lime mb-4 sm:mb-5">
+                        <div class="aspect-[4/3] border-3 border-neo-black overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop" 
+                                 alt="Food Market" 
+                                 class="w-full h-full object-cover img-grayscale transform group-hover:scale-105 transition-all duration-500">
+                            <div class="absolute top-3 left-3 sm:top-4 sm:left-4 neo-badge">Retail</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-black mb-1 group-hover:text-neo-orange transition-colors">Sprout Market</h3>
+                            <p class="font-mono text-xs sm:text-sm font-bold text-gray-500">Brand / E-commerce</p>
+                        </div>
+                        <span class="font-mono text-xs sm:text-sm font-bold border-2 border-neo-black px-2 py-1">2023</span>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div data-aos="fade-up" data-aos-delay="100" class="group cursor-pointer md:mt-16">
+                    <div class="neo-box p-3 sm:p-4 bg-neo-orange mb-4 sm:mb-5">
+                        <div class="aspect-[4/3] border-3 border-neo-black overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070&auto=format&fit=crop" 
+                                 alt="Music App" 
+                                 class="w-full h-full object-cover img-grayscale transform group-hover:scale-105 transition-all duration-500">
+                            <div class="absolute top-3 left-3 sm:top-4 sm:left-4 neo-badge">SaaS</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-black mb-1 group-hover:text-neo-purple transition-colors">Pulse Music</h3>
+                            <p class="font-mono text-xs sm:text-sm font-bold text-gray-500">App Design / Motion</p>
+                        </div>
+                        <span class="font-mono text-xs sm:text-sm font-bold border-2 border-neo-black px-2 py-1">2023</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 sm:py-24 px-4 bg-neo-black text-white relative border-y-[3px] border-neo-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16">
+                <span data-aos="fade-up" class="inline-block px-3 py-1 border-2 border-white bg-neo-black text-white font-mono text-xs font-bold uppercase tracking-widest mb-4">What We Do</span>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-6xl font-black">
+                    Our <span class="text-neo-yellow">Firepower</span>.
+                </h2>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-gray-400 mt-4 max-w-xl mx-auto text-base sm:text-lg">
+                    We don't do boring. Every project gets our full creative arsenal to ensure you stand out.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Services Cards (Same content, responsive padding adjustments) -->
+                <div data-aos="fade-up" class="bg-neo-yellow p-6 sm:p-8 border-3 border-white shadow-[6px_6px_0_0_#FFF] text-neo-black hover:translate-y-1 hover:shadow-[2px_2px_0_0_#FFF] transition-all duration-200">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-neo-black text-neo-yellow border-3 border-neo-black flex items-center justify-center mb-6">
+                        <i data-lucide="palette" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-3">Brand Identity</h3>
+                    <p class="font-medium text-sm leading-relaxed mb-6">Logos, visual systems, and guidelines that make your brand unforgettable.</p>
+                    <ul class="flex flex-wrap gap-2">
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Logo</li>
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Strategy</li>
+                    </ul>
+                </div>
+                <!-- Service 2 -->
+                <div data-aos="fade-up" data-aos-delay="100" class="bg-neo-pink p-6 sm:p-8 border-3 border-white shadow-[6px_6px_0_0_#FFF] text-neo-black hover:translate-y-1 hover:shadow-[2px_2px_0_0_#FFF] transition-all duration-200">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-neo-black text-neo-pink border-3 border-neo-black flex items-center justify-center mb-6">
+                        <i data-lucide="monitor" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-3">Web Design</h3>
+                    <p class="font-medium text-sm leading-relaxed mb-6">Websites that look incredible and actually convert visitors into customers.</p>
+                    <ul class="flex flex-wrap gap-2">
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">UI/UX</li>
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Framer</li>
+                    </ul>
+                </div>
+                <!-- Service 3 -->
+                <div data-aos="fade-up" data-aos-delay="200" class="bg-neo-blue p-6 sm:p-8 border-3 border-white shadow-[6px_6px_0_0_#FFF] text-neo-black hover:translate-y-1 hover:shadow-[2px_2px_0_0_#FFF] transition-all duration-200">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-neo-black text-neo-blue border-3 border-neo-black flex items-center justify-center mb-6">
+                        <i data-lucide="smartphone" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-3">App Design</h3>
+                    <p class="font-medium text-sm leading-relaxed mb-6">Mobile experiences that users actually enjoy using. Novel concept, right?</p>
+                    <ul class="flex flex-wrap gap-2">
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">iOS</li>
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Android</li>
+                    </ul>
+                </div>
+                <!-- Service 4 -->
+                <div data-aos="fade-up" data-aos-delay="300" class="bg-neo-lime p-6 sm:p-8 border-3 border-white shadow-[6px_6px_0_0_#FFF] text-neo-black hover:translate-y-1 hover:shadow-[2px_2px_0_0_#FFF] transition-all duration-200">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-neo-black text-neo-lime border-3 border-neo-black flex items-center justify-center mb-6">
+                        <i data-lucide="play" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-3">Motion</h3>
+                    <p class="font-medium text-sm leading-relaxed mb-6">Animations that bring your brand to life and stop the endless scroll.</p>
+                    <ul class="flex flex-wrap gap-2">
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">3D</li>
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Lottie</li>
+                    </ul>
+                </div>
+                <!-- Service 5 -->
+                <div data-aos="fade-up" data-aos-delay="400" class="bg-neo-orange p-6 sm:p-8 border-3 border-white shadow-[6px_6px_0_0_#FFF] text-neo-black hover:translate-y-1 hover:shadow-[2px_2px_0_0_#FFF] transition-all duration-200">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-neo-black text-neo-orange border-3 border-neo-black flex items-center justify-center mb-6">
+                        <i data-lucide="box" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-3">Packaging</h3>
+                    <p class="font-medium text-sm leading-relaxed mb-6">Tangible goods that fly off the shelves and look good on the 'gram.</p>
+                    <ul class="flex flex-wrap gap-2">
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Print</li>
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Merch</li>
+                    </ul>
+                </div>
+                <!-- Service 6 -->
+                <div data-aos="fade-up" data-aos-delay="500" class="bg-neo-purple p-6 sm:p-8 border-3 border-white shadow-[6px_6px_0_0_#FFF] text-neo-black hover:translate-y-1 hover:shadow-[2px_2px_0_0_#FFF] transition-all duration-200">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-neo-black text-neo-purple border-3 border-neo-black flex items-center justify-center mb-6">
+                        <i data-lucide="zap" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-3">Growth</h3>
+                    <p class="font-medium text-sm leading-relaxed mb-6">Campaigns and content strategies that actually move the needle.</p>
+                    <ul class="flex flex-wrap gap-2">
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Social</li>
+                        <li class="bg-white border-2 border-neo-black px-2 py-1 text-xs font-mono font-bold">Ads</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 sm:py-24 px-4 relative overflow-hidden">
+        <div class="absolute -left-20 top-40 w-40 h-40 sm:w-64 sm:h-64 bg-neo-yellow rounded-full border-3 border-neo-black -z-10 opacity-50"></div>
+        <div class="absolute -right-20 bottom-40 w-40 h-40 sm:w-64 sm:h-64 bg-neo-pink rounded-full border-3 border-neo-black -z-10 opacity-50"></div>
+
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <div data-aos="fade-right" class="relative max-w-sm mx-auto lg:max-w-none">
+                    <div class="bg-white border-3 border-neo-black p-3 sm:p-4 rotate-2 shadow-neo">
+                        <div class="aspect-square bg-neo-black relative overflow-hidden border-3 border-neo-black">
+                            <!-- Removed the "LOUD" Text Overlay Here -->
+                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop" 
+                                 alt="The Team" 
+                                 class="w-full h-full object-cover opacity-90 transition-opacity duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center lg:text-left">
+                    <span data-aos="fade-up" class="neo-badge inline-block mb-4">Who We Are</span>
+                    <h2 data-aos="fade-up" data-aos-delay="100" class="text-3xl sm:text-4xl md:text-5xl font-black leading-none mb-6">
+                        Small team.<br>
+                        <span class="text-neo-pink underline decoration-4 decoration-neo-black underline-offset-4">Big Mouth.</span>
+                    </h2>
+                    
+                    <p data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg mb-6 leading-relaxed font-medium">
+                        We're a Dublin-based design studio that believes in standing out, not fitting in. Founded in 2016, we've helped over 150 brands find their voice and make it heard.
+                    </p>
+                    
+                    <p data-aos="fade-up" data-aos-delay="300" class="text-base sm:text-lg mb-8 leading-relaxed text-gray-700">
+                        Our approach? Skip the corporate BS. We work fast, think bold, and deliver work that actually gets results. No fluff, no filler, just designs that hit different.
+                    </p>
+
+                    <div data-aos="fade-up" data-aos-delay="400" class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 mb-8 text-left max-w-sm mx-auto lg:mx-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 bg-neo-yellow border-2 border-neo-black flex items-center justify-center font-black text-xs">✓</div>
+                            <span class="font-bold">No Boring Work</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 bg-neo-pink border-2 border-neo-black flex items-center justify-center font-black text-xs">✓</div>
+                            <span class="font-bold">Fast Turnaround</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 bg-neo-blue border-2 border-neo-black flex items-center justify-center font-black text-xs">✓</div>
+                            <span class="font-bold">Fixed Pricing</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 bg-neo-lime border-2 border-neo-black flex items-center justify-center font-black text-xs">✓</div>
+                            <span class="font-bold">Unlimited Revisions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 sm:py-24 px-4 bg-neo-yellow border-y-[3px] border-neo-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16">
+                <span data-aos="fade-up" class="bg-neo-black text-white px-3 py-1 font-mono text-xs font-bold uppercase tracking-widest inline-block mb-4">Kind Words</span>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl font-black leading-none">
+                    Don't take our<br>word for it.
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div data-aos="fade-up" data-aos-delay="100" class="bg-white border-3 border-neo-black p-6 sm:p-8 shadow-neo hover:translate-y-1 hover:shadow-neo-hover transition-all">
+                    <div class="flex gap-1 text-neo-black mb-4">
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                    </div>
+                    <p class="font-bold text-base sm:text-lg mb-6 leading-snug">"LOUD absolutely nailed our rebrand. Our conversion rate jumped 40% after launching the new site. Best investment we've made."</p>
+                    <div class="flex items-center gap-3 pt-4 border-t-2 border-neo-black">
+                        <div class="w-10 h-10 bg-neo-pink border-2 border-neo-black rounded-full"></div>
+                        <div>
+                            <div class="font-black text-sm">Sarah Mitchell</div>
+                            <div class="font-mono text-xs text-gray-500 font-bold uppercase">CEO, Volt</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div data-aos="fade-up" data-aos-delay="200" class="bg-white border-3 border-neo-black p-6 sm:p-8 shadow-neo hover:translate-y-1 hover:shadow-neo-hover transition-all">
+                    <div class="flex gap-1 text-neo-black mb-4">
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                    </div>
+                    <p class="font-bold text-base sm:text-lg mb-6 leading-snug">"They actually listened to what we wanted, then made it 10x better. No ego, just results. Rare in this industry."</p>
+                    <div class="flex items-center gap-3 pt-4 border-t-2 border-neo-black">
+                        <div class="w-10 h-10 bg-neo-blue border-2 border-neo-black rounded-full"></div>
+                        <div>
+                            <div class="font-black text-sm">Marcus Chen</div>
+                            <div class="font-mono text-xs text-gray-500 font-bold uppercase">Founder, Stack</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div data-aos="fade-up" data-aos-delay="300" class="bg-white border-3 border-neo-black p-6 sm:p-8 shadow-neo hover:translate-y-1 hover:shadow-neo-hover transition-all">
+                    <div class="flex gap-1 text-neo-black mb-4">
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                    </div>
+                    <p class="font-bold text-base sm:text-lg mb-6 leading-snug">"Our packaging now gets shared on social more than our actual products. LOUD understood the assignment perfectly."</p>
+                    <div class="flex items-center gap-3 pt-4 border-t-2 border-neo-black">
+                        <div class="w-10 h-10 bg-neo-lime border-2 border-neo-black rounded-full"></div>
+                        <div>
+                            <div class="font-black text-sm">Emma O'Brien</div>
+                            <div class="font-mono text-xs text-gray-500 font-bold uppercase">CMO, Sprout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Contact -->
+    <section id="contact" class="py-16 sm:py-24 px-4 bg-grid">
+        <div class="max-w-4xl mx-auto">
+            <div data-aos="zoom-in" class="relative">
+                <div class="absolute top-3 left-3 sm:top-4 sm:left-4 w-full h-full bg-neo-pink border-3 border-neo-black"></div>
+                <div class="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-full h-full bg-neo-yellow border-3 border-neo-black"></div>
+                
+                <div class="bg-white border-3 border-neo-black p-8 md:p-16 relative text-center">
+                    <span class="neo-badge inline-block mb-6">Start a Project</span>
+                    
+                    <h2 class="text-3xl sm:text-4xl md:text-6xl font-black leading-none mb-6">
+                        Got a project?<br>
+                        <span class="bg-neo-black text-white px-2">Let's make noise.</span>
+                    </h2>
+                    
+                    <p class="text-base sm:text-lg md:text-xl font-medium mb-10 text-gray-600 max-w-lg mx-auto">
+                        Drop us a line. We typically respond within 24 hours. No forms, no friction — just shoot us an email.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <a href="mailto:hello@loudstudio.ie" class="neo-btn text-lg py-4 px-8 w-full sm:w-auto">
+                            <i data-lucide="mail" class="w-5 h-5 mr-2"></i>
+                            hello@loudstudio.ie
+                        </a>
+                        <a href="tel:+35312345678" class="font-mono font-bold border-b-2 border-neo-black hover:bg-neo-yellow transition-colors mt-4 sm:mt-0">
+                            +353 1 234 5678
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-neo-black text-white border-t-[3px] border-neo-yellow py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div class="lg:col-span-2">
+                    <a href="#" class="flex items-center gap-2 mb-4 group">
+                        <div class="w-10 h-10 bg-neo-yellow border-3 border-white flex items-center justify-center font-black text-xl text-neo-black group-hover:rotate-12 transition-transform">
+                            L
+                        </div>
+                        <span class="text-xl font-black">LOUD<span class="text-neo-pink">.</span></span>
+                    </a>
+                    <p class="text-gray-400 max-w-sm mb-6">
+                        Dublin's loudest design studio. We make brands impossible to ignore since 2016.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 border-2 border-white flex items-center justify-center hover:bg-neo-yellow hover:text-neo-black hover:border-neo-yellow transition-all">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 border-2 border-white flex items-center justify-center hover:bg-neo-pink hover:text-neo-black hover:border-neo-pink transition-all">
+                            <i data-lucide="dribbble" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 border-2 border-white flex items-center justify-center hover:bg-neo-blue hover:text-neo-black hover:border-neo-blue transition-all">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-black text-lg mb-4 uppercase text-neo-yellow">Studio</h4>
+                    <ul class="space-y-3 font-medium text-gray-400">
+                        <li><a href="#work" class="hover:text-white transition-colors">Work</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-black text-lg mb-4 uppercase text-neo-yellow">Contact</h4>
+                    <ul class="space-y-3 font-medium text-gray-400">
+                        <li>hello@loudstudio.ie</li>
+                        <li>+353 1 234 5678</li>
+                        <li class="pt-2 text-sm text-gray-500">
+                            42 Camden Street<br>
+                            Dublin 2, Ireland
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-mono text-gray-500">
+                <div>© 2025 LOUD Studio. All rights reserved.</div>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Init Icons
+        lucide.createIcons();
+
+        // Init Animate On Scroll (AOS)
+        AOS.init({
+            duration: 600,
+            once: true,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            offset: 60
+        });
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const icon = menuToggle.querySelector('i');
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                icon.setAttribute('data-lucide', 'x');
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                icon.setAttribute('data-lucide', 'menu');
+                document.body.style.overflow = '';
+            }
+            lucide.createIcons();
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+
+        // Close menu when link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // 3D Tilt Effect for Cards (Desktop only)
+        if (window.matchMedia("(min-width: 1024px)").matches) {
+            const cards = document.querySelectorAll('.neo-box, .neo-btn');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const xPct = x / rect.width;
+                    const yPct = y / rect.height;
+                    
+                    const xTilt = (0.5 - yPct) * 5; 
+                    const yTilt = (xPct - 0.5) * 5;
+
+                    card.style.transform = `perspective(1000px) rotateX(${xTilt}deg) rotateY(${yTilt}deg) scale3d(1.02, 1.02, 1.02)`;
+                    card.style.zIndex = "10";
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'none';
+                    card.style.zIndex = "1";
+                });
+            });
+        }
+
+        // Mobile Scroll Reveal Logic for Images
+        // Only run on smaller screens where hover isn't primary
+        if (window.matchMedia("(max-width: 1024px)").matches) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, {
+                threshold: 0.2 // Trigger when 20% of the image is visible
+            });
+
+            document.querySelectorAll('.img-grayscale').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+    </script>
+</body>
+</html>

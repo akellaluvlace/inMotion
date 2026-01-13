@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Wellness Dublin — Holistic Spa & Wellness Centre</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        'bloom': {
+                            sage: '#9CAF88',
+                            'sage-light': '#B8C9A3',
+                            'sage-dark': '#7A9166',
+                            blush: '#E8C4C4',
+                            'blush-light': '#F5E1E1',
+                            'blush-dark': '#D4A5A5',
+                            cream: '#FDF8F3',
+                            'cream-dark': '#F5EDE4',
+                            lavender: '#D4C4E8',
+                            'lavender-light': '#EDE6F5',
+                            sand: '#E5DDD3',
+                            eucalyptus: '#A7C4BC',
+                            rose: '#C9A9A6',
+                            text: '#4A4A4A',
+                            'text-light': '#7A7A7A',
+                        }
+                    },
+                    borderRadius: {
+                        'blob': '60% 40% 30% 70% / 60% 30% 70% 40%',
+                        'blob-2': '30% 70% 70% 30% / 30% 30% 70% 70%',
+                        'soft': '2rem',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body { 
+            font-family: 'DM Sans', sans-serif;
+            background: #FDF8F3;
+            color: #4A4A4A;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: #9CAF88;
+            color: #ffffff;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        /* Organic Blob Shapes */
+        .blob-shape {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: blob-morph 8s ease-in-out infinite;
+        }
+
+        .blob-shape-2 {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: blob-morph-2 10s ease-in-out infinite;
+        }
+
+        @keyframes blob-morph {
+            0%, 100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+            50% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+            }
+        }
+
+        @keyframes blob-morph-2 {
+            0%, 100% {
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            }
+            50% {
+                border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+            }
+        }
+
+        /* Wavy Divider */
+        .wave-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .wave-divider-top svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotate(180deg);
+        }
+
+        /* Soft Button Styles */
+        .btn-bloom {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #9CAF88 0%, #7A9166 100%);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(156, 175, 136, 0.3);
+        }
+
+        .btn-bloom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(156, 175, 136, 0.4);
+            gap: 14px;
+        }
+
+        .btn-bloom-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 30px;
+            background: transparent;
+            color: #9CAF88;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border: 2px solid #9CAF88;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-bloom-outline:hover {
+            background: #9CAF88;
+            color: #ffffff;
+            gap: 14px;
+        }
+
+        /* Card Styles */
+        .bloom-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .bloom-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(156, 175, 136, 0.15);
+        }
+
+        /* Image Styles */
+        .organic-image {
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .organic-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(156, 175, 136, 0.1) 0%, transparent 50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .organic-image img {
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .organic-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Floating Elements Animation */
+        .float-gentle {
+            animation: float-gentle 6s ease-in-out infinite;
+        }
+
+        .float-gentle-delayed {
+            animation: float-gentle 6s ease-in-out 2s infinite;
+        }
+
+        @keyframes float-gentle {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        /* Petal Decorations */
+        .petal {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(135deg, #E8C4C4 0%, #F5E1E1 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0.6;
+        }
+
+        /* Leaf Decorations */
+        .leaf {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, #9CAF88 0%, #B8C9A3 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0.2;
+        }
+
+        /* Testimonial Card */
+        .testimonial-card {
+            background: linear-gradient(135deg, #ffffff 0%, #FDF8F3 100%);
+            border-radius: 32px;
+            padding: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 120px;
+            color: #9CAF88;
+            opacity: 0.15;
+            line-height: 1;
+        }
+
+        /* Treatment Item */
+        .treatment-item {
+            padding: 32px;
+            border-radius: 20px;
+            background: #ffffff;
+            border: 1px solid rgba(156, 175, 136, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .treatment-item:hover {
+            border-color: #9CAF88;
+            box-shadow: 0 10px 40px rgba(156, 175, 136, 0.1);
+        }
+
+        /* Nav Link */
+        .nav-link {
+            position: relative;
+            color: #4A4A4A;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #9CAF88;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #9CAF88;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Pill Tag */
+        .pill-tag {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(156, 175, 136, 0.1);
+            color: #7A9166;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 50px;
+        }
+
+        /* Team Member */
+        .team-member {
+            text-align: center;
+        }
+
+        .team-member-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #ffffff;
+            box-shadow: 0 10px 40px rgba(156, 175, 136, 0.2);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #9CAF88 0%, #7A9166 50%, #A7C4BC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative Background Elements -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="leaf float-gentle" style="top: 15%; left: 5%; transform: rotate(-30deg);"></div>
+        <div class="leaf float-gentle-delayed" style="top: 60%; right: 8%; transform: rotate(45deg);"></div>
+        <div class="petal float-gentle" style="top: 25%; right: 15%; transform: rotate(20deg);"></div>
+        <div class="petal float-gentle-delayed" style="top: 70%; left: 10%; transform: rotate(-15deg);"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-bloom-cream/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-bloom-sage to-bloom-sage-dark rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.76 0 3.41-.46 4.85-1.26-1.77-1.29-2.92-3.38-2.92-5.74 0-3.87 3.13-7 7-7 .34 0 .67.03 1 .08C20.14 4.89 16.39 2 12 2zm0 9c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-serif text-2xl text-bloom-text">Bloom</span>
+                        <span class="block text-[10px] tracking-[0.3em] text-bloom-sage uppercase -mt-1">Wellness</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden lg:flex items-center gap-10">
+                    <a href="#treatments" class="nav-link text-sm">Treatments</a>
+                    <a href="#about" class="nav-link text-sm">About</a>
+                    <a href="#team" class="nav-link text-sm">Our Team</a>
+                    <a href="#testimonials" class="nav-link text-sm">Stories</a>
+                    <a href="#contact" class="nav-link text-sm">Contact</a>
+                </div>
+
+                <!-- CTA -->
+                <div class="hidden lg:block">
+                    <a href="#booking" class="btn-bloom text-sm">
+                        Book Now
+                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden w-10 h-10 flex items-center justify-center text-bloom-text">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <!-- Background Blobs -->
+        <div class="absolute top-20 right-0 w-[600px] h-[600px] bg-bloom-blush-light/40 blob-shape"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-bloom-sage-light/30 blob-shape-2"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 py-20 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Content -->
+                <div>
+                    <span data-aos="fade-up" class="pill-tag mb-6">Dublin's Premier Wellness Sanctuary</span>
+                    
+                    <h1 data-aos="fade-up" data-aos-delay="100" class="text-5xl md:text-6xl lg:text-7xl font-serif text-bloom-text mb-6 leading-tight">
+                        Nurture Your Mind, Body & 
+                        <span class="gradient-text italic">Soul</span>
+                    </h1>
+                    
+                    <p data-aos="fade-up" data-aos-delay="200" class="text-lg text-bloom-text-light mb-10 max-w-lg leading-relaxed">
+                        Escape to a haven of tranquility in the heart of Dublin. Our holistic treatments blend ancient wisdom with modern wellness practices to restore your natural balance.
+                    </p>
+                    
+                    <div data-aos="fade-up" data-aos-delay="300" class="flex flex-wrap gap-4">
+                        <a href="#booking" class="btn-bloom">
+                            Book a Treatment
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#treatments" class="btn-bloom-outline">
+                            Explore Services
+                        </a>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div data-aos="fade-up" data-aos-delay="400" class="flex items-center gap-8 mt-12 pt-8 border-t border-bloom-sage/20">
+                        <div class="text-center">
+                            <span class="block text-3xl font-serif text-bloom-sage">2,500+</span>
+                            <span class="text-xs text-bloom-text-light uppercase tracking-wider">Happy Guests</span>
+                        </div>
+                        <div class="w-px h-12 bg-bloom-sage/20"></div>
+                        <div class="text-center">
+                            <span class="block text-3xl font-serif text-bloom-sage">4.9</span>
+                            <span class="text-xs text-bloom-text-light uppercase tracking-wider">Google Rating</span>
+                        </div>
+                        <div class="w-px h-12 bg-bloom-sage/20"></div>
+                        <div class="text-center">
+                            <span class="block text-3xl font-serif text-bloom-sage">15+</span>
+                            <span class="text-xs text-bloom-text-light uppercase tracking-wider">Treatments</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - Hero Image -->
+                <div data-aos="fade-left" data-aos-delay="200" class="relative">
+                    <div class="organic-image">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&h=1000&fit=crop&q=80" 
+                             alt="Relaxing spa treatment" 
+                             class="w-full h-[600px] object-cover">
+                    </div>
+                    
+                    <!-- Floating Card -->
+                    <div class="absolute -bottom-8 -left-8 bg-white rounded-2xl p-6 shadow-xl max-w-[240px] float-gentle">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-bloom-blush rounded-full flex items-center justify-center">
+                                <i data-lucide="heart" class="w-5 h-5 text-bloom-blush-dark"></i>
+                            </div>
+                            <span class="text-sm font-medium text-bloom-text">Self-Care First</span>
+                        </div>
+                        <p class="text-xs text-bloom-text-light">Award-winning treatments designed for your complete wellbeing</p>
+                    </div>
+
+                    <!-- Decorative Element -->
+                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-bloom-lavender-light rounded-full blur-2xl"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-bloom-sage"></i>
+        </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider bg-bloom-cream">
+        <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0 50C240 100 480 0 720 50C960 100 1200 0 1440 50V100H0V50Z" fill="white"/>
+        </svg>
+    </div>
+
+    <!-- Treatments Section -->
+    <section id="treatments" class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span data-aos="fade-up" class="pill-tag mb-4">Our Treatments</span>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-serif text-bloom-text mb-6">
+                    Discover Your Path to Wellness
+                </h2>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-bloom-text-light">
+                    Each treatment is thoughtfully crafted to address your unique needs, combining therapeutic touch with natural ingredients.
+                </p>
+            </div>
+
+            <!-- Treatment Categories -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Treatment 1 -->
+                <div data-aos="fade-up" data-aos-delay="100" class="bloom-card group">
+                    <div class="w-16 h-16 bg-bloom-blush-light rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="flower-2" class="w-8 h-8 text-bloom-blush-dark"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-bloom-text mb-3">Signature Massage</h3>
+                    <p class="text-bloom-text-light mb-6 text-sm leading-relaxed">
+                        Our signature full-body massage combines Swedish and deep tissue techniques with aromatherapy oils chosen for your needs.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-bloom-sage font-medium">From €95</span>
+                        <a href="#" class="text-bloom-sage hover:text-bloom-sage-dark transition-colors flex items-center gap-2 text-sm">
+                            Learn more <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Treatment 2 -->
+                <div data-aos="fade-up" data-aos-delay="200" class="bloom-card group">
+                    <div class="w-16 h-16 bg-bloom-lavender-light rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="sparkles" class="w-8 h-8 text-bloom-lavender"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-bloom-text mb-3">Facial Rituals</h3>
+                    <p class="text-bloom-text-light mb-6 text-sm leading-relaxed">
+                        Luxurious facials using organic botanicals to cleanse, nourish, and rejuvenate your skin to its natural radiance.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-bloom-sage font-medium">From €85</span>
+                        <a href="#" class="text-bloom-sage hover:text-bloom-sage-dark transition-colors flex items-center gap-2 text-sm">
+                            Learn more <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Treatment 3 -->
+                <div data-aos="fade-up" data-aos-delay="300" class="bloom-card group">
+                    <div class="w-16 h-16 bg-bloom-sage-light/50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="leaf" class="w-8 h-8 text-bloom-sage-dark"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-bloom-text mb-3">Body Treatments</h3>
+                    <p class="text-bloom-text-light mb-6 text-sm leading-relaxed">
+                        Detoxifying wraps, exfoliating scrubs, and hydrating treatments to revitalise and restore your body.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-bloom-sage font-medium">From €110</span>
+                        <a href="#" class="text-bloom-sage hover:text-bloom-sage-dark transition-colors flex items-center gap-2 text-sm">
+                            Learn more <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Treatment 4 -->
+                <div data-aos="fade-up" data-aos-delay="100" class="bloom-card group">
+                    <div class="w-16 h-16 bg-bloom-eucalyptus/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="wind" class="w-8 h-8 text-bloom-eucalyptus"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-bloom-text mb-3">Holistic Therapies</h3>
+                    <p class="text-bloom-text-light mb-6 text-sm leading-relaxed">
+                        Reiki, reflexology, and energy healing sessions to restore balance and promote inner harmony.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-bloom-sage font-medium">From €75</span>
+                        <a href="#" class="text-bloom-sage hover:text-bloom-sage-dark transition-colors flex items-center gap-2 text-sm">
+                            Learn more <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Treatment 5 -->
+                <div data-aos="fade-up" data-aos-delay="200" class="bloom-card group">
+                    <div class="w-16 h-16 bg-bloom-rose/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="gem" class="w-8 h-8 text-bloom-rose"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-bloom-text mb-3">Couples Retreat</h3>
+                    <p class="text-bloom-text-light mb-6 text-sm leading-relaxed">
+                        Share a blissful experience together with side-by-side treatments in our couples suite with champagne.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-bloom-sage font-medium">From €195</span>
+                        <a href="#" class="text-bloom-sage hover:text-bloom-sage-dark transition-colors flex items-center gap-2 text-sm">
+                            Learn more <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Treatment 6 -->
+                <div data-aos="fade-up" data-aos-delay="300" class="bloom-card group">
+                    <div class="w-16 h-16 bg-bloom-sand/50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="sun" class="w-8 h-8 text-bloom-text-light"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-bloom-text mb-3">Wellness Packages</h3>
+                    <p class="text-bloom-text-light mb-6 text-sm leading-relaxed">
+                        Half-day and full-day spa experiences combining multiple treatments for ultimate relaxation.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-bloom-sage font-medium">From €245</span>
+                        <a href="#" class="text-bloom-sage hover:text-bloom-sage-dark transition-colors flex items-center gap-2 text-sm">
+                            Learn more <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View All CTA -->
+            <div data-aos="fade-up" class="text-center mt-12">
+                <a href="#" class="btn-bloom-outline">
+                    View Full Treatment Menu
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Divider (Top) -->
+    <div class="wave-divider-top bg-bloom-sage-light/20">
+        <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0 50C240 100 480 0 720 50C960 100 1200 0 1440 50V100H0V50Z" fill="white"/>
+        </svg>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="bg-bloom-sage-light/20 py-24 relative overflow-hidden">
+        <!-- Decorative Blobs -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-bloom-lavender-light/30 blob-shape-2 -translate-y-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left - Images -->
+                <div data-aos="fade-right" class="relative">
+                    <div class="organic-image">
+                        <img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=600&h=700&fit=crop&q=80" 
+                             alt="Bloom Wellness interior" 
+                             class="w-full h-[500px] object-cover">
+                    </div>
+                    
+                    <!-- Floating Secondary Image -->
+                    <div class="absolute -bottom-12 -right-12 w-64 h-64 organic-image shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=400&h=400&fit=crop&q=80" 
+                             alt="Natural spa products" 
+                             class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="absolute top-8 -left-8 bg-white rounded-2xl p-6 shadow-xl">
+                        <span class="block text-4xl font-serif text-bloom-sage mb-1">8+</span>
+                        <span class="text-sm text-bloom-text-light">Years of Excellence</span>
+                    </div>
+                </div>
+
+                <!-- Right - Content -->
+                <div class="lg:pl-8">
+                    <span data-aos="fade-up" class="pill-tag mb-4">Our Story</span>
+                    
+                    <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-serif text-bloom-text mb-6 leading-tight">
+                        A Sanctuary Born from <span class="italic text-bloom-sage">Passion</span>
+                    </h2>
+                    
+                    <p data-aos="fade-up" data-aos-delay="200" class="text-bloom-text-light mb-6 leading-relaxed">
+                        Founded in 2016 by wellness practitioner Aoife Brennan, Bloom Wellness was born from a simple belief: that everyone deserves a space to pause, breathe, and reconnect with themselves.
+                    </p>
+                    
+                    <p data-aos="fade-up" data-aos-delay="300" class="text-bloom-text-light mb-8 leading-relaxed">
+                        Nestled in a beautifully restored Georgian townhouse on Merrion Square, our spa combines the elegance of old Dublin with contemporary wellness practices. Every detail—from our organic Irish skincare products to our sustainably sourced linens—reflects our commitment to mindful luxury.
+                    </p>
+
+                    <!-- Values -->
+                    <div data-aos="fade-up" data-aos-delay="400" class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-bloom-blush-light rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="leaf" class="w-5 h-5 text-bloom-blush-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-bloom-text mb-1">Organic & Natural</h4>
+                                <p class="text-xs text-bloom-text-light">100% natural products</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-bloom-sage-light rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="heart-handshake" class="w-5 h-5 text-bloom-sage-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-bloom-text mb-1">Holistic Approach</h4>
+                                <p class="text-xs text-bloom-text-light">Mind, body & spirit</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-bloom-lavender-light rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="shield-check" class="w-5 h-5 text-bloom-lavender"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-bloom-text mb-1">Certified Therapists</h4>
+                                <p class="text-xs text-bloom-text-light">Expert trained team</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-bloom-eucalyptus/30 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="recycle" class="w-5 h-5 text-bloom-eucalyptus"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-bloom-text mb-1">Eco-Conscious</h4>
+                                <p class="text-xs text-bloom-text-light">Sustainable practices</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="500">
+                        <a href="#team" class="btn-bloom">
+                            Meet Our Team
+                            <i data-lucide="users" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider bg-bloom-sage-light/20">
+        <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0 50C240 100 480 0 720 50C960 100 1200 0 1440 50V100H0V50Z" fill="#FDF8F3"/>
+        </svg>
+    </div>
+
+    <!-- Featured Treatment -->
+    <section class="bg-bloom-cream py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left - Content -->
+                <div>
+                    <span data-aos="fade-up" class="pill-tag mb-4">Seasonal Special</span>
+                    
+                    <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-serif text-bloom-text mb-6 leading-tight">
+                        Winter Warming Ritual
+                    </h2>
+                    
+                    <p data-aos="fade-up" data-aos-delay="200" class="text-bloom-text-light mb-8 leading-relaxed">
+                        Escape the Dublin chill with our exclusive winter treatment. Beginning with a warming ginger and cinnamon body wrap, followed by a hot stone massage using volcanic basalt stones, and finishing with a nourishing facial using winter botanical extracts.
+                    </p>
+
+                    <!-- Treatment Details -->
+                    <div data-aos="fade-up" data-aos-delay="300" class="bg-white rounded-2xl p-6 mb-8">
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <i data-lucide="clock" class="w-6 h-6 mx-auto mb-2 text-bloom-sage"></i>
+                                <span class="block text-lg font-serif text-bloom-text">120 min</span>
+                                <span class="text-xs text-bloom-text-light">Duration</span>
+                            </div>
+                            <div>
+                                <i data-lucide="euro" class="w-6 h-6 mx-auto mb-2 text-bloom-sage"></i>
+                                <span class="block text-lg font-serif text-bloom-text">€185</span>
+                                <span class="text-xs text-bloom-text-light">Price</span>
+                            </div>
+                            <div>
+                                <i data-lucide="gift" class="w-6 h-6 mx-auto mb-2 text-bloom-sage"></i>
+                                <span class="block text-lg font-serif text-bloom-text">Tea</span>
+                                <span class="text-xs text-bloom-text-light">Included</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="400" class="flex flex-wrap gap-4">
+                        <a href="#booking" class="btn-bloom">
+                            Book This Treatment
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="btn-bloom-outline">
+                            Gift Voucher
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right - Image -->
+                <div data-aos="fade-left" class="relative">
+                    <div class="organic-image">
+                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&h=600&fit=crop&q=80" 
+                             alt="Hot stone massage treatment" 
+                             class="w-full h-[500px] object-cover">
+                    </div>
+                    
+                    <!-- Price Tag -->
+                    <div class="absolute top-6 right-6 bg-bloom-sage text-white px-6 py-3 rounded-full">
+                        <span class="text-sm font-medium">Save €45</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span data-aos="fade-up" class="pill-tag mb-4">Our Team</span>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-serif text-bloom-text mb-6">
+                    Caring Hands, Healing Hearts
+                </h2>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-bloom-text-light">
+                    Our team of certified therapists brings decades of combined experience and a genuine passion for wellness.
+                </p>
+            </div>
+
+            <!-- Team Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Team Member 1 -->
+                <div data-aos="fade-up" data-aos-delay="100" class="team-member">
+                    <div class="team-member-image">
+                        <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&h=400&fit=crop&q=80" 
+                             alt="Aoife Brennan" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-serif text-bloom-text mb-1">Aoife Brennan</h3>
+                    <p class="text-sm text-bloom-sage mb-3">Founder & Director</p>
+                    <p class="text-xs text-bloom-text-light leading-relaxed">15+ years in holistic wellness, certified in aromatherapy and Reiki master.</p>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div data-aos="fade-up" data-aos-delay="200" class="team-member">
+                    <div class="team-member-image">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&q=80" 
+                             alt="Siobhán Kelly" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-serif text-bloom-text mb-1">Siobhán Kelly</h3>
+                    <p class="text-sm text-bloom-sage mb-3">Senior Therapist</p>
+                    <p class="text-xs text-bloom-text-light leading-relaxed">Specialises in deep tissue massage and sports therapy.</p>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div data-aos="fade-up" data-aos-delay="300" class="team-member">
+                    <div class="team-member-image">
+                        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&h=400&fit=crop&q=80" 
+                             alt="Emma O'Brien" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-serif text-bloom-text mb-1">Emma O'Brien</h3>
+                    <p class="text-sm text-bloom-sage mb-3">Facial Specialist</p>
+                    <p class="text-xs text-bloom-text-light leading-relaxed">Expert in organic facials and advanced skincare treatments.</p>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div data-aos="fade-up" data-aos-delay="400" class="team-member">
+                    <div class="team-member-image">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&q=80" 
+                             alt="Fiona Murphy" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-serif text-bloom-text mb-1">Fiona Murphy</h3>
+                    <p class="text-sm text-bloom-sage mb-3">Holistic Therapist</p>
+                    <p class="text-xs text-bloom-text-light leading-relaxed">Reflexology and energy healing practitioner with 10 years experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="bg-bloom-cream py-24 relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-bloom-blush-light/30 blob-shape"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span data-aos="fade-up" class="pill-tag mb-4">Guest Stories</span>
+                <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-serif text-bloom-text mb-6">
+                    Words from Our Guests
+                </h2>
+            </div>
+
+            <!-- Testimonials Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div data-aos="fade-up" data-aos-delay="100" class="testimonial-card">
+                    <div class="relative z-10">
+                        <div class="flex gap-1 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                        </div>
+                        <p class="text-bloom-text mb-6 italic leading-relaxed">
+                            "The most peaceful experience I've ever had. From the moment I walked in, I felt the stress melt away. Aoife's massage was absolutely divine."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-bloom-sage-light overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80" alt="" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <span class="block font-medium text-bloom-text">Sarah M.</span>
+                                <span class="text-xs text-bloom-text-light">Dublin 4</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div data-aos="fade-up" data-aos-delay="200" class="testimonial-card">
+                    <div class="relative z-10">
+                        <div class="flex gap-1 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                        </div>
+                        <p class="text-bloom-text mb-6 italic leading-relaxed">
+                            "My husband and I did the couples retreat for our anniversary. The champagne, the treatments, the ambiance—everything was perfect. Already planning our return!"
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-bloom-blush-light overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&q=80" alt="" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <span class="block font-medium text-bloom-text">Claire & David R.</span>
+                                <span class="text-xs text-bloom-text-light">Howth</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div data-aos="fade-up" data-aos-delay="300" class="testimonial-card">
+                    <div class="relative z-10">
+                        <div class="flex gap-1 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-bloom-sage text-bloom-sage"></i>
+                        </div>
+                        <p class="text-bloom-text mb-6 italic leading-relaxed">
+                            "I've tried many spas in Dublin, but Bloom is in a different league. The attention to detail, the organic products, and Emma's facials have transformed my skin."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-bloom-lavender-light overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&q=80" alt="" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <span class="block font-medium text-bloom-text">Michael T.</span>
+                                <span class="text-xs text-bloom-text-light">Ballsbridge</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Booking Section -->
+    <section id="contact" class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Left - Contact Info -->
+                <div>
+                    <span data-aos="fade-up" class="pill-tag mb-4">Visit Us</span>
+                    
+                    <h2 data-aos="fade-up" data-aos-delay="100" class="text-4xl md:text-5xl font-serif text-bloom-text mb-6 leading-tight">
+                        Begin Your Wellness Journey
+                    </h2>
+                    
+                    <p data-aos="fade-up" data-aos-delay="200" class="text-bloom-text-light mb-10 leading-relaxed">
+                        We'd love to welcome you to Bloom. Whether you have questions about our treatments or want to book your first visit, we're here to help.
+                    </p>
+
+                    <!-- Contact Details -->
+                    <div data-aos="fade-up" data-aos-delay="300" class="space-y-6 mb-10">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-bloom-sage-light rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-bloom-sage-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-bloom-text mb-1">Location</h4>
+                                <p class="text-bloom-text-light text-sm">18 Merrion Square<br>Dublin 2, D02 YT89</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-bloom-blush-light rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="phone" class="w-5 h-5 text-bloom-blush-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-bloom-text mb-1">Phone</h4>
+                                <a href="tel:+35312345678" class="text-bloom-text-light text-sm hover:text-bloom-sage transition-colors">+353 1 234 5678</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-bloom-lavender-light rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="mail" class="w-5 h-5 text-bloom-lavender"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-bloom-text mb-1">Email</h4>
+                                <a href="mailto:hello@bloomwellness.ie" class="text-bloom-text-light text-sm hover:text-bloom-sage transition-colors">hello@bloomwellness.ie</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-bloom-eucalyptus/30 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="clock" class="w-5 h-5 text-bloom-eucalyptus"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-bloom-text mb-1">Opening Hours</h4>
+                                <p class="text-bloom-text-light text-sm">Mon–Fri: 9am – 8pm<br>Sat–Sun: 10am – 6pm</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div data-aos="fade-up" data-aos-delay="400" class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-bloom-cream rounded-full flex items-center justify-center hover:bg-bloom-sage hover:text-white transition-all">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-bloom-cream rounded-full flex items-center justify-center hover:bg-bloom-sage hover:text-white transition-all">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-bloom-cream rounded-full flex items-center justify-center hover:bg-bloom-sage hover:text-white transition-all">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right - Booking Form -->
+                <div id="booking" data-aos="fade-left" class="bg-bloom-cream rounded-3xl p-8 lg:p-12">
+                    <h3 class="text-2xl font-serif text-bloom-text mb-6">Book an Appointment</h3>
+                    
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm text-bloom-text-light mb-2">First Name</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl border border-bloom-sage/20 bg-white focus:outline-none focus:border-bloom-sage transition-colors" placeholder="Your name">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-bloom-text-light mb-2">Phone</label>
+                                <input type="tel" class="w-full px-4 py-3 rounded-xl border border-bloom-sage/20 bg-white focus:outline-none focus:border-bloom-sage transition-colors" placeholder="Your phone">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm text-bloom-text-light mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded-xl border border-bloom-sage/20 bg-white focus:outline-none focus:border-bloom-sage transition-colors" placeholder="your@email.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm text-bloom-text-light mb-2">Treatment</label>
+                            <select class="w-full px-4 py-3 rounded-xl border border-bloom-sage/20 bg-white focus:outline-none focus:border-bloom-sage transition-colors text-bloom-text-light">
+                                <option>Select a treatment</option>
+                                <option>Signature Massage (from €95)</option>
+                                <option>Facial Rituals (from €85)</option>
+                                <option>Body Treatments (from €110)</option>
+                                <option>Holistic Therapies (from €75)</option>
+                                <option>Couples Retreat (from €195)</option>
+                                <option>Winter Warming Ritual (€185)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm text-bloom-text-light mb-2">Preferred Date</label>
+                                <input type="date" class="w-full px-4 py-3 rounded-xl border border-bloom-sage/20 bg-white focus:outline-none focus:border-bloom-sage transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-bloom-text-light mb-2">Preferred Time</label>
+                                <select class="w-full px-4 py-3 rounded-xl border border-bloom-sage/20 bg-white focus:outline-none focus:border-bloom-sage transition-colors text-bloom-text-light">
+                                    <option>Morning (9am–12pm)</option>
+                                    <option>Afternoon (12pm–4pm)</option>
+                                    <option>Evening (4pm–8pm)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm text-bloom-text-light mb-2">Special Requests</label>
+                            <textarea rows="3" class="w-full px-4 py-3 rounded-xl border border-bloom-sage/20 bg-white focus:outline-none focus:border-bloom-sage transition-colors resize-none" placeholder="Any allergies, preferences, or special occasions..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-bloom w-full justify-center">
+                            Request Booking
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                        
+                        <p class="text-xs text-bloom-text-light text-center">
+                            We'll confirm your appointment within 24 hours.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="bg-bloom-sage py-16">
+        <div class="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+            <h3 data-aos="fade-up" class="text-3xl font-serif text-white mb-4">Join Our Wellness Circle</h3>
+            <p data-aos="fade-up" data-aos-delay="100" class="text-white/80 mb-8">Subscribe for exclusive offers, wellness tips, and be the first to know about new treatments.</p>
+            
+            <form data-aos="fade-up" data-aos-delay="200" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-4 rounded-full border-2 border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:border-white/40 transition-colors">
+                <button type="submit" class="px-8 py-4 bg-white text-bloom-sage rounded-full font-medium hover:bg-bloom-cream transition-colors">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-bloom-cream-dark py-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <!-- Brand -->
+                <div>
+                    <a href="#" class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-bloom-sage to-bloom-sage-dark rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.76 0 3.41-.46 4.85-1.26-1.77-1.29-2.92-3.38-2.92-5.74 0-3.87 3.13-7 7-7 .34 0 .67.03 1 .08C20.14 4.89 16.39 2 12 2zm0 9c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-serif text-xl text-bloom-text">Bloom Wellness</span>
+                        </div>
+                    </a>
+                    <p class="text-sm text-bloom-text-light leading-relaxed">
+                        Dublin's sanctuary for holistic wellness, offering transformative treatments in a serene Georgian setting.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-medium text-bloom-text mb-4">Quick Links</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#treatments" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Treatments</a></li>
+                        <li><a href="#about" class="text-bloom-text-light hover:text-bloom-sage transition-colors">About Us</a></li>
+                        <li><a href="#team" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Our Team</a></li>
+                        <li><a href="#" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Gift Vouchers</a></li>
+                        <li><a href="#contact" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Treatments -->
+                <div>
+                    <h4 class="font-medium text-bloom-text mb-4">Treatments</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Massage Therapies</a></li>
+                        <li><a href="#" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Facial Treatments</a></li>
+                        <li><a href="#" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Body Rituals</a></li>
+                        <li><a href="#" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Holistic Healing</a></li>
+                        <li><a href="#" class="text-bloom-text-light hover:text-bloom-sage transition-colors">Packages</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-medium text-bloom-text mb-4">Get in Touch</h4>
+                    <ul class="space-y-3 text-sm text-bloom-text-light">
+                        <li>18 Merrion Square</li>
+                        <li>Dublin 2, D02 YT89</li>
+                        <li><a href="tel:+35312345678" class="hover:text-bloom-sage transition-colors">+353 1 234 5678</a></li>
+                        <li><a href="mailto:hello@bloomwellness.ie" class="hover:text-bloom-sage transition-colors">hello@bloomwellness.ie</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-bloom-sage/10 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xs text-bloom-text-light">© 2025 Bloom Wellness Dublin. All rights reserved.</p>
+                <div class="flex gap-6 text-xs text-bloom-text-light">
+                    <a href="#" class="hover:text-bloom-sage transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-bloom-sage transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-bloom-sage transition-colors">Cancellation Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-cubic',
+            offset: 50
+        });
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Nav background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.05)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
