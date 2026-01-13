@@ -26,6 +26,264 @@ import {
   Minus,
 } from 'lucide-react';
 
+// Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
+const customStyles = `
+  /* Animated gradient background */
+  .hero-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100vh;
+      background: 
+          radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+          radial-gradient(ellipse 60% 40% at 100% 0%, rgba(168, 85, 247, 0.1), transparent),
+          radial-gradient(ellipse 50% 30% at 0% 100%, rgba(59, 130, 246, 0.1), transparent);
+      pointer-events: none;
+  }
+
+  /* Subtle grid pattern */
+  .grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: 
+          linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+      pointer-events: none;
+  }
+
+  /* Floating orbs */
+  .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 20s ease-in-out infinite;
+  }
+
+  .orb-1 {
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      top: -200px;
+      left: -200px;
+      animation-delay: 0s;
+  }
+
+  .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      bottom: -100px;
+      right: -100px;
+      animation-delay: -10s;
+  }
+
+  .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      top: 50%;
+      right: 10%;
+      animation-delay: -5s;
+  }
+
+  @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -30px) scale(1.05); }
+      50% { transform: translate(-20px, 20px) scale(0.95); }
+      75% { transform: translate(20px, 10px) scale(1.02); }
+  }
+
+  /* Glass morphism */
+  .glass {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-strong {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+  }
+
+  .gradient-text-color {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+  }
+
+  /* Service cards */
+  .service-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.1), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.4s;
+  }
+
+  .service-card:hover::before {
+      opacity: 1;
+  }
+
+  .service-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
+  }
+
+  /* Primary button */
+  .btn-primary {
+      position: relative;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      overflow: hidden;
+      transition: all 0.3s ease;
+  }
+
+  .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+  }
+
+  .btn-primary:hover::before {
+      opacity: 1;
+  }
+
+  .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.5);
+  }
+
+  .btn-primary span {
+      position: relative;
+      z-index: 1;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+      position: relative;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+  }
+
+  /* Pricing card */
+  .pricing-card {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.4s ease;
+  }
+
+  .pricing-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: scale(1.02);
+  }
+
+  .pricing-card.featured {
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  /* Marquee animation */
+  @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+      animation: marquee 30s linear infinite;
+  }
+  
+  .animate-marquee-slow {
+      animation: marquee 60s linear infinite;
+  }
+
+  .animate-marquee:hover, 
+  .animate-marquee-slow:hover {
+      animation-play-state: paused;
+  }
+
+  /* Process line */
+  .process-line {
+      position: absolute;
+      left: 28px;
+      top: 70px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.5) 0%, rgba(139, 92, 246, 0.1) 100%);
+  }
+
+  /* Vibe rescue special styling */
+  .vibe-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+
+  .vibe-card:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+  }
+
+  /* Scroll indicator */
+  @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+  }
+
+  .animate-bounce-slow {
+      animation: bounce-slow 2s ease-in-out infinite;
+  }
+
+  /* FAQ accordion */
+  .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .faq-item:last-child {
+      border-bottom: none;
+  }
+  
+  /* Stats counter effect */
+  .stat-number {
+      font-feature-settings: 'tnum';
+      font-variant-numeric: tabular-nums;
+  }
+`;
+
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -61,262 +319,11 @@ export default function LandingPage() {
 
   return (
     <div className="bg-[#030712] text-[#f1f5f9] font-sans overflow-x-hidden min-h-screen relative selection:bg-indigo-500/30 selection:text-white">
-      <style jsx global>{`
-        /* Animated gradient background */
-        .hero-gradient {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100vh;
-            background: 
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
-                radial-gradient(ellipse 60% 40% at 100% 0%, rgba(168, 85, 247, 0.1), transparent),
-                radial-gradient(ellipse 50% 30% at 0% 100%, rgba(59, 130, 246, 0.1), transparent);
-            pointer-events: none;
-        }
-
-        /* Subtle grid pattern */
-        .grid-pattern {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 64px 64px;
-            mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
-            pointer-events: none;
-        }
-
-        /* Floating orbs */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 600px;
-            height: 600px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            top: -200px;
-            left: -200px;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-            bottom: -100px;
-            right: -100px;
-            animation-delay: -10s;
-        }
-
-        .orb-3 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #ec4899, #8b5cf6);
-            top: 50%;
-            right: 10%;
-            animation-delay: -5s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.05); }
-            50% { transform: translate(-20px, 20px) scale(0.95); }
-            75% { transform: translate(20px, 10px) scale(1.02); }
-        }
-
-        /* Glass morphism */
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .glass-strong {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .gradient-text-color {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Service cards */
-        .service-card {
-            position: relative;
-            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.1), transparent 40%);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .service-card:hover::before {
-            opacity: 1;
-        }
-
-        .service-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
-        }
-
-        /* Primary button */
-        .btn-primary {
-            position: relative;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn-primary:hover::before {
-            opacity: 1;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.5);
-        }
-
-        .btn-primary span {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Secondary button */
-        .btn-secondary {
-            position: relative;
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Pricing card */
-        .pricing-card {
-            position: relative;
-            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-            border: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.4s ease;
-        }
-
-        .pricing-card:hover {
-            border-color: rgba(99, 102, 241, 0.4);
-            transform: scale(1.02);
-        }
-
-        .pricing-card.featured {
-            background: linear-gradient(180deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.05) 100%);
-            border-color: rgba(99, 102, 241, 0.3);
-        }
-
-        /* Marquee animation */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .animate-marquee {
-            animation: marquee 30s linear infinite;
-        }
-        
-        .animate-marquee-slow {
-            animation: marquee 60s linear infinite;
-        }
-
-        .animate-marquee:hover, 
-        .animate-marquee-slow:hover {
-            animation-play-state: paused;
-        }
-
-        /* Process line */
-        .process-line {
-            position: absolute;
-            left: 28px;
-            top: 70px;
-            bottom: 20px;
-            width: 2px;
-            background: linear-gradient(180deg, rgba(99, 102, 241, 0.5) 0%, rgba(139, 92, 246, 0.1) 100%);
-        }
-
-        /* Vibe rescue special styling */
-        .vibe-card {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-
-        .vibe-card:hover {
-            border-color: rgba(245, 158, 11, 0.4);
-        }
-
-        /* Scroll indicator */
-        @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(10px); }
-        }
-
-        .animate-bounce-slow {
-            animation: bounce-slow 2s ease-in-out infinite;
-        }
-
-        /* FAQ accordion */
-        .faq-item {
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-        
-        /* Stats counter effect */
-        .stat-number {
-            font-feature-settings: 'tnum';
-            font-variant-numeric: tabular-nums;
-        }
-      `}</style>
+      {/* 
+        FIXED: Replaced <style jsx global> with standard style injection 
+        to prevent class name hydration mismatches 
+      */}
+      <style dangerouslySetInnerHTML={{ __html: customStyles }} />
 
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
