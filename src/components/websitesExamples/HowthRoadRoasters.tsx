@@ -1096,7 +1096,7 @@ export default function HowthRoadRoasters({ previewMode = false }: { previewMode
                             
                             <div>
                                 <label className="block font-mono text-[10px] tracking-wider text-[#8B5E3C] uppercase mb-2">Message</label>
-                                <textarea rows="4" className="w-full px-4 py-3 bg-[#F5F0E8] border border-[#3D2314]/20 text-[#3D2314] focus:outline-none focus:border-[#C67B4E] transition-colors resize-none" placeholder="How can we help?"></textarea>
+                                <textarea rows={4} className="w-full px-4 py-3 bg-[#F5F0E8] border border-[#3D2314]/20 text-[#3D2314] focus:outline-none focus:border-[#C67B4E] transition-colors resize-none" placeholder="How can we help?"></textarea>
                             </div>
                             
                             <button type="submit" className="btn-vintage w-full justify-center">

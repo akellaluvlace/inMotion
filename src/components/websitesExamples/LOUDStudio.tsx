@@ -466,7 +466,7 @@ export default function LOUDStudio({ previewMode = false }: { previewMode?: bool
                                     </div>
                                 </div>
                                 <div className="aspect-[4/3] w-full border-[3px] border-[#121212] overflow-hidden mb-4 relative group cursor-pointer">
-                                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2787&auto=format&fit=crop" 
+                                    <img src="/assets/loud.png" 
                                          alt="Neon Brand Project" 
                                          className="w-full h-full object-cover img-grayscale transform group-hover:scale-110 transition-transform duration-500" />
                                     <div className="absolute inset-0 bg-[#4D9FFF]/20 group-hover:bg-transparent transition-colors"></div>

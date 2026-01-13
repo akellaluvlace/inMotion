@@ -35,6 +35,7 @@ import KMurphy from './websitesExamples/KMurphy';
 import LOUDStudio from './websitesExamples/LOUDStudio';
 import BloomWellness from './websitesExamples/BloomWellness';
 import HowthRoadRoasters from './websitesExamples/HowthRoadRoasters';
+import SurgeFitness from './websitesExamples/SurgeFitness';
 
 // Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
 const customStyles = `
@@ -324,6 +325,9 @@ export default function LandingPage() {
       document.body.style.overflow = 'hidden';
     } else if (image.id === 'roasters') {
       setActiveExample('roasters');
+      document.body.style.overflow = 'hidden';
+    } else if (image.id === 'surge') {
+      setActiveExample('surge');
       document.body.style.overflow = 'hidden';
     }
   };
@@ -1055,10 +1059,10 @@ export default function LandingPage() {
           { src: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=800&auto=format&fit=crop', label: 'Camden Gentlemen Barbers', id: 'barbers' },
           { src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop', label: 'FlowDesk', id: 'flowdesk' },
           { src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=800&auto=format&fit=crop', label: 'Kieran Murphy & Associates', id: 'murphy' },
-          { src: 'https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=800&auto=format&fit=crop', label: 'LOUD Studio', id: 'loud' },
+          { src: '/assets/loud.png', label: 'LOUD Studio', id: 'loud' },
           { src: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop', label: 'Bloom Wellness', id: 'bloom' },
           { src: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=800&auto=format&fit=crop', label: 'Howth Road Roasters', id: 'roasters' },
-          { src: '/assets/8.png', label: 'Surge Fitness', id: 'surge' },
+          { src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop', label: 'Surge Fitness', id: 'surge' },
           { src: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800&auto=format&fit=crop', label: 'Ashford House Estate', id: 'ashford' },
         ]}
         showLabels={true}
@@ -1099,6 +1103,7 @@ export default function LandingPage() {
             {activeExample === 'loud' && <LOUDStudio previewMode={true} />}
             {activeExample === 'bloom' && <BloomWellness previewMode={true} />}
             {activeExample === 'roasters' && <HowthRoadRoasters previewMode={true} />}
+            {activeExample === 'surge' && <SurgeFitness previewMode={true} />}
           </div>
         </div>
       )}
