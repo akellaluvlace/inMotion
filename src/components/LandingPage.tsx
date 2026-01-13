@@ -29,6 +29,12 @@ import {
 import ScrollReveal, { ImageItem } from './ScrollReveal';
 import Architect from './websitesExamples/Architect';
 import AshfordHouse from './websitesExamples/AshfordHouse';
+import CamdenBarbers from './websitesExamples/CamdenBarbers';
+import FlowdeskProffesional from './websitesExamples/FlowdeskProffesional';
+import KMurphy from './websitesExamples/KMurphy';
+import LOUDStudio from './websitesExamples/LOUDStudio';
+import BloomWellness from './websitesExamples/BloomWellness';
+import HowthRoadRoasters from './websitesExamples/HowthRoadRoasters';
 
 // Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
 const customStyles = `
@@ -300,6 +306,24 @@ export default function LandingPage() {
       document.body.style.overflow = 'hidden';
     } else if (image.id === 'ashford') {
       setActiveExample('ashford');
+      document.body.style.overflow = 'hidden';
+    } else if (image.id === 'barbers') {
+      setActiveExample('barbers');
+      document.body.style.overflow = 'hidden';
+    } else if (image.id === 'flowdesk') {
+      setActiveExample('flowdesk');
+      document.body.style.overflow = 'hidden';
+    } else if (image.id === 'murphy') {
+      setActiveExample('murphy');
+      document.body.style.overflow = 'hidden';
+    } else if (image.id === 'loud') {
+      setActiveExample('loud');
+      document.body.style.overflow = 'hidden';
+    } else if (image.id === 'bloom') {
+      setActiveExample('bloom');
+      document.body.style.overflow = 'hidden';
+    } else if (image.id === 'roasters') {
+      setActiveExample('roasters');
       document.body.style.overflow = 'hidden';
     }
   };
@@ -1028,12 +1052,12 @@ export default function LandingPage() {
         }
         images={[
           { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop', label: 'Kavanagh & Cole Architects', id: 'architect' },
-          { src: '/assets/2.png', label: 'Camden Gentlemen Barbers', id: 'barbers' },
-          { src: '/assets/3.png', label: 'FlowDesk', id: 'flowdesk' },
-          { src: '/assets/4.png', label: 'Kieran Murphy & Associates', id: 'murphy' },
-          { src: '/assets/5.png', label: 'LOUD Studio', id: 'loud' },
-          { src: '/assets/6.png', label: 'Bloom Wellness', id: 'bloom' },
-          { src: '/assets/7.png', label: 'Howth Road Roasters', id: 'roasters' },
+          { src: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=800&auto=format&fit=crop', label: 'Camden Gentlemen Barbers', id: 'barbers' },
+          { src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop', label: 'FlowDesk', id: 'flowdesk' },
+          { src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=800&auto=format&fit=crop', label: 'Kieran Murphy & Associates', id: 'murphy' },
+          { src: 'https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=800&auto=format&fit=crop', label: 'LOUD Studio', id: 'loud' },
+          { src: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop', label: 'Bloom Wellness', id: 'bloom' },
+          { src: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=800&auto=format&fit=crop', label: 'Howth Road Roasters', id: 'roasters' },
           { src: '/assets/8.png', label: 'Surge Fitness', id: 'surge' },
           { src: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800&auto=format&fit=crop', label: 'Ashford House Estate', id: 'ashford' },
         ]}
@@ -1069,6 +1093,12 @@ export default function LandingPage() {
           >
             {activeExample === 'architect' && <Architect />}
             {activeExample === 'ashford' && <AshfordHouse previewMode={true} />}
+            {activeExample === 'barbers' && <CamdenBarbers previewMode={true} />}
+            {activeExample === 'flowdesk' && <FlowdeskProffesional previewMode={true} />}
+            {activeExample === 'murphy' && <KMurphy previewMode={true} />}
+            {activeExample === 'loud' && <LOUDStudio previewMode={true} />}
+            {activeExample === 'bloom' && <BloomWellness previewMode={true} />}
+            {activeExample === 'roasters' && <HowthRoadRoasters previewMode={true} />}
           </div>
         </div>
       )}
