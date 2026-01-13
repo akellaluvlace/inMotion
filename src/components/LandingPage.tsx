@@ -25,6 +25,7 @@ import {
   Plus,
   Minus,
 } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 // Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
 const customStyles = `
@@ -980,6 +981,31 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
+
+      {/* Scroll Reveal Gallery Section */}
+      <ScrollReveal
+        centerImage={{ src: '/assets/bullWallpaper.png', alt: 'Featured Work' }}
+        layer1Images={[
+          { src: '/assets/1.png', alt: 'Project 1' },
+          { src: '/assets/2.png', alt: 'Project 2' },
+          { src: '/assets/3.png', alt: 'Project 3' },
+          { src: '/assets/4.png', alt: 'Project 4' },
+          { src: '/assets/5.png', alt: 'Project 5' },
+          { src: '/assets/6.png', alt: 'Project 6' },
+        ]}
+        layer2Images={[
+          { src: '/assets/7.png', alt: 'Project 7' },
+          { src: '/assets/8.png', alt: 'Project 8' },
+          { src: '/assets/9.png', alt: 'Project 9' },
+          { src: '/assets/10.png', alt: 'Project 10' },
+          { src: '/assets/11.png', alt: 'Project 11' },
+          { src: '/assets/1.png', alt: 'Project 1' },
+        ]}
+        layer3Images={[
+          { src: '/assets/2.png', alt: 'Project 2' },
+          { src: '/assets/3.png', alt: 'Project 3' },
+        ]}
+      />
 
       {/* FAQ Section */}
       <section className="py-24 px-4">
