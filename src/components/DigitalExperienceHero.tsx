@@ -1,10 +1,10 @@
 import React from 'react';
-import { ArrowUpRight, Code2, Layers, Cpu, Globe, Zap, MousePointer2 } from 'lucide-react';
+import { ArrowUpRight, Code2, Globe, Zap, MousePointer2 } from 'lucide-react';
 
 const DigitalExperienceHero = () => {
   return (
-    <section className="min-h-screen bg-neutral-950 text-white p-4 md:p-8 flex items-center justify-center font-sans selection:bg-indigo-500 selection:text-white">
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 h-full md:h-[600px]">
+    <section className="bg-neutral-950 text-white p-4 md:p-8 flex items-center justify-center font-sans selection:bg-indigo-500 selection:text-white w-full h-full rounded-[1.5rem]">
+      <div className="w-full grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 h-full">
 
         {/* 1. The "Old Way" Statement (Static, Monospace, Raw) */}
         <div className="md:col-span-2 md:row-span-1 bg-neutral-900/50 border border-neutral-800 rounded-3xl p-8 flex flex-col justify-center relative overflow-hidden group hover:border-neutral-600 transition-colors duration-500">

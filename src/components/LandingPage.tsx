@@ -27,6 +27,9 @@ import {
   X,
 } from 'lucide-react';
 import ScrollReveal, { ImageItem } from './ScrollReveal';
+import DigitalExperienceHero from './DigitalExperienceHero';
+import imageExamples from './websitesExamples/imageExamples.png';
+import websiteExamplesmobile from './websitesExamples/websiteExamplesmobile.png';
 import Architect from './websitesExamples/Architect';
 import AshfordHouse from './websitesExamples/AshfordHouse';
 import CamdenBarbers from './websitesExamples/CamdenBarbers';
@@ -1037,14 +1040,16 @@ export default function LandingPage() {
       {/* Scroll Reveal Gallery Section - Website Examples */}
       <ScrollReveal
         centerContent={
-          <div className="sr-center-card">
-            <div className="sr-card-left">
-              <h3>Check out styles we can build</h3>
-              <p>Click to preview...</p>
-            </div>
+          <div className="sr-center-card" style={{ gridTemplateColumns: '1fr', gridTemplateRows: '1fr' }}>
             <div className="sr-card-right">
-              <img src="/assets/3.png" alt="FlowDesk Preview" />
-              <div className="sr-preview-label">FlowDesk</div>
+              <picture>
+                <source media="(max-width: 600px)" srcSet={websiteExamplesmobile.src} />
+                <img 
+                  src={imageExamples.src} 
+                  alt="Website Examples" 
+                  className="w-full h-full object-cover"
+                />
+              </picture>
             </div>
           </div>
         }
@@ -1061,6 +1066,7 @@ export default function LandingPage() {
         ]}
         showLabels={true}
         onImageClick={handleExampleClick}
+        endContent={<DigitalExperienceHero />}
       />
 
       {/* Website Example Popup Modal */}

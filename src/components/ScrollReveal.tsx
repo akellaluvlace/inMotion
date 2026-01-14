@@ -3,6 +3,8 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import imageExamples from './websitesExamples/imageExamples.png';
+import websiteExamplesmobile from './websitesExamples/websiteExamplesmobile.png';
 
 export interface ImageItem {
   src: string;
@@ -13,6 +15,7 @@ export interface ImageItem {
 
 export interface ScrollRevealProps {
   centerContent?: React.ReactNode;
+  endContent?: React.ReactNode;
   images?: ImageItem[];
   className?: string;
   showLabels?: boolean;
@@ -152,7 +155,7 @@ const styles = `
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
-  border-radius: 0.375rem;
+  border-radius: 1.5rem;
   overflow: hidden;
 }
 
@@ -162,10 +165,11 @@ const styles = `
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  border-radius: 0.375rem;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
   overflow: hidden;
+  opacity: 0.9;
 }
 
 .sr-center-card .sr-card-left {
@@ -221,7 +225,6 @@ const styles = `
 @media (max-width: 600px) {
   .sr-center-card {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
   }
 
   .sr-center-card .sr-card-left {
@@ -232,6 +235,7 @@ const styles = `
 
 export default function ScrollReveal({
   centerContent,
+  endContent,
   images = [],
   className = '',
   showLabels = true,
@@ -239,6 +243,8 @@ export default function ScrollReveal({
 }: ScrollRevealProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const scalerRef = useRef<HTMLDivElement>(null);
+  const startContentRef = useRef<HTMLDivElement>(null);
+  const endContentRef = useRef<HTMLDivElement>(null);
   const gridItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -246,20 +252,27 @@ export default function ScrollReveal({
 
     const section = sectionRef.current;
     const scaler = scalerRef.current;
+    const startContent = startContentRef.current;
+    const endContentEl = endContentRef.current;
     const gridItems = gridItemsRef.current.filter(Boolean);
 
     if (!section || !scaler || gridItems.length === 0) return;
 
     const gutter = window.innerWidth <= 600 ? 16 : 32;
-    const maxHeight = window.innerHeight * 0.8;
-    const fullWidth = Math.min(window.innerWidth - gutter * 2, 1000);
-    const fullHeight = Math.min(maxHeight - gutter * 2, 500);
+    const maxHeight = window.innerHeight * 0.9;
+    const fullWidth = window.innerWidth * 0.9;
+    const fullHeight = window.innerHeight * 0.9;
 
-    // Set initial state - center card full size
+    // Set initial state
     gsap.set(scaler, {
       width: fullWidth,
       height: fullHeight,
     });
+    
+    if (endContent) {
+      gsap.set(endContentEl, { display: 'none', opacity: 0 });
+      gsap.set(startContent, { display: 'block', opacity: 1 });
+    }
 
     // Create main timeline with smooth scrub
     const tl = gsap.timeline({
@@ -268,7 +281,7 @@ export default function ScrollReveal({
         start: 'top top',
         end: '+=250%',
         pin: true,
-        scrub: 2, // Smoother scrub (higher = smoother)
+        scrub: 2,
         anticipatePin: 1,
       },
     });
@@ -281,6 +294,12 @@ export default function ScrollReveal({
       duration: 1.5,
       ease: 'power3.inOut',
     }, 0);
+
+    // Swap content while hidden
+    if (endContent) {
+      tl.set(startContent, { display: 'none', opacity: 0 }, 1.5);
+      tl.set(endContentEl, { display: 'block', opacity: 1 }, 1.5);
+    }
 
     // Stagger grid items appearing with smooth easing
     gridItems.forEach((item, index) => {
@@ -320,7 +339,7 @@ export default function ScrollReveal({
       tl.kill();
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
-  }, [images.length]);
+  }, [images.length, endContent]);
 
   return (
     <div className={`scroll-reveal-wrapper ${className}`}>
@@ -350,12 +369,24 @@ export default function ScrollReveal({
 
           {/* Center card - overlays grid */}
           <div ref={scalerRef} className="sr-scaler">
-            {centerContent || (
-              <div className="sr-center-card">
-                <div className="sr-card-left">
-                  <h3>Our Work</h3>
-                  <p>Website Examples</p>
+            <div ref={startContentRef} className="w-full h-full">
+              {centerContent || (
+                <div className="sr-center-card" style={{ gridTemplateColumns: '1fr', gridTemplateRows: '1fr' }}>
+                  <div className="sr-card-right">
+                    <picture>
+                      <source media="(max-width: 600px)" srcSet={websiteExamplesmobile.src} />
+                      <img 
+                        src={imageExamples.src} 
+                        alt="Our Work" 
+                      />
+                    </picture>
+                  </div>
                 </div>
+              )}
+            </div>
+            {endContent && (
+              <div ref={endContentRef} className="w-full h-full">
+                {endContent}
               </div>
             )}
           </div>
