@@ -397,13 +397,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="glass-strong rounded-2xl px-6 py-3 flex items-center justify-between">
             {/* Logo */}
-            <a href="#" className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                  <Zap className="w-5 h-5 text-white" />
-                </div>
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
-              </div>
+            <a href="#" className="flex items-center group">
               <div className="flex flex-col">
                 <span className="text-lg font-bold tracking-tight leading-none">Akella</span>
                 <span className="text-xs text-indigo-400 font-medium tracking-wider">inMotion</span>
@@ -1195,10 +1189,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
-              </div>
+        <div className="flex items-center">   
               <span className="font-bold">Akella <span className="text-indigo-400">inMotion</span></span>
             </div>
 

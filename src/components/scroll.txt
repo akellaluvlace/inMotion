@@ -1,924 +1,401 @@
-/* @import 'normalize.css' layer(normalize); */
-@import url('https://unpkg.com/normalize.css') layer(normalize);
+<div class="gallery">
+	<ul class="cards">
+		<li class="card">0</li>
+		<li class="card">1</li>
+		<li class="card">2</li>
+		<li class="card">3</li>
+		<li class="card">4</li>
+		<li class="card">5</li>
+		<li class="card">6</li>
+		<li class="card">7</li>
+		<li class="card">8</li>
+		<li class="card">9</li>
+		<li class="card">10</li>
+		<li class="card">11</li>
+		<li class="card">12</li>
+		<li class="card">13</li>
+		<li class="card">14</li>
+		<li class="card">15</li>
+		<li class="card">16</li>
+		<li class="card">17</li>
+		<li class="card">18</li>
+		<li class="card">19</li>
+		<li class="card">20</li>
+		<li class="card">21</li>
+		<li class="card">22</li>
+		<li class="card">23</li>
+		<li class="card">24</li>
+		<li class="card">25</li>
+		<li class="card">26</li>
+		<li class="card">27</li>
+		<li class="card">28</li>
+		<li class="card">29</li>
+		<li class="card">30</li>
+	</ul>
+	<div class="actions"><button class="prev">&#x25C0; Prev</button><button class="next">Next &#x25B6;</button></div>
+</div><button class="refresh-btn" onclick="refreshCards()">Refresh Background</button>
+<div class="instruction">
+	<ul>Scroll the cards by<br />any of the following:<br /><br />
+		<li>Action Buttons</li>
+		<li>Mouse Wheel</li>
+		<li>Up/Down Arrows</li>
+		<li>Page-Up/Down</li>
+	</ul>
+</div>
 
-@layer normalize, base, demo, grid, setup, scroll, novelty;
+<!--// PUG
 
-@layer novelty {
-  @property --flip {
-    syntax: '<number>';
-    inherits: true;
-    initial-value: 0;
-  }
-  @keyframes flip {
-    to {
-      --flip: 1;
-    }
-  }
-  [data-enhanced='true'] {
-    @media (prefers-reduced-motion: no-preference) {
-      @supports (animation-timeline: scroll()) and (animation-range: 0 100%) {
-        footer > span {
-          animation: flip both steps(1, end);
-          animation-timeline: scroll(root);
-        }
+.gallery
+	ul.cards
+		li.card 0
+		li.card 1
+		li.card 2
+		li.card 3
+		li.card 4
+		li.card 5
+		li.card 6
+		li.card 7
+		li.card 8
+		li.card 9
+		li.card 10
+		li.card 11
+		li.card 12
+		li.card 13
+		li.card 14
+		li.card 15
+		li.card 16
+		li.card 17
+		li.card 18
+		li.card 19
+		li.card 20
+		li.card 21
+		li.card 22
+		li.card 23
+		li.card 24
+		li.card 25
+		li.card 26
+		li.card 27
+		li.card 28
+		li.card 29
+		li.card 30
+	.actions
+		button.prev &#x25C0; Prev
+		button.next Next &#x25B6;
+button.refresh-btn(onclick="refreshCards()") Refresh Background
+.instruction
+	ul
+		| Scroll the cards by
+		br
+		| any of the following:
+		br
+		br
+		li Action Buttons
+		li Mouse Wheel
+		li Up/Down Arrows
+		li Page-Up/Down
 
-        footer .arm {
-          opacity: var(--flip);
-        }
+//-->
 
-        footer .table {
-          display: inline-block;
-          transform-origin: 0 50%;
-          rotate: calc((-180 + (var(--flip) * 180)) * 1deg);
-          translate: calc(16% + (var(--flip) * -16%)) calc(var(--flip) * -45%);
-          transform: translateY(calc(var(--flip) * 90%));
-          transition-property: translate, rotate, transform;
-          transition-duration: calc(var(--flip) * 0.2s);
-          transition-duration: 0.2s, 0.24s, 0.5s;
-        }
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Zen+Dots&display=swap");
 
-        .spring {
-          outline: 1px dashed red;
-          clip-path: inset(0 0 0 0);
-        }
-
-        .spring span {
-          rotate: calc(-180deg + (var(--flip) * 180deg));
-          display: inline-block;
-          transform-origin: 50% 150%;
-          transition: rotate 0.24s;
-        }
-      }
-    }
-  }
+* {
+	box-sizing: border-box;
 }
 
-@layer scroll {
-  :root {
-    --power-1-out: linear(
-      0 0%,
-      0.0027 3.64%,
-      0.0106 7.29%,
-      0.0425 14.58%,
-      0.0957 21.87%,
-      0.1701 29.16%,
-      0.2477 35.19%,
-      0.3401 41.23%,
-      0.5982 55.18%,
-      0.7044 61.56%,
-      0.7987 68.28%,
-      0.875 75%,
-      0.9297 81.25%,
-      0.9687 87.5%,
-      0.9922 93.75%,
-      1 100%
-    );
-    --power-2-out: linear(
-      0 0%,
-      0.0036 9.62%,
-      0.0185 16.66%,
-      0.0489 23.03%,
-      0.0962 28.86%,
-      0.1705 34.93%,
-      0.269 40.66%,
-      0.3867 45.89%,
-      0.5833 52.95%,
-      0.683 57.05%,
-      0.7829 62.14%,
-      0.8621 67.46%,
-      0.8991 70.68%,
-      0.9299 74.03%,
-      0.9545 77.52%,
-      0.9735 81.21%,
-      0.9865 85%,
-      0.9949 89.15%,
-      1 100%
-    );
-    --power-3-out: linear(
-      0 0%,
-      0.0029 13.8%,
-      0.0184 21.9%,
-      0.0339 25.51%,
-      0.0551 28.81%,
-      0.0827 31.88%,
-      0.1168 34.76%,
-      0.1962 39.57%,
-      0.3005 44.02%,
-      0.4084 47.53%,
-      0.6242 53.45%,
-      0.7493 57.93%,
-      0.8495 62.97%,
-      0.8888 65.67%,
-      0.9213 68.51%,
-      0.9629 73.9%,
-      0.9876 80.16%,
-      0.998 87.5%,
-      1 100%
-    );
-    --power-4-out: linear(
-      0 0%,
-      0.0012 14.95%,
-      0.0089 22.36%,
-      0.0297 28.43%,
-      0.0668 33.43%,
-      0.0979 36.08%,
-      0.1363 38.55%,
-      0.2373 43.07%,
-      0.3675 47.01%,
-      0.5984 52.15%,
-      0.7121 55.23%,
-      0.8192 59.21%,
-      0.898 63.62%,
-      0.9297 66.23%,
-      0.9546 69.06%,
-      0.9733 72.17%,
-      0.9864 75.67%,
-      0.9982 83.73%,
-      1 100%
-    );
-    --sine: linear(
-      0 0%,
-      0.2861 18.47%,
-      0.4829 32.08%,
-      0.6437 44.52%,
-      0.7712 56.07%,
-      0.8722 67.47%,
-      0.9115 73.02%,
-      0.9434 78.49%,
-      0.9682 83.91%,
-      0.9859 89.3%,
-      0.9965 94.66%,
-      1 100%
-    );
-  }
-  @keyframes fade {
-    0%,
-    55% {
-      opacity: 0;
-    }
-  }
-  @keyframes reveal {
-    0%,
-    30% {
-      scale: 0;
-    }
-  }
-  @keyframes scale-x {
-    0%,
-    10% {
-      width: calc(100vw - (2 * var(--gutter)));
-    }
-  }
-  @keyframes scale-y {
-    0%,
-    10% {
-      height: calc(100vh - (2 * var(--gutter)));
-    }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    [data-enhanced='true'] {
-      main section:first-of-type {
-        min-height: 240vh;
-      }
-
-      @supports (animation-timeline: scroll()) and (animation-range: 0 100%) {
-        main section:first-of-type {
-          view-timeline: --runner;
-        }
-
-        &[data-center='true'] {
-          .scaler img {
-            animation-name: scale-x, scale-y;
-            animation-fill-mode: both;
-            animation-timing-function: var(--power-2-out), var(--power-1-out);
-            animation-timeline: --runner, --runner;
-            animation-range: entry 100% exit -20%;
-          }
-        }
-
-        &[data-layers='true'] {
-          .grid .layer {
-            animation-name: fade, reveal;
-            animation-fill-mode: both;
-            animation-timeline: --runner, --runner;
-            animation-timing-function: var(--sine), var(--power-1-out);
-            animation-range: entry 100% exit 0%;
-          }
-          &[data-stagger='timing'] .grid .layer {
-            &:nth-of-type(1) {
-              animation-timing-function: var(--sine), var(--power-1-out);
-            }
-            &:nth-of-type(2) {
-              animation-timing-function: var(--sine), var(--power-3-out);
-            }
-            &:nth-of-type(3) {
-              animation-timing-function: var(--sine), var(--power-4-out);
-            }
-          }
-          &[data-stagger='range'] .grid .layer {
-            &:nth-of-type(1) {
-              animation-range: entry 100% exit 0%;
-            }
-            &:nth-of-type(2) {
-              animation-range: entry 100% exit -10%;
-            }
-            &:nth-of-type(3) {
-              animation-range: entry 100% exit -20%;
-            }
-          }
-        }
-      }
-    }
-  }
+body {
+	background: #222;
+	min-height: 100vh;
+	padding: 0;
+	margin: 0;
+	color: #fff;
+	font-family: "Zen Dots", sans-serif;
+	text-shadow: #000 1px 1px 5px, #000 -1px -1px 5px;
 }
 
-@layer setup {
-  /* gross calculations here to appease Safari and Firefox */
-  :root {
-    --container-width: 1600px;
-    --gap: clamp(10px, 7.35vw, 80px);
-    --gutter: 2rem;
-  }
-  @media (max-width: 600px) {
-    :root {
-      --gutter: 1rem;
-    }
-  }
-
-  .content {
-    min-height: 100vh;
-    width: 100vw;
-    display: flex;
-    place-items: center;
-    align-content: center;
-    position: sticky;
-    top: 0;
-  }
-
-  .scaler {
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    position: relative;
-
-    img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      translate: -50% -50%;
-      object-fit: cover;
-      border-radius: 1rem;
-      width: 100%;
-      height: 100%;
-    }
-  }
+.gallery {
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
 }
 
-@layer grid {
-  /* it's a 5x3 grid using subgrid, always centered */
-  .grid {
-    --offset: 0;
-    width: 1600px;
-    max-width: calc(100% - (2 * var(--gutter)));
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(3, auto);
-    gap: var(--gap);
-    margin: 0 auto;
-    align-content: center;
-    /* hmm */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-  }
-
-  /* .grid img {
-    width: 10vw;
-    height: 12vw;
-  } */
-
-  @media (max-width: 600px) {
-    .grid {
-      grid-template-columns: repeat(3, 1fr);
-      --offset: -1;
-    }
-
-    .grid > div:nth-of-type(1) {
-      display: none;
-    }
-  }
-
-  .grid > .layer {
-    display: grid;
-    grid-column: 1 / -1;
-    grid-row: 1 / -1;
-    grid-template-columns: subgrid;
-    grid-template-rows: subgrid;
-  }
-
-  .grid > div:nth-of-type(1) div:nth-of-type(odd) {
-    grid-column: 1;
-  }
-  .grid > div:nth-of-type(1) div:nth-of-type(even) {
-    grid-column: -2;
-  }
-
-  .grid > div:nth-of-type(2) div:nth-of-type(odd) {
-    grid-column: calc(2 + var(--offset));
-  }
-  .grid > div:nth-of-type(2) div:nth-of-type(even) {
-    grid-column: calc(-3 - var(--offset));
-  }
-
-  .grid > div:nth-of-type(3) div {
-    grid-column: calc(3 + var(--offset));
-
-    &:last-of-type {
-      grid-row: -1;
-    }
-  }
-
-  .grid .scaler {
-    position: relative;
-    grid-area: 2 / calc(3 + var(--offset));
-  }
-
-  .grid img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: 1rem;
-  }
+.cards {
+	position: absolute;
+	width: 14rem;
+	height: 18rem;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
-@layer demo {
-  html {
-    scrollbar-color: red #0000;
-  }
-  body {
-    background: canvasText;
-  }
-  h1 {
-    --font-level: 8;
-    line-height: 0.6;
-  }
-  h2 {
-    --font-level: 4;
-  }
-  header {
-    min-height: 100vh;
-    display: grid;
-    margin: 0 auto;
-    align-content: center;
-    max-width: calc(100% - (2 * var(--gutter)));
-    padding-left: 48px;
-    text-align: left;
-  }
-  body {
-    display: block;
-  }
-
-  main,
-  section {
-    max-width: 100%;
-  }
-
-  section {
-    min-height: 100vh;
-  }
-
-  .content {
-    overflow: hidden;
-  }
-
-  main section:last-of-type {
-    display: grid;
-    place-items: center;
-  }
-
-  .content-wrap {
-    overflow: clip;
-    background: light-dark(#fff, #000);
-    z-index: 2;
-  }
-
-  footer {
-    padding: 4rem 2rem;
-    text-align: center;
-    position: sticky;
-    bottom: 0;
-    background: canvasText;
-    color: canvas;
-    width: 100%;
-    z-index: -1;
-    background: radial-gradient(hsl(0 0% 0% / 0.1) 2px, #0000 0) 50% 50% / 40px
-        40px,
-      canvasText;
-  }
+.cards li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 14rem;
+	height: 18rem;
+	text-align: center;
+	line-height: 18rem;
+	font-size: 2rem;
+	border: 5px solid white;
+	border-radius: 15px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-size: cover;
+	box-shadow: #000 1px 1px 5px, #000 -1px -1px 5px;
 }
 
-@layer base {
-  :root {
-    --font-size-min: 16;
-    --font-size-max: 20;
-    --font-ratio-min: 1.2;
-    --font-ratio-max: 1.33;
-    --font-width-min: 375;
-    --font-width-max: 1500;
-  }
-
-  html {
-    color-scheme: light dark;
-  }
-
-  [data-theme='light'] {
-    color-scheme: light only;
-  }
-
-  [data-theme='dark'] {
-    color-scheme: dark only;
-  }
-
-  :where(.fluid) {
-    --fluid-min: calc(
-      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
-    );
-    --fluid-max: calc(
-      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
-    );
-    --fluid-preferred: calc(
-      (var(--fluid-max) - var(--fluid-min)) /
-        (var(--font-width-max) - var(--font-width-min))
-    );
-    --fluid-type: clamp(
-      (var(--fluid-min) / 16) * 1rem,
-      ((var(--fluid-min) / 16) * 1rem) -
-        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
-      (var(--fluid-max) / 16) * 1rem
-    );
-    font-size: var(--fluid-type);
-  }
-
-  *,
-  *:after,
-  *:before {
-    box-sizing: border-box;
-  }
-
-  body {
-    background: light-dark(#fff, #000);
-    display: grid;
-    place-items: center;
-    min-height: 100vh;
-    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
-      Helvetica, Arial, sans-serif, system-ui;
-  }
-
-  .content-wrap::before {
-    --size: 45px;
-    --line: color-mix(in lch, canvasText, transparent 70%);
-    content: '';
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
-    background: linear-gradient(
-          90deg,
-          var(--line) 1px,
-          transparent 1px var(--size)
-        )
-        50% 50% / var(--size) var(--size),
-      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
-        var(--size) var(--size);
-    mask: linear-gradient(-20deg, transparent 50%, white);
-    top: 0;
-    transform-style: flat;
-    pointer-events: none;
-  }
-
-  .bear-link {
-    color: canvasText;
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    width: 48px;
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    opacity: 0.8;
-  }
-
-  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
-    opacity: 1;
-  }
-
-  .bear-link svg {
-    width: 75%;
-  }
-
-  /* Utilities */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
+@for $i from 1 through 31 {
+	.cards li:nth-of-type(#{$i}) {
+		background-image: url(https://picsum.photos/800/600?random=#{$i});
+	}
 }
 
-[data-stick='true'] div.tp-dfwv {
-  position: fixed;
+li:hover {
+	color: #fff;
+	transition: color 0.3s ease;
+	box-shadow: rgba(255, 255, 255, 0.6) 0px 4px 15px,
+		rgba(0, 0, 0, 0.3) 0px 4px 10px;
+	z-index: 10; /* Brings the hovered card to the front */
 }
 
-
-<!-- Newsletter issue on how to build this: https://craftofui.substack.com/p/scrolling-a-page-out-of-the-playbook -->
-
-
-<div class="content-wrap">
-      <header>
-        <h1 class="fluid">let's<br />scroll.</h1>
-      </header>
-      <main>
-        <section>
-          <div class="content">
-            <div class="grid">
-              <div class="layer">
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1463100099107-aa0980c362e6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGZhc2hpb258ZW58MHx8MHx8fDA%3D"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1556304044-0699e31c6a34?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTJ8fGZhc2hpb258ZW58MHx8MHx8fDA%3D"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1590330297626-d7aff25a0431?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA3fHxmYXNoaW9ufGVufDB8fDB8fHww"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTk1fHxmYXNoaW9ufGVufDB8fDB8fHww"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzR8fG1vZGVsJTIwZmFzaGlvbiUyMHN0cmVldHxlbnwwfHwwfHx8MA%3D%3D"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1565321590372-09331b9dd1eb?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGFpciUyMGpvcmRhbnxlbnwwfHwwfHx8MA%3D%3D"
-                    alt=""
-                  />
-                </div>
-                <!-- <img src="https://picsum.photos/400/500?random=1" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=2" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=3" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=4" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=5" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=6" alt="" /> -->
-              </div>
-              <div class="layer">
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjM4fHxwcm9kdWN0fGVufDB8fDB8fHww"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1637414165749-9b3cd88b8271?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fHRlY2glMjBwcm9kdWN0fGVufDB8fDB8fHww"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1699911251220-8e0de3b5ce88?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8b25ld2hlZWx8ZW58MHx8MHx8fDA%3D"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1667483629944-6414ad0648c5?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGx1eHVyeSUyMHdhdGNofGVufDB8fDB8fHww"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://plus.unsplash.com/premium_photo-1706078438060-d76ced26d8d5?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fGNhbWVyYSUyMHBvbGFyb2lkfGVufDB8fDB8fHww"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1525385444278-b7968e7e28dc?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fGl0ZW18ZW58MHx8MHx8fDA%3D"
-                    alt=""
-                  />
-                </div>
-                <!-- <img src="https://picsum.photos/400/500?random=7" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=8" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=9" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=10" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=11" alt="" /> -->
-                <!-- <img src="https://picsum.photos/400/500?random=12" alt="" /> -->
-              </div>
-              <div class="layer">
-                <div>
-                  <img
-                    src="https://images.unsplash.com/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aXRlbXxlbnwwfHwwfHx8MA%3D%3D"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFzaGlvbnxlbnwwfHwwfHx8MA%3D%3D"
-                    alt=""
-                  />
-                </div>
-              </div>
-              <div class="scaler">
-                <img
-                  src="https://assets.codepen.io/605876/model-shades.jpg?format=auto&quality=100"
-                  alt=""
-                />
-<!--                 <img src="./model-shades.jpg" alt="" /> -->
-              </div>
-            </div>
-          </div>
-        </section>
-        <section>
-          <h2 class="fluid">fin.</h2>
-        </section>
-      </main>
-    </div>
-    <footer>
-      <span aria-hidden="true"
-        >ʕ<span class="arm">ノ</span>•ᴥ•ʔ<span class="arm">ノ</span>
-        <span class="spring"><span>︵</span></span>
-        <span class="table">┻━┻</span></span
-      >&nbsp;&copy; jhey '24
-    </footer>
-    <a
-      class="bear-link"
-      href="https://twitter.com/intent/follow?screen_name=jh3yy"
-      target="_blank"
-      rel="noreferrer noopener"
-    >
-      <svg
-        class="w-9"
-        viewBox="0 0 969 955"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="161.191"
-          cy="320.191"
-          r="133.191"
-          stroke="currentColor"
-          stroke-width="20"
-        ></circle>
-        <circle
-          cx="806.809"
-          cy="320.191"
-          r="133.191"
-          stroke="currentColor"
-          stroke-width="20"
-        ></circle>
-        <circle
-          cx="695.019"
-          cy="587.733"
-          r="31.4016"
-          fill="currentColor"
-        ></circle>
-        <circle
-          cx="272.981"
-          cy="587.733"
-          r="31.4016"
-          fill="currentColor"
-        ></circle>
-        <path
-          d="M564.388 712.083C564.388 743.994 526.035 779.911 483.372 779.911C440.709 779.911 402.356 743.994 402.356 712.083C402.356 680.173 440.709 664.353 483.372 664.353C526.035 664.353 564.388 680.173 564.388 712.083Z"
-          fill="currentColor"
-        ></path>
-        <rect
-          x="310.42"
-          y="448.31"
-          width="343.468"
-          height="51.4986"
-          fill="#FF1E1E"
-        ></rect>
-        <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          d="M745.643 288.24C815.368 344.185 854.539 432.623 854.539 511.741H614.938V454.652C614.938 433.113 597.477 415.652 575.938 415.652H388.37C366.831 415.652 349.37 433.113 349.37 454.652V511.741L110.949 511.741C110.949 432.623 150.12 344.185 219.845 288.24C289.57 232.295 384.138 200.865 482.744 200.865C581.35 200.865 675.918 232.295 745.643 288.24Z"
-          fill="currentColor"
-        ></path>
-      </svg>
-    </a>
-
-
-    // Newsletter issue: https://craftofui.substack.com/p/scrolling-a-page-out-of-the-playbook
-
-import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4'
-import gsap from 'https://cdn.skypack.dev/gsap@3.12.0'
-import ScrollTrigger from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollTrigger'
-
-let layersCtrl
-let centerCtrl
-let staggerCtrl
-let scalerTl
-let layersTl
-
-const hasScrollSupport = CSS.supports(
-  '(animation-timeline: view()) and (animation-range: 0 100%)'
-)
-
-const config = {
-  theme: 'system',
-  enhanced: true,
-  stick: true,
-  layers: true,
-  center: true,
-  stagger: 'range',
+.actions {
+	position: absolute;
+	bottom: 25px;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
-const ctrl = new Pane({
-  title: 'Config',
-  expanded: true,
-})
-
-if (!hasScrollSupport) {
-  gsap.registerPlugin(ScrollTrigger)
-  console.info('GSAP ScrollTrigger registered')
+button {
+	display: inline-block;
+	outline: none;
+	border: none;
+	padding: 8px 14px;
+	background: #414141;
+	background-image: -webkit-linear-gradient(top, #575757, #414141);
+	background-image: -moz-linear-gradient(top, #575757, #414141);
+	background-image: -ms-linear-gradient(top, #575757, #414141);
+	background-image: -o-linear-gradient(top, #575757, #414141);
+	background-image: linear-gradient(to bottom, #575757, #414141);
+	text-shadow: #000 1px 1px 5px, #000 -1px -1px 5px;
+	box-shadow: #000 1px 1px 5px, #000 -1px -1px 5px;
+	color: #aaaaaa;
+	text-decoration: none;
+	margin: 0 auto 10px;
+	border-radius: 4px;
+	padding: 12px 25px;
+	font-family: "Zen Dots", sans-serif;
+	text-transform: uppercase;
+	cursor: pointer;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 18px;
+	&:hover {
+		background: #57a818;
+		background-image: -webkit-linear-gradient(top, #57a818, #4d9916);
+		background-image: -moz-linear-gradient(top, #57a818, #4d9916);
+		background-image: -ms-linear-gradient(top, #57a818, #4d9916);
+		background-image: -o-linear-gradient(top, #57a818, #4d9916);
+		background-image: linear-gradient(to bottom, #57a818, #4d9916);
+		text-shadow: 0px 1px 0px #32610e;
+		box-shadow: 0px 1px 0px fefefe;
+		color: #ffffff;
+		text-decoration: none;
+	}
 }
 
-const update = () => {
-  document.documentElement.dataset.theme = config.theme
-  document.documentElement.dataset.enhanced = config.enhanced
-  document.documentElement.dataset.stick = config.stick
-  document.documentElement.dataset.center = config.center
-  document.documentElement.dataset.layers = config.layers
-  document.documentElement.dataset.stagger = config.stagger
-
-  if (config.enhanced && !hasScrollSupport) {
-    scalerTl = gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: 'main section:first-of-type',
-          start: 'top -10%',
-          end: 'bottom 80%',
-          scrub: true,
-        },
-      })
-      .from(
-        '.scaler img',
-        {
-          height: window.innerHeight - 32,
-          ease: 'power1.inOut',
-        },
-        0
-      )
-      .from(
-        '.scaler img',
-        {
-          width: window.innerWidth - 32,
-          ease: 'power2.inOut',
-        },
-        0
-      )
-    // then the layers
-    layersTl = gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: 'main section:first-of-type',
-          start: 'top -40%',
-          end: 'bottom bottom',
-          scrub: true,
-        },
-      })
-      .from(
-        '.layer:nth-of-type(1)',
-        {
-          opacity: 0,
-          ease: 'sine.out',
-        },
-        0
-      )
-      .from(
-        '.layer:nth-of-type(1)',
-        {
-          scale: 0,
-          ease: 'power1.inOut',
-        },
-        0
-      )
-      .from(
-        '.layer:nth-of-type(2)',
-        {
-          opacity: 0,
-          ease: 'sine.out',
-        },
-        0
-      )
-      .from(
-        '.layer:nth-of-type(2)',
-        {
-          scale: 0,
-          ease: 'power3.inOut',
-        },
-        0
-      )
-      .from(
-        '.layer:nth-of-type(3)',
-        {
-          opacity: 0,
-          ease: 'sine.out',
-        },
-        0
-      )
-      .from(
-        '.layer:nth-of-type(3)',
-        {
-          scale: 0,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-  } else {
-    gsap.set(['.scaler img', '.layer'], {
-      attr: {
-        style: undefined,
-      },
-    })
-    scalerTl?.kill()
-    layersTl?.kill()
-    scalerTl = undefined
-    layersTl = undefined
-  }
-
-  if (hasScrollSupport) {
-    layersCtrl.hidden = !config.enhanced
-    staggerCtrl.hidden = !config.enhanced
-    centerCtrl.hidden = !config.enhanced
-  }
+.refresh-btn {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	padding: 10px 20px;
+	background: #007bff;
+	color: white;
+	border: solid 2px black;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background 0.3s ease;
+	filter: drop-shadow(1px 2px 1px rgba(0, 0, 50, 0.7))
+		drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.5));
 }
 
-const sync = (event) => {
-  if (
-    !document.startViewTransition ||
-    event.target.controller.view.labelElement.innerText !== 'Theme'
-  )
-    return update()
-  document.startViewTransition(() => update())
+.refresh-btn:hover {
+	background: #0056b3;
 }
 
-ctrl.addBinding(config, 'enhanced', {
-  label: 'Enhance',
-})
-
-if (hasScrollSupport) {
-  centerCtrl = ctrl.addBinding(config, 'center', {
-    label: 'Center',
-    hidden: !config.enhanced,
-  })
-  layersCtrl = ctrl.addBinding(config, 'layers', {
-    label: 'Layers',
-    hidden: !config.enhanced,
-  })
-  staggerCtrl = ctrl.addBinding(config, 'stagger', {
-    label: 'Stagger',
-    options: {
-      Range: 'range',
-      Timing: 'timing',
-    },
-    hidden: !config.enhanced,
-  })
+.instruction {
+	position: fixed;
+	top: 80px;
+	right: 20px;
+	padding: 10px 20px;
+	font-size: 0.8rem;
 }
-ctrl.addBinding(config, 'stick', {
-  label: 'Stick',
-})
 
-ctrl.addBinding(config, 'theme', {
-  label: 'Theme',
-  options: {
-    System: 'system',
-    Light: 'light',
-    Dark: 'dark',
-  },
-})
+/* Source: https://codepen.io/tommyho tommyho510@gmail.com */
 
-ctrl.on('change', sync)
-update()
+/* Source: https://codepen.io/GreenSock/pen/qBqEZKg
+ */
+
+/* try moving the cards with screen buttons, mouse roller, keyboard page up or down, and keyboard up or down arrows  */
+
+gsap.registerPlugin(ScrollTrigger);
+
+let iteration = 0;
+const spacing = 0.1,
+	snap = gsap.utils.snap(spacing),
+	cards = gsap.utils.toArray(".cards li"),
+	seamlessLoop = buildSeamlessLoop(cards, spacing),
+	scrub = gsap.to(seamlessLoop, {
+		// we reuse this tween to smoothly scrub the playhead on the seamlessLoop
+		totalTime: 0,
+		duration: 0.5,
+		ease: "power3",
+		paused: true
+	}),
+	trigger = ScrollTrigger.create({
+		start: 0,
+		onUpdate(self) {
+			if (self.progress === 1 && self.direction > 0 && !self.wrapping) {
+				wrapForward(self);
+			} else if (self.progress < 1e-5 && self.direction < 0 && !self.wrapping) {
+				wrapBackward(self);
+			} else {
+				scrub.vars.totalTime = snap(
+					(iteration + self.progress) * seamlessLoop.duration()
+				);
+				scrub.invalidate().restart(); // to improve performance, we just invalidate and restart the same tween. No need for overwrites or creating a new tween on each update.
+				self.wrapping = false;
+			}
+		},
+		end: "+=3000",
+		pin: ".gallery"
+	});
+
+function wrapForward(trigger) {
+	// when the ScrollTrigger reaches the end, loop back to the beginning seamlessly
+	iteration++;
+	trigger.wrapping = true;
+	trigger.scroll(trigger.start + 1);
+}
+
+function wrapBackward(trigger) {
+	// when the ScrollTrigger reaches the start again (in reverse), loop back to the end seamlessly
+	iteration--;
+	if (iteration < 0) {
+		// to keep the playhead from stopping at the beginning, we jump ahead 10 iterations
+		iteration = 9;
+		seamlessLoop.totalTime(
+			seamlessLoop.totalTime() + seamlessLoop.duration() * 10
+		);
+		scrub.pause(); // otherwise it may update the totalTime right before the trigger updates, making the starting value different than what we just set above.
+	}
+	trigger.wrapping = true;
+	trigger.scroll(trigger.end - 1);
+}
+
+function scrubTo(totalTime) {
+	// moves the scroll position to the place that corresponds to the totalTime value of the seamlessLoop, and wraps if necessary.
+	let progress =
+		(totalTime - seamlessLoop.duration() * iteration) / seamlessLoop.duration();
+	if (progress > 1) {
+		wrapForward(trigger);
+	} else if (progress < 0) {
+		wrapBackward(trigger);
+	} else {
+		trigger.scroll(trigger.start + progress * (trigger.end - trigger.start));
+	}
+}
+
+document
+	.querySelector(".next")
+	.addEventListener("click", () => scrubTo(scrub.vars.totalTime + spacing));
+document
+	.querySelector(".prev")
+	.addEventListener("click", () => scrubTo(scrub.vars.totalTime - spacing));
+
+function buildSeamlessLoop(items, spacing) {
+	let overlap = Math.ceil(1 / spacing), // number of EXTRA animations on either side of the start/end to accommodate the seamless looping
+		startTime = items.length * spacing + 0.5, // the time on the rawSequence at which we'll start the seamless loop
+		loopTime = (items.length + overlap) * spacing + 1, // the spot at the end where we loop back to the startTime
+		rawSequence = gsap.timeline({ paused: true }), // this is where all the "real" animations live
+		seamlessLoop = gsap.timeline({
+			// this merely scrubs the playhead of the rawSequence so that it appears to seamlessly loop
+			paused: true,
+			repeat: -1, // to accommodate infinite scrolling/looping
+			onRepeat() {
+				// works around a super rare edge case bug that's fixed GSAP 3.6.1
+				this._time === this._dur && (this._tTime += this._dur - 0.01);
+			}
+		}),
+		l = items.length + overlap * 2,
+		time = 0,
+		i,
+		index,
+		item;
+
+	// set initial state of items
+	gsap.set(items, { xPercent: 300, opacity: 0, scale: 0 });
+
+	// now loop through and create all the animations in a staggered fashion. Remember, we must create EXTRA animations at the end to accommodate the seamless looping.
+	for (i = 0; i < l; i++) {
+		index = i % items.length;
+		item = items[index];
+		time = i * spacing;
+		rawSequence
+			.fromTo(
+				item,
+				{ scale: 0, opacity: 0 },
+				{
+					scale: 1,
+					opacity: 1,
+					zIndex: 100,
+					duration: 0.5,
+					yoyo: true,
+					repeat: 1,
+					ease: "power1.in",
+					immediateRender: false
+				},
+				time
+			)
+			.fromTo(
+				item,
+				{ xPercent: 300 },
+				{ xPercent: -300, duration: 1, ease: "none", immediateRender: false },
+				time
+			);
+		i <= items.length && seamlessLoop.add("label" + i, time); // we don't really need these, but if you wanted to jump to key spots using labels, here ya go.
+	}
+
+	// here's where we set up the scrubbing of the playhead to make it appear seamless.
+	rawSequence.time(startTime);
+	seamlessLoop
+		.to(rawSequence, {
+			time: loopTime,
+			duration: loopTime - startTime,
+			ease: "none"
+		})
+		.fromTo(
+			rawSequence,
+			{ time: overlap * spacing + 1 },
+			{
+				time: startTime,
+				duration: startTime - (overlap * spacing + 1),
+				immediateRender: false,
+				ease: "none"
+			}
+		);
+	return seamlessLoop;
+}
+
+function refreshCards() {
+	const cards = document.querySelectorAll(".card");
+	cards.forEach((card, index) => {
+		card.style.animation = "none";
+		card.style.background = `url('https://picsum.photos/800/600?random=${
+			index + 1
+		}&t=${Date.now()}') center/cover no-repeat`;
+		card.offsetHeight; // Trigger reflow
+		card.style.animation = null;
+	});
+}
