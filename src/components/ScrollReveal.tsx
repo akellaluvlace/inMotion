@@ -23,11 +23,11 @@ const styles = `
 .scroll-reveal-wrapper {
   --sr-gutter: 2rem;
   --sr-gap: clamp(8px, 2vw, 16px);
-  --sr-max-height: 80vh;
+  --sr-max-height: 100vh;
   position: relative;
   width: 100%;
   background: #030712;
-  overflow: hidden;
+  overflow: visible;
 }
 
 @media (max-width: 600px) {
@@ -40,27 +40,27 @@ const styles = `
 .scroll-reveal-wrapper .sr-section {
   height: var(--sr-max-height);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
-  padding-top: 8vh;
+  padding-bottom: 2vh;
 }
 
 .scroll-reveal-wrapper .sr-content {
   height: 100%;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* 3x3 Grid */
 .scroll-reveal-wrapper .sr-grid {
-  width: min(1200px, calc(100% - 2 * var(--sr-gutter)));
-  height: min(calc(var(--sr-max-height) - 4rem), 600px);
+  width: min(1500px, calc(100% - 2 * var(--sr-gutter)));
+  height: 75vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
