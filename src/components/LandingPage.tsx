@@ -393,7 +393,7 @@ export default function LandingPage() {
       </div>
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 px-4 py-4 transition-all duration-300 ${isScrolled ? 'backdrop-blur-xl' : ''}`}>
+      <nav className="fixed w-full z-50 px-4 py-4 transition-all duration-300">
         <div className="max-w-6xl mx-auto">
           <div className="glass-strong rounded-2xl px-6 py-3 flex items-center justify-between">
             {/* Logo */}

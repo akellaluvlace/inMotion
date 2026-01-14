@@ -42,9 +42,10 @@ const styles = `
   position: relative;
   overflow: visible;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding-bottom: 2vh;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
 }
 
 .scroll-reveal-wrapper .sr-content {
@@ -60,7 +61,7 @@ const styles = `
 /* 3x3 Grid */
 .scroll-reveal-wrapper .sr-grid {
   width: min(1500px, calc(100% - 2 * var(--sr-gutter)));
-  height: 75vh;
+  height: 85vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -71,16 +72,23 @@ const styles = `
 /* Grid items */
 .scroll-reveal-wrapper .sr-grid-item {
   position: relative;
-  border-radius: 0.75rem;
+  border-radius: 0.375rem;
   overflow: hidden;
   opacity: 0;
   transform: scale(0);
+  cursor: pointer;
 }
 
 .scroll-reveal-wrapper .sr-grid-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.scroll-reveal-wrapper .sr-grid-item:hover img {
+  filter: blur(3px) brightness(0.7);
+  transform: scale(1.05);
 }
 
 .scroll-reveal-wrapper .sr-grid-item .sr-label {
@@ -95,6 +103,46 @@ const styles = `
   font-weight: 600;
   text-align: center;
   line-height: 1.2;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-reveal-wrapper .sr-grid-item:hover .sr-label {
+  opacity: 0;
+}
+
+/* Click to preview overlay */
+.scroll-reveal-wrapper .sr-grid-item .sr-preview-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.scroll-reveal-wrapper .sr-grid-item:hover .sr-preview-overlay {
+  opacity: 1;
+}
+
+.scroll-reveal-wrapper .sr-grid-item .sr-preview-text {
+  color: white;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid rgba(255,255,255,0.8);
+  border-radius: 0.375rem;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+  transform: translateY(10px);
+  transition: transform 0.4s ease;
+}
+
+.scroll-reveal-wrapper .sr-grid-item:hover .sr-preview-text {
+  transform: translateY(0);
 }
 
 /* Center scaler - overlays the grid */
@@ -104,7 +152,7 @@ const styles = `
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
-  border-radius: 1rem;
+  border-radius: 0.375rem;
   overflow: hidden;
 }
 
@@ -116,7 +164,7 @@ const styles = `
   grid-template-columns: 1fr 1fr;
   background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
   border: 1px solid rgba(99, 102, 241, 0.3);
-  border-radius: 1rem;
+  border-radius: 0.375rem;
   overflow: hidden;
 }
 
@@ -288,12 +336,14 @@ export default function ScrollReveal({
                 ref={(el) => { gridItemsRef.current[i] = el; }}
                 className="sr-grid-item"
                 onClick={() => onImageClick?.(img, i)}
-                style={{ cursor: onImageClick ? 'pointer' : 'default' }}
               >
                 <img src={img.src} alt={img.alt || ''} />
                 {showLabels && img.label && (
                   <div className="sr-label">{img.label}</div>
                 )}
+                <div className="sr-preview-overlay">
+                  <span className="sr-preview-text">Click to Preview</span>
+                </div>
               </div>
             ))}
           </div>
