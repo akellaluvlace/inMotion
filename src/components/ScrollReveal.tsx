@@ -20,6 +20,7 @@ export interface ScrollRevealProps {
   className?: string;
   showLabels?: boolean;
   onImageClick?: (image: ImageItem, index: number) => void;
+  animationMode?: 'default' | 'pinned-sequence';
 }
 
 const styles = `
@@ -240,12 +241,14 @@ export default function ScrollReveal({
   className = '',
   showLabels = true,
   onImageClick,
+  animationMode = 'default',
 }: ScrollRevealProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const scalerRef = useRef<HTMLDivElement>(null);
   const startContentRef = useRef<HTMLDivElement>(null);
   const endContentRef = useRef<HTMLDivElement>(null);
   const gridItemsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [scrollProgress, setScrollProgress] = React.useState(0);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -256,7 +259,7 @@ export default function ScrollReveal({
     const endContentEl = endContentRef.current;
     const gridItems = gridItemsRef.current.filter(Boolean);
 
-    if (!section || !scaler || gridItems.length === 0) return;
+    if (!section || !scaler) return;
 
     const gutter = window.innerWidth <= 600 ? 16 : 32;
     const maxHeight = window.innerHeight * 0.9;
@@ -273,6 +276,44 @@ export default function ScrollReveal({
       gsap.set(endContentEl, { display: 'none', opacity: 0 });
       gsap.set(startContent, { display: 'block', opacity: 1 });
     }
+
+    if (animationMode === 'pinned-sequence') {
+      // Ensure grid items are visible
+      gsap.set(gridItems, { opacity: 1, scale: 1 });
+
+      // Just pin and track progress
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top top',
+        end: '+=300%', // Pin for 300% of viewport height
+        pin: true,
+        scrub: 0.6,
+        onUpdate: (self) => {
+          setScrollProgress(self.progress);
+          
+          if (scalerRef.current) {
+            if (self.progress > 0.8) {
+              // Fade out from 0.8 to 1.0
+              const opacity = 1 - (self.progress - 0.8) * 5;
+              gsap.set(scalerRef.current, { 
+                opacity: Math.max(0, opacity),
+                pointerEvents: opacity < 0.1 ? 'none' : 'auto'
+              });
+            } else {
+              gsap.set(scalerRef.current, { 
+                opacity: 1,
+                pointerEvents: 'auto'
+              });
+            }
+          }
+        },
+      });
+      return () => {
+        ScrollTrigger.getAll().forEach((st) => st.kill());
+      };
+    }
+
+    if (gridItems.length === 0) return;
 
     // Create main timeline with smooth scrub
     const tl = gsap.timeline({
@@ -339,7 +380,7 @@ export default function ScrollReveal({
       tl.kill();
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
-  }, [images.length, endContent]);
+  }, [images.length, endContent, animationMode]);
 
   return (
     <div className={`scroll-reveal-wrapper ${className}`}>
@@ -368,21 +409,11 @@ export default function ScrollReveal({
           </div>
 
           {/* Center card - overlays grid */}
-          <div ref={scalerRef} className="sr-scaler">
+          <div ref={scalerRef} className="sr-scaler" style={animationMode === 'pinned-sequence' ? { width: '100%', height: '100vh', borderRadius: 0 } : {}}>
             <div ref={startContentRef} className="w-full h-full">
-              {centerContent || (
-                <div className="sr-center-card" style={{ gridTemplateColumns: '1fr', gridTemplateRows: '1fr' }}>
-                  <div className="sr-card-right">
-                    <picture>
-                      <source media="(max-width: 600px)" srcSet={websiteExamplesmobile.src} />
-                      <img 
-                        src={imageExamples.src} 
-                        alt="Our Work" 
-                      />
-                    </picture>
-                  </div>
-                </div>
-              )}
+              {React.isValidElement(centerContent) 
+                ? React.cloneElement(centerContent as React.ReactElement<any>, { scrollProgress }) 
+                : centerContent}
             </div>
             {endContent && (
               <div ref={endContentRef} className="w-full h-full">

@@ -26,6 +26,7 @@ import {
   Minus,
   X,
 } from 'lucide-react';
+import ShowDontTellAnimation from './ShowDontTellAnimation';
 import ScrollReveal, { ImageItem } from './ScrollReveal';
 import DigitalExperienceHero from './DigitalExperienceHero';
 import imageExamples from './websitesExamples/imageExamples.png';
@@ -1039,20 +1040,8 @@ export default function LandingPage() {
 
       {/* Scroll Reveal Gallery Section - Website Examples */}
       <ScrollReveal
-        centerContent={
-          <div className="sr-center-card" style={{ gridTemplateColumns: '1fr', gridTemplateRows: '1fr' }}>
-            <div className="sr-card-right">
-              <picture>
-                <source media="(max-width: 600px)" srcSet={websiteExamplesmobile.src} />
-                <img 
-                  src={imageExamples.src} 
-                  alt="Website Examples" 
-                  className="w-full h-full object-cover"
-                />
-              </picture>
-            </div>
-          </div>
-        }
+        centerContent={<ShowDontTellAnimation />}
+        animationMode="pinned-sequence"
         images={[
           { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop', label: 'Kavanagh & Cole Architects', id: 'architect' },
           { src: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=800&auto=format&fit=crop', label: 'Camden Gentlemen Barbers', id: 'barbers' },
