@@ -3,8 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import imageExamples from './websitesExamples/imageExamples.png';
-import websiteExamplesmobile from './websitesExamples/websiteExamplesmobile.png';
 
 export interface ImageItem {
   src: string;
@@ -21,6 +19,7 @@ export interface ScrollRevealProps {
   showLabels?: boolean;
   onImageClick?: (image: ImageItem, index: number) => void;
   animationMode?: 'default' | 'pinned-sequence';
+  transitionText?: string;
 }
 
 const styles = `
@@ -62,13 +61,14 @@ const styles = `
 
 /* 3x3 Grid */
 .scroll-reveal-wrapper .sr-grid {
-  width: min(1500px, calc(100% - 2 * var(--sr-gutter)));
-  height: 85vh;
+  width: min(1050px, 70%);
+  height: 60vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: var(--sr-gap);
   position: relative;
+  transform: translateY(5vh);
 }
 
 /* Grid items */
@@ -158,6 +158,27 @@ const styles = `
   overflow: hidden;
 }
 
+/* Transition Text */
+.transition-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800;
+  text-align: center;
+  opacity: 0;
+  z-index: 5;
+  background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  pointer-events: none;
+  width: 100%;
+  padding: 0 1rem;
+  line-height: 1.1;
+}
+
 /* Center card styles - Split layout */
 .sr-center-card {
   width: 100%;
@@ -240,12 +261,14 @@ export default function ScrollReveal({
   showLabels = true,
   onImageClick,
   animationMode = 'default',
+  transitionText = "Check examples for yourself",
 }: ScrollRevealProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const scalerRef = useRef<HTMLDivElement>(null);
   const startContentRef = useRef<HTMLDivElement>(null);
   const endContentRef = useRef<HTMLDivElement>(null);
   const gridItemsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const transitionTextRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = React.useState(0);
 
   useEffect(() => {
@@ -256,6 +279,7 @@ export default function ScrollReveal({
     const startContent = startContentRef.current;
     const endContentEl = endContentRef.current;
     const gridItems = gridItemsRef.current.filter(Boolean);
+    const transitionTextEl = transitionTextRef.current;
 
     if (!section || !scaler) return;
 
@@ -276,9 +300,10 @@ export default function ScrollReveal({
     if (animationMode === 'pinned-sequence') {
       // Keep grid items hidden initially
       gsap.set(gridItems, { opacity: 0, scale: 0.8 });
+      if (transitionTextEl) gsap.set(transitionTextEl, { opacity: 0, scale: 0.9 });
 
       // Just pin and track progress
-      ScrollTrigger.create({
+      const st = ScrollTrigger.create({
         trigger: section,
         start: 'top top',
         end: '+=300%', // Pin for 300% of viewport height
@@ -287,10 +312,10 @@ export default function ScrollReveal({
         onUpdate: (self) => {
           setScrollProgress(self.progress);
 
-          // Terminal/center content fades out from 0.75 to 0.85
+          // 1. VS Code / Center Content Fades Out (0.65 -> 0.75)
           if (scalerRef.current) {
-            if (self.progress > 0.75) {
-              const opacity = 1 - (self.progress - 0.75) * 10;
+            if (self.progress > 0.65) {
+              const opacity = 1 - (self.progress - 0.65) * 10; // Fades out completely by 0.75
               gsap.set(scalerRef.current, {
                 opacity: Math.max(0, opacity),
                 pointerEvents: opacity < 0.1 ? 'none' : 'auto'
@@ -303,19 +328,42 @@ export default function ScrollReveal({
             }
           }
 
-          // Grid items appear AFTER terminal fades out (from 0.85 to 1.0)
-          if (self.progress > 0.8) {
-            const gridProgress = (self.progress - 0.8) / 0.2; // 0 to 1 over the range 0.8-1.0
+          // 2. Transition Text Fades In then Out (0.70 -> 0.90)
+          if (transitionTextEl) {
+            let textOpacity = 0;
+            let textScale = 0.9;
+            
+            if (self.progress > 0.70 && self.progress <= 0.82) {
+               // Fade In
+               const p = (self.progress - 0.70) / 0.12; // 0 to 1
+               textOpacity = p;
+               textScale = 0.9 + (p * 0.1); // 0.9 -> 1.0
+            } else if (self.progress > 0.82 && self.progress <= 0.92) {
+               // Fade Out
+               const p = (self.progress - 0.82) / 0.10; // 0 to 1
+               textOpacity = 1 - p;
+               textScale = 1.0 + (p * 0.1); // 1.0 -> 1.1
+            }
+            
+            gsap.set(transitionTextEl, { 
+                opacity: Math.max(0, textOpacity),
+                scale: textScale
+            });
+          }
+
+          // 3. Grid items appear (0.85 -> 1.0)
+          if (self.progress > 0.85) {
+            const gridProgress = (self.progress - 0.85) / 0.15; // 0 to 1 over the range 0.85-1.0
             gridItems.forEach((item, index) => {
-              const itemDelay = index * 0.08;
-              const itemProgress = Math.max(0, Math.min(1, (gridProgress - itemDelay) * 2));
+              const itemDelay = index * 0.05;
+              const itemProgress = Math.max(0, Math.min(1, (gridProgress - itemDelay) * 3));
               gsap.set(item, {
                 opacity: itemProgress,
                 scale: 0.8 + itemProgress * 0.2,
               });
             });
           } else {
-            // Keep grid hidden before 0.8
+            // Keep grid hidden before 0.85
             gridItems.forEach((item) => {
               gsap.set(item, { opacity: 0, scale: 0.8 });
             });
@@ -323,7 +371,7 @@ export default function ScrollReveal({
         },
       });
       return () => {
-        ScrollTrigger.getAll().forEach((st) => st.kill());
+        st.kill();
       };
     }
 
@@ -392,7 +440,6 @@ export default function ScrollReveal({
 
     return () => {
       tl.kill();
-      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, [images.length, endContent, animationMode]);
 
@@ -422,10 +469,16 @@ export default function ScrollReveal({
             ))}
           </div>
 
+          {/* Transition Text */}
+          <div ref={transitionTextRef} className="transition-text">
+            {transitionText}
+          </div>
+
           {/* Center card - overlays grid */}
           <div ref={scalerRef} className="sr-scaler" style={animationMode === 'pinned-sequence' ? { width: '100%', height: '100vh', borderRadius: 0 } : {}}>
             <div ref={startContentRef} className="w-full h-full">
               {React.isValidElement(centerContent) 
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ? React.cloneElement(centerContent as React.ReactElement<any>, { scrollProgress }) 
                 : centerContent}
             </div>

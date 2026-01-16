@@ -341,7 +341,7 @@ const WebsitePreview = ({ progress }: { progress: number }) => {
           </div>
         </div>
 
-        {/* Website Content */}
+        {/* Website Content - Static Mock */}
         <div className="flex-1 bg-neutral-950 p-3 flex flex-col gap-3 overflow-hidden relative">
 
           {/* Navbar */}
@@ -596,7 +596,7 @@ export default function ShowDontTellAnimation({ scrollProgress = 0 }: { scrollPr
       {/* First headline - "This is how our competitors code" */}
       <motion.div
         style={{ opacity: 1 - Math.min(scrollProgress * 2, 1) }}
-        className="absolute top-[10%] z-30 text-center w-full px-4"
+        className="absolute top-[12%] z-30 text-center w-full px-4"
       >
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 tracking-tight">
           This is how our competitors code.
@@ -606,7 +606,7 @@ export default function ShowDontTellAnimation({ scrollProgress = 0 }: { scrollPr
       {/* Second headline - "This is how we code" (appears after reveal) */}
       <motion.div
         style={{ opacity: Math.min(Math.max((scrollProgress - 0.5) * 4, 0), 1) }}
-        className="absolute top-[10%] z-30 text-center w-full px-4"
+        className="absolute top-[12%] z-30 text-center w-full px-4"
       >
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 tracking-tight">
           This is how we code.
@@ -616,7 +616,7 @@ export default function ShowDontTellAnimation({ scrollProgress = 0 }: { scrollPr
       <div className="relative w-full h-screen flex items-end justify-center pb-6">
 
         {/* Shared container for both layers - same size and position */}
-        <div className="relative w-[98%] h-[82%] max-w-[1800px]">
+        <div className="relative w-[98%] h-[70%] max-w-[1800px]">
 
           {/* Layer 1: VS Code (Underneath) */}
           <div className="absolute inset-0 z-0">
