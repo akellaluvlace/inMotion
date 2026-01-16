@@ -40,48 +40,51 @@ import LOUDStudio from './websitesExamples/LOUDStudio';
 import BloomWellness from './websitesExamples/BloomWellness';
 import HowthRoadRoasters from './websitesExamples/HowthRoadRoasters';
 import SurgeFitness from './websitesExamples/SurgeFitness';
+import ServicesCarousel from './servicesWeProvide';
+
+import AkellaBadge from './AkellaBadge';
 
 // Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
 const customStyles = `
-  /* Animated gradient background */
+  /* Animated gradient background - Clean minimal */
   .hero-gradient {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       height: 100vh;
-      background: 
-          radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
-          radial-gradient(ellipse 60% 40% at 100% 0%, rgba(168, 85, 247, 0.1), transparent),
-          radial-gradient(ellipse 50% 30% at 0% 100%, rgba(59, 130, 246, 0.1), transparent);
+      background:
+          radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 0, 0, 0.03), transparent),
+          radial-gradient(ellipse 60% 40% at 100% 0%, rgba(0, 0, 0, 0.02), transparent),
+          radial-gradient(ellipse 50% 30% at 0% 100%, rgba(0, 0, 0, 0.02), transparent);
       pointer-events: none;
   }
 
-  /* Subtle grid pattern */
+  /* Subtle grid pattern - Clean minimal */
   .grid-pattern {
       position: absolute;
       inset: 0;
-      background-image: 
-          linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-image:
+          linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
       background-size: 64px 64px;
       mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
       pointer-events: none;
   }
 
-  /* Floating orbs */
+  /* Floating orbs - Subtle neutral */
   .orb {
       position: absolute;
       border-radius: 50%;
       filter: blur(80px);
-      opacity: 0.4;
+      opacity: 0.2;
       animation: float 20s ease-in-out infinite;
   }
 
   .orb-1 {
       width: 600px;
       height: 600px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      background: #e0e0e0;
       top: -200px;
       left: -200px;
       animation-delay: 0s;
@@ -90,7 +93,7 @@ const customStyles = `
   .orb-2 {
       width: 400px;
       height: 400px;
-      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      background: #d0d0d0;
       bottom: -100px;
       right: -100px;
       animation-delay: -10s;
@@ -99,7 +102,7 @@ const customStyles = `
   .orb-3 {
       width: 300px;
       height: 300px;
-      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      background: #e8e8e8;
       top: 50%;
       right: 10%;
       animation-delay: -5s;
@@ -112,41 +115,41 @@ const customStyles = `
       75% { transform: translate(20px, 10px) scale(1.02); }
   }
 
-  /* Glass morphism */
+  /* Glass morphism - Clean minimal */
   .glass {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.06);
   }
 
   .glass-strong {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(40px);
       -webkit-backdrop-filter: blur(40px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.08);
   }
 
-  /* Gradient text */
+  /* Gradient text - Clean minimal */
   .gradient-text {
-      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      background: linear-gradient(135deg, #1a1a1a 0%, #666666 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
   }
 
   .gradient-text-color {
-      background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      background: linear-gradient(135deg, #1a1a1a 0%, #333333 50%, #1a1a1a 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
   }
 
-  /* Service cards */
+  /* Service cards - Clean minimal */
   .service-card {
       position: relative;
-      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
       border-radius: 24px;
       overflow: hidden;
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -156,7 +159,7 @@ const customStyles = `
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.1), transparent 40%);
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 0, 0, 0.02), transparent 40%);
       opacity: 0;
       transition: opacity 0.4s;
   }
@@ -167,14 +170,14 @@ const customStyles = `
 
   .service-card:hover {
       transform: translateY(-8px);
-      border-color: rgba(99, 102, 241, 0.3);
-      box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
+      border-color: #1a1a1a;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
   }
 
-  /* Primary button */
+  /* Primary button - Clean minimal */
   .btn-primary {
       position: relative;
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      background: #1a1a1a;
       overflow: hidden;
       transition: all 0.3s ease;
   }
@@ -183,7 +186,7 @@ const customStyles = `
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+      background: #333333;
       opacity: 0;
       transition: opacity 0.3s ease;
   }
@@ -194,7 +197,7 @@ const customStyles = `
 
   .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.2);
   }
 
   .btn-primary span {
@@ -202,36 +205,36 @@ const customStyles = `
       z-index: 1;
   }
 
-  /* Secondary button */
+  /* Secondary button - Clean minimal */
   .btn-secondary {
       position: relative;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.2);
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
       transition: all 0.3s ease;
   }
 
   .btn-secondary:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.3);
+      background: #f8f8f8;
+      border-color: #1a1a1a;
       transform: translateY(-2px);
   }
 
-  /* Pricing card */
+  /* Pricing card - Clean minimal */
   .pricing-card {
       position: relative;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
       transition: all 0.4s ease;
   }
 
   .pricing-card:hover {
-      border-color: rgba(99, 102, 241, 0.4);
+      border-color: #1a1a1a;
       transform: scale(1.02);
   }
 
   .pricing-card.featured {
-      background: linear-gradient(180deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.05) 100%);
-      border-color: rgba(99, 102, 241, 0.3);
+      background: #f8f8f8;
+      border-color: #1a1a1a;
   }
 
   /* Marquee animation */
@@ -243,34 +246,34 @@ const customStyles = `
   .animate-marquee {
       animation: marquee 30s linear infinite;
   }
-  
+
   .animate-marquee-slow {
       animation: marquee 60s linear infinite;
   }
 
-  .animate-marquee:hover, 
+  .animate-marquee:hover,
   .animate-marquee-slow:hover {
       animation-play-state: paused;
   }
 
-  /* Process line */
+  /* Process line - Clean minimal */
   .process-line {
       position: absolute;
       left: 28px;
       top: 70px;
       bottom: 20px;
       width: 2px;
-      background: linear-gradient(180deg, rgba(99, 102, 241, 0.5) 0%, rgba(139, 92, 246, 0.1) 100%);
+      background: linear-gradient(180deg, #1a1a1a 0%, #e0e0e0 100%);
   }
 
-  /* Vibe rescue special styling */
+  /* Vibe rescue special styling - Clean minimal */
   .vibe-card {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
-      border: 1px solid rgba(245, 158, 11, 0.2);
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
   }
 
   .vibe-card:hover {
-      border-color: rgba(245, 158, 11, 0.4);
+      border-color: #1a1a1a;
   }
 
   /* Scroll indicator */
@@ -283,15 +286,15 @@ const customStyles = `
       animation: bounce-slow 2s ease-in-out infinite;
   }
 
-  /* FAQ accordion */
+  /* FAQ accordion - Clean minimal */
   .faq-item {
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid #e0e0e0;
   }
 
   .faq-item:last-child {
       border-bottom: none;
   }
-  
+
   /* Stats counter effect */
   .stat-number {
       font-feature-settings: 'tnum';
@@ -381,7 +384,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="bg-[#030712] text-[#f1f5f9] font-sans overflow-x-hidden min-h-screen relative selection:bg-indigo-500/30 selection:text-white">
+    <div className="bg-white text-[#1a1a1a] font-sans min-h-screen relative selection:bg-black/10 selection:text-[#1a1a1a]">
       {/* 
         FIXED: Replaced <style jsx global> with standard style injection 
         to prevent class name hydration mismatches 
@@ -403,20 +406,20 @@ export default function LandingPage() {
             {/* Logo */}
             <a href="#" className="flex items-center group">
               <div className="flex flex-col">
-                <span className="text-lg font-bold tracking-tight leading-none">Akella</span>
-                <span className="text-xs text-indigo-400 font-medium tracking-wider">inMotion</span>
+                <span className="text-lg font-bold tracking-tight leading-none text-[#1a1a1a]">Akella</span>
+                <span className="text-xs text-[#666666] font-medium tracking-wider">inMotion</span>
               </div>
             </a>
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-1">
-              <a href="#services" className="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5">Services</a>
-              <a href="#pricing" className="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5">Pricing</a>
-              <a href="#vibe-rescue" className="px-4 py-2 text-sm text-amber-400 hover:text-amber-300 transition-colors rounded-lg hover:bg-amber-500/10 flex items-center gap-2">
+              <a href="#services" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">Services</a>
+              <a href="#pricing" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">Pricing</a>
+              <a href="#vibe-rescue" className="px-4 py-2 text-sm text-[#1a1a1a] hover:text-[#333333] transition-colors rounded-lg hover:bg-black/5 flex items-center gap-2">
                 <Sparkles className="w-4 h-4" />
                 Vibe Rescue
               </a>
-              <a href="#process" className="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5">Process</a>
+              <a href="#process" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">Process</a>
             </div>
 
             {/* CTA Button */}
@@ -438,10 +441,10 @@ export default function LandingPage() {
           {/* Badge */}
           <div data-aos="fade-down" data-aos-duration="600" className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1a1a1a] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1a1a1a]"></span>
             </span>
-            <span className="text-sm text-slate-300">Dublin&apos;s Modern Web Studio</span>
+            <span className="text-sm text-[#666666]">Dublin&apos;s Modern Web Studio</span>
           </div>
 
           {/* Headline */}
@@ -451,9 +454,9 @@ export default function LandingPage() {
           </h1>
 
           {/* Subheadline */}
-          <p data-aos="fade-up" data-aos-duration="800" data-aos-delay="200" className="text-lg sm:text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Landing pages and business websites built by a Dublin team with 10+ years experience. 
-            <span className="text-white font-medium"> 20% below agency rates.</span> No hidden fees, ever.
+          <p data-aos="fade-up" data-aos-duration="800" data-aos-delay="200" className="text-lg sm:text-xl text-[#666666] mb-12 max-w-2xl mx-auto leading-relaxed">
+            Landing pages and business websites built by a Dublin team with 10+ years experience.
+            <span className="text-[#1a1a1a] font-medium"> 20% below agency rates.</span> No hidden fees, ever.
           </p>
 
           {/* CTA Buttons */}
@@ -464,8 +467,8 @@ export default function LandingPage() {
                 <ArrowRight className="w-5 h-5" />
               </span>
             </a>
-            <a href="#vibe-rescue" className="btn-secondary px-8 py-4 rounded-2xl text-lg font-semibold text-white w-full sm:w-auto flex items-center justify-center gap-2">
-              <Sparkles className="w-5 h-5 text-amber-400" />
+            <a href="#vibe-rescue" className="btn-secondary px-8 py-4 rounded-2xl text-lg font-semibold text-[#1a1a1a] w-full sm:w-auto flex items-center justify-center gap-2">
+              <Sparkles className="w-5 h-5 text-[#1a1a1a]" />
               Vibe Code Rescue
             </a>
           </div>
@@ -473,226 +476,120 @@ export default function LandingPage() {
           {/* Trust Indicators */}
           <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="400" className="mt-16 flex flex-wrap justify-center gap-8 sm:gap-12">
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold stat-number">10+</div>
-              <div className="text-xs text-slate-500 uppercase tracking-widest mt-1">Years Experience</div>
+              <div className="text-3xl sm:text-4xl font-bold stat-number text-[#1a1a1a]">10+</div>
+              <div className="text-xs text-[#888888] uppercase tracking-widest mt-1">Years Experience</div>
             </div>
-            <div className="w-px h-12 bg-white/10 hidden sm:block"></div>
+            <div className="w-px h-12 bg-black/10 hidden sm:block"></div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold stat-number">50+</div>
-              <div className="text-xs text-slate-500 uppercase tracking-widest mt-1">Projects Delivered</div>
+              <div className="text-3xl sm:text-4xl font-bold stat-number text-[#1a1a1a]">50+</div>
+              <div className="text-xs text-[#888888] uppercase tracking-widest mt-1">Projects Delivered</div>
             </div>
-            <div className="w-px h-12 bg-white/10 hidden sm:block"></div>
+            <div className="w-px h-12 bg-black/10 hidden sm:block"></div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold stat-number text-green-400">&lt;24h</div>
-              <div className="text-xs text-slate-500 uppercase tracking-widest mt-1">Response Time</div>
+              <div className="text-3xl sm:text-4xl font-bold stat-number text-[#1a1a1a]">&lt;24h</div>
+              <div className="text-xs text-[#888888] uppercase tracking-widest mt-1">Response Time</div>
             </div>
           </div>
         </div>
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-slow">
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
-            <div className="w-1 h-2 bg-white/40 rounded-full"></div>
+          <div className="w-6 h-10 rounded-full border-2 border-black/20 flex items-start justify-center p-2">
+            <div className="w-1 h-2 bg-black/40 rounded-full"></div>
           </div>
         </div>
       </section>
 
       {/* Tech Stack Marquee */}
-      <section className="py-8 border-y border-white/5 overflow-hidden">
+      <section className="py-8 border-y border-black/5 overflow-hidden">
         <div className="flex animate-marquee">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex items-center gap-12 px-6 whitespace-nowrap">
-              <span className="text-2xl font-bold text-white/10 hover:text-white/30 transition-colors cursor-default">React</span>
-              <span className="text-white/5">◆</span>
-              <span className="text-2xl font-bold text-white/10 hover:text-white/30 transition-colors cursor-default">Next.js</span>
-              <span className="text-white/5">◆</span>
-              <span className="text-2xl font-bold text-white/10 hover:text-white/30 transition-colors cursor-default">TypeScript</span>
-              <span className="text-white/5">◆</span>
-              <span className="text-2xl font-bold text-white/10 hover:text-white/30 transition-colors cursor-default">Django</span>
-              <span className="text-white/5">◆</span>
-              <span className="text-2xl font-bold text-white/10 hover:text-white/30 transition-colors cursor-default">React Native</span>
-              <span className="text-white/5">◆</span>
-              <span className="text-2xl font-bold text-white/10 hover:text-white/30 transition-colors cursor-default">PostgreSQL</span>
-              <span className="text-white/5">◆</span>
-              <span className="text-2xl font-bold text-white/10 hover:text-white/30 transition-colors cursor-default">Node.js</span>
-              <span className="text-white/5">◆</span>
-              <span className="text-2xl font-bold text-white/10 hover:text-white/30 transition-colors cursor-default">Tailwind</span>
-              <span className="text-white/5">◆</span>
+              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">React</span>
+              <span className="text-black/5">◆</span>
+              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">Next.js</span>
+              <span className="text-black/5">◆</span>
+              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">TypeScript</span>
+              <span className="text-black/5">◆</span>
+              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">Django</span>
+              <span className="text-black/5">◆</span>
+              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">React Native</span>
+              <span className="text-black/5">◆</span>
+              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">PostgreSQL</span>
+              <span className="text-black/5">◆</span>
+              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">Node.js</span>
+              <span className="text-black/5">◆</span>
+              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">Tailwind</span>
+              <span className="text-black/5">◆</span>
             </div>
           ))}
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-24 px-4">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div data-aos="fade-up" className="inline-flex items-center gap-2 text-indigo-400 text-sm font-medium mb-4">
-              <Layers className="w-4 h-4" />
-              SERVICES
-            </div>
-            <h2 data-aos="fade-up" data-aos-delay="100" className="text-4xl sm:text-5xl font-bold mb-4">What we build</h2>
-            <p data-aos="fade-up" data-aos-delay="200" className="text-slate-400 max-w-xl mx-auto">From quick landing pages to complex applications. All priced honestly, delivered professionally.</p>
-          </div>
-
-          {/* Services Grid */}
-          <div className="grid md:grid-cols-2 gap-6">
-            
-            {/* Landing Pages */}
-            <div data-aos="fade-up" data-aos-delay="100" className="service-card p-8 group" onMouseMove={handleMouseMove}>
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Layout className="w-7 h-7 text-blue-400" />
-                </div>
-                <span className="text-2xl font-bold text-blue-400">€800</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Landing Pages</h3>
-              <p className="text-slate-400 mb-6 leading-relaxed">High-converting, mobile-optimized landing pages designed to turn visitors into customers. Perfect for launches and campaigns.</p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">Custom Design</span>
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">Mobile First</span>
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">SEO Ready</span>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                <span className="text-sm text-slate-500">1-2 weeks delivery</span>
-                <a href="#contact" className="flex items-center gap-2 text-sm font-medium text-white group-hover:text-indigo-400 transition-colors">
-                  Get Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-
-            {/* Business Websites */}
-            <div data-aos="fade-up" data-aos-delay="200" className="service-card p-8 group" onMouseMove={handleMouseMove}>
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Globe className="w-7 h-7 text-indigo-400" />
-                </div>
-                <span className="text-2xl font-bold text-indigo-400">€1,200</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Business Websites</h3>
-              <p className="text-slate-400 mb-6 leading-relaxed">Full 5-10 page websites that represent your business professionally. CMS included so you can update content yourself.</p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">5-10 Pages</span>
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">CMS Included</span>
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">Training</span>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                <span className="text-sm text-slate-500">2-4 weeks delivery</span>
-                <a href="#contact" className="flex items-center gap-2 text-sm font-medium text-white group-hover:text-indigo-400 transition-colors">
-                  Get Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-
-            {/* E-Commerce */}
-            <div data-aos="fade-up" data-aos-delay="300" className="service-card p-8 group" onMouseMove={handleMouseMove}>
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <ShoppingBag className="w-7 h-7 text-emerald-400" />
-                </div>
-                <span className="text-2xl font-bold text-emerald-400">€2,400</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-3">E-Commerce</h3>
-              <p className="text-slate-400 mb-6 leading-relaxed">Online stores that sell. Secure payments, inventory management, and beautiful product showcases built to convert.</p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">Secure Payments</span>
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">Inventory</span>
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">Analytics</span>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                <span className="text-sm text-slate-500">3-5 weeks delivery</span>
-                <a href="#contact" className="flex items-center gap-2 text-sm font-medium text-white group-hover:text-indigo-400 transition-colors">
-                  Get Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-
-            {/* Custom Projects */}
-            <div data-aos="fade-up" data-aos-delay="400" className="service-card p-8 group bg-gradient-to-br from-indigo-500/10 to-purple-500/5 border-indigo-500/20" onMouseMove={handleMouseMove}>
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Rocket className="w-7 h-7 text-purple-400" />
-                </div>
-                <span className="text-lg font-bold text-purple-400">Custom Quote</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-3">MVPs & Apps</h3>
-              <p className="text-slate-400 mb-6 leading-relaxed">Web applications, mobile apps (iOS & Android), SaaS platforms, and AI automation. Scoped and quoted individually.</p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">Web Apps</span>
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">Mobile Apps</span>
-                <span className="px-3 py-1 text-xs font-medium bg-white/5 rounded-full text-slate-300">AI & Automation</span>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                <span className="text-sm text-slate-500">Discovery call required</span>
-                <a href="#contact" className="flex items-center gap-2 text-sm font-medium text-white group-hover:text-indigo-400 transition-colors">
-                  Book Call <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div id="services">
+        <ServicesCarousel />
+      </div>
 
       {/* Vibe Code Rescue Section */}
       <section id="vibe-rescue" className="py-24 px-4 relative overflow-hidden">
-        {/* Amber glow background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-amber-500/5 via-transparent to-transparent"></div>
-        
+        {/* Subtle background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f8f8f8] via-transparent to-transparent"></div>
+
         <div className="max-w-6xl mx-auto relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
+
             {/* Left Content */}
             <div>
-              <div data-aos="fade-right" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium mb-6">
+              <div data-aos="fade-right" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#f8f8f8] border border-[#e0e0e0] text-[#1a1a1a] text-sm font-medium mb-6">
                 <Sparkles className="w-4 h-4" />
                 First in Dublin — Only Here
               </div>
-              
-              <h2 data-aos="fade-right" data-aos-delay="100" className="text-4xl sm:text-5xl font-bold mb-6">
+
+              <h2 data-aos="fade-right" data-aos-delay="100" className="text-4xl sm:text-5xl font-bold mb-6 text-[#1a1a1a]">
                 Stuck on your<br />
-                <span className="bg-gradient-to-r from-amber-400 to-pink-500 bg-clip-text text-transparent">AI-coded website?</span>
+                <span className="text-[#666666]">AI-coded website?</span>
               </h2>
-              
-              <p data-aos="fade-right" data-aos-delay="200" className="text-lg text-slate-400 mb-8 leading-relaxed">
+
+              <p data-aos="fade-right" data-aos-delay="200" className="text-lg text-[#666666] mb-8 leading-relaxed">
                 You tried Cursor, Bolt, or Lovable. Got 80% there but hit a wall. We take your AI-built project and make it production-ready. No judgement, no starting over.
               </p>
 
               <div data-aos="fade-right" data-aos-delay="300" className="space-y-4 mb-8">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-4 h-4 text-amber-400" />
+                  <div className="w-6 h-6 rounded-full bg-[#f8f8f8] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-4 h-4 text-[#1a1a1a]" />
                   </div>
-                  <span className="text-slate-300">Bug fixes & code cleanup</span>
+                  <span className="text-[#666666]">Bug fixes & code cleanup</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-4 h-4 text-amber-400" />
+                  <div className="w-6 h-6 rounded-full bg-[#f8f8f8] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-4 h-4 text-[#1a1a1a]" />
                   </div>
-                  <span className="text-slate-300">Deployment & hosting setup</span>
+                  <span className="text-[#666666]">Deployment & hosting setup</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-4 h-4 text-amber-400" />
+                  <div className="w-6 h-6 rounded-full bg-[#f8f8f8] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-4 h-4 text-[#1a1a1a]" />
                   </div>
-                  <span className="text-slate-300">Professional polish & responsiveness</span>
+                  <span className="text-[#666666]">Professional polish & responsiveness</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-4 h-4 text-amber-400" />
+                  <div className="w-6 h-6 rounded-full bg-[#f8f8f8] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-4 h-4 text-[#1a1a1a]" />
                   </div>
-                  <span className="text-slate-300">Handover with documentation</span>
+                  <span className="text-[#666666]">Handover with documentation</span>
                 </div>
               </div>
 
               <div data-aos="fade-right" data-aos-delay="400" className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <a href="#contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity">
+                <a href="#contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#1a1a1a] text-white font-semibold hover:bg-[#333333] transition-colors">
                   Send Us Your Project
                   <ArrowRight className="w-5 h-5" />
                 </a>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-white">€200</span>
-                  <span className="text-slate-500">starting price</span>
+                  <span className="text-3xl font-bold text-[#1a1a1a]">€200</span>
+                  <span className="text-[#888888]">starting price</span>
                 </div>
               </div>
             </div>
@@ -701,32 +598,32 @@ export default function LandingPage() {
             <div data-aos="fade-left" data-aos-delay="200" className="relative">
               <div className="vibe-card rounded-3xl p-8 backdrop-blur-sm">
                 {/* Code block visual */}
-                <div className="bg-black/50 rounded-2xl p-6 font-mono text-sm">
+                <div className="bg-[#1a1a1a] rounded-2xl p-6 font-mono text-sm">
                   <div className="flex items-center gap-2 mb-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <span className="text-slate-500 text-xs ml-2">your-project.tsx</span>
+                    <div className="w-3 h-3 rounded-full bg-[#888888]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#888888]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#888888]"></div>
+                    <span className="text-[#888888] text-xs ml-2">your-project.tsx</span>
                   </div>
                   <div className="space-y-2 text-xs sm:text-sm">
-                    <div><span className="text-pink-400">const</span> <span className="text-blue-400">YourProject</span> <span className="text-white">=</span> <span className="text-yellow-400">()</span> <span className="text-white">=&gt;</span> <span className="text-yellow-400">{'{'}</span></div>
-                    <div className="pl-4"><span className="text-slate-500">{'// AI got you 80% there...'}</span></div>
-                    <div className="pl-4"><span className="text-pink-400">return</span> <span className="text-blue-400">&lt;App</span> <span className="text-purple-400">status</span><span className="text-white">=</span><span className="text-amber-400">&quot;almost&quot;</span> <span className="text-blue-400">/&gt;</span></div>
-                    <div><span className="text-yellow-400">{'}'}</span></div>
+                    <div><span className="text-[#888888]">const</span> <span className="text-white">YourProject</span> <span className="text-white">=</span> <span className="text-[#888888]">()</span> <span className="text-white">=&gt;</span> <span className="text-[#888888]">{'{'}</span></div>
+                    <div className="pl-4"><span className="text-[#666666]">{'// AI got you 80% there...'}</span></div>
+                    <div className="pl-4"><span className="text-[#888888]">return</span> <span className="text-white">&lt;App</span> <span className="text-[#888888]">status</span><span className="text-white">=</span><span className="text-white">&quot;almost&quot;</span> <span className="text-white">/&gt;</span></div>
+                    <div><span className="text-[#888888]">{'}'}</span></div>
                     <div className="pt-4 border-t border-white/10 mt-4">
-                      <span className="text-green-400">{'// We finish it ✓'}</span>
+                      <span className="text-white">{'// We finish it ✓'}</span>
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Floating badges */}
-                <div className="absolute -top-4 -right-4 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500 to-pink-500 text-white text-sm font-bold shadow-lg">
+                <div className="absolute -top-4 -right-4 px-4 py-2 rounded-full bg-[#1a1a1a] text-white text-sm font-bold shadow-lg">
                   3-7 days
                 </div>
               </div>
-              
+
               {/* Decorative elements */}
-              <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-amber-500/20 rounded-full blur-[100px]"></div>
+              <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#e0e0e0] rounded-full blur-[100px]"></div>
             </div>
           </div>
         </div>
@@ -795,110 +692,6 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-24 px-4 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent">
-        <div className="max-w-5xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div data-aos="fade-up" className="inline-flex items-center gap-2 text-indigo-400 text-sm font-medium mb-4">
-              <Receipt className="w-4 h-4" />
-              PRICING
-            </div>
-            <h2 data-aos="fade-up" data-aos-delay="100" className="text-4xl sm:text-5xl font-bold mb-4">Transparent pricing</h2>
-            <p data-aos="fade-up" data-aos-delay="200" className="text-slate-400 max-w-xl mx-auto">The price we quote is the price you pay. No surprises, no &quot;scope creep&quot; bills.</p>
-          </div>
-
-          {/* Pricing Table */}
-          <div className="space-y-4">
-            <div data-aos="fade-up" className="pricing-card rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                  <Layout className="w-6 h-6 text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg">Landing Page</h3>
-                  <p className="text-sm text-slate-500">Single page, conversion-focused</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-8">
-                <span className="text-slate-400 text-sm">1-2 weeks</span>
-                <span className="text-2xl font-bold text-blue-400">€800</span>
-              </div>
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="50" className="pricing-card featured rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center">
-                  <Globe className="w-6 h-6 text-indigo-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg">Business Website</h3>
-                  <p className="text-sm text-slate-500">5-10 pages with CMS</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-8">
-                <span className="inline-flex items-center px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-medium">Popular</span>
-                <span className="text-slate-400 text-sm">2-4 weeks</span>
-                <span className="text-2xl font-bold text-indigo-400">€1,200</span>
-              </div>
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="100" className="pricing-card rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                  <ShoppingBag className="w-6 h-6 text-emerald-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg">E-Commerce</h3>
-                  <p className="text-sm text-slate-500">Full online store</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-8">
-                <span className="text-slate-400 text-sm">3-5 weeks</span>
-                <span className="text-2xl font-bold text-emerald-400">€2,400</span>
-              </div>
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="150" className="pricing-card rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 vibe-card">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-amber-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg">Vibe Code Rescue</h3>
-                  <p className="text-sm text-slate-500">AI project finishing</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-8">
-                <span className="text-slate-400 text-sm">3-7 days</span>
-                <span className="text-2xl font-bold text-amber-400">€200+</span>
-              </div>
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="200" className="pricing-card rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                  <Rocket className="w-6 h-6 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg">MVP / App Development</h3>
-                  <p className="text-sm text-slate-500">Custom web & mobile apps</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-8">
-                <span className="text-slate-400 text-sm">6-16 weeks</span>
-                <span className="text-2xl font-bold text-purple-400">Custom</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Price Note */}
-          <p data-aos="fade-up" className="text-center text-slate-500 text-sm mt-8">
-            All prices are fixed quotes. Ongoing support available from €150/month.
-          </p>
         </div>
       </section>
 
@@ -1180,7 +973,10 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-white/5">
+      <footer className="py-12 px-4 border-t border-white/5 relative overflow-hidden">
+        <div className="flex justify-center mb-10 transform scale-50 origin-bottom">
+           <AkellaBadge />
+        </div>
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             {/* Logo */}

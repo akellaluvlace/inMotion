@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Folder, Search, GitBranch, Settings, X, ChevronRight, ChevronDown, Terminal as TerminalIcon, Globe, Layout, Image as ImageIcon, MousePointer2 } from 'lucide-react';
+import { Code2, Folder, Search, GitBranch, Settings, X, ChevronRight, ChevronDown, Terminal as TerminalIcon, Globe, Layout, Image as ImageIcon, MousePointer2, FileCode, FileJson, AlertTriangle, Play } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -10,36 +10,29 @@ function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
 }
 
-// --- Terminal Logic ---
+// --- Realistic Build Sequence ---
 const SEQUENCE = [
-  { cmd: 'init_sequence.exe', action: 'init', log: 'EXECUTING SCRIPT...' },
-  { cmd: 'compile --assets', action: 'compile', log: 'COMPILING ASSETS...' },
-  { cmd: 'optimize --core', action: 'optimize', log: 'OPTIMIZING CORE...' },
-  { cmd: 'render --graphics', action: 'render', log: 'RENDERING GRAPHICS...' },
-  { cmd: 'uplink --establish', action: 'uplink', log: 'ESTABLISHING UPLINK...' },
-  { cmd: 'ping 192.168.0.1', action: 'ping', log: 'PING 192.168.0.1...' },
-  { cmd: 'network_check', action: 'network', log: 'PACKET LOSS: 0%...' },
-  { cmd: 'status_check', action: 'check', log: '' },
-  { cmd: 'load --max_power', action: 'stress', log: 'WARNING: OVERLOAD' },
-  { cmd: 'CRITICAL_FAILURE', action: 'crash', log: 'FATAL ERROR 0xDEAD' },
+  { cmd: 'git clone repo-v1', action: 'git', log: 'Cloning into \'repo-v1\'' },
+  { cmd: 'npm install', action: 'install', log: 'added 842 packages in 2s' },
+  { cmd: 'npm run dev', action: 'run', log: 'ready in 1245ms' },
+  { cmd: '', action: 'log', log: 'event - compiled client and server' },
+  { cmd: '', action: 'log', log: 'wait  - compiling /page (client)...' },
+  { cmd: '', action: 'log', log: 'event - compiled successfully' },
+  { cmd: '', action: 'warn', log: 'Warning: Props did not match.' },
+  { cmd: '', action: 'error', log: 'Error: Hydration failed because...' },
+  { cmd: '', action: 'crash', log: 'FATAL ERROR: UNHANDLED REJECTION' },
 ];
 
-// --- Right Terminal Content (Memory Dumps & System Data) ---
-const generateMemoryDumps = (count: number) => {
-  const addresses = [
-    '0x8FEA3D2A', '0xD3EBBAAE', '0x01F1675E', '0x3381260C',
-    '0x32FB4E33', '0x365F52C0', '0x13592C1B', '0xE2D410C4',
-    '0x0CB3F98B', '0xA92A5AD3', '0x9959B0C2', '0x81FE6F7C',
-    '0xE34AA7E6', '0xF1C28B4D', '0x7A3E9C01', '0xB5D4F782',
-  ];
-  return addresses.slice(0, count).map(addr => ({
-    address: addr,
-    data: '-- MEMORY DUMP --',
-  }));
-};
+const FILES = [
+  { name: 'page.tsx', icon: FileCode, color: 'text-blue-400' },
+  { name: 'layout.tsx', icon: FileCode, color: 'text-blue-400' },
+  { name: 'globals.css', icon: FileCode, color: 'text-yellow-400' },
+  { name: 'components', icon: Folder, color: 'text-green-400', isFolder: true },
+  { name: 'package.json', icon: FileJson, color: 'text-red-400' },
+];
 
-
-const RealTerminal = ({ progress }: { progress: number }) => {
+// --- Building IDE (Overlay Layer - Left Side) ---
+const BuildingIDE = ({ progress }: { progress: number }) => {
   const totalSteps = SEQUENCE.length;
   const safeProgress = Math.min(Math.max(progress * 2.2, 0), 1);
   const currentIndex = Math.floor(safeProgress * totalSteps);
@@ -47,62 +40,78 @@ const RealTerminal = ({ progress }: { progress: number }) => {
   const visibleLogs = SEQUENCE.slice(0, currentIndex + 1);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Show memory dumps after the main sequence starts
-  const memoryDumpProgress = Math.max(0, (safeProgress - 0.5) * 2);
-  const memoryDumpCount = Math.floor(memoryDumpProgress * 14);
-  const memoryDumps = generateMemoryDumps(memoryDumpCount);
-
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [visibleLogs.length, memoryDumpCount]);
+  }, [visibleLogs.length]);
 
   return (
-    <div className="w-full h-full bg-black font-mono text-xs sm:text-sm flex flex-col relative overflow-hidden border-r border-white/10">
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-green-900/5 to-transparent bg-[length:100%_3px]"></div>
+    <div className="w-full h-full bg-[#1e1e1e] flex font-mono text-xs overflow-hidden border-r border-white/10 relative">
+      {/* Decorative Grid Overlay */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 pointer-events-none"></div>
 
-      <div className="bg-[#1a1a1a] text-green-500 px-3 py-2 flex items-center gap-2 shrink-0 border-b border-green-900/30">
-         <TerminalIcon size={14} />
-         <span className="font-bold tracking-widest text-[10px]">ROOT_ACCESS_TERMINAL</span>
-      </div>
-
-      <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto space-y-1 font-mono scroll-smooth">
-        {visibleLogs.map((step, i) => (
-          <div key={i} className="flex flex-col animate-in fade-in slide-in-from-left-2 duration-100">
-            <div className="flex gap-2 items-center">
-              <span className="text-green-700 font-bold">{'>'}</span>
-              <span className={cn(
-                "font-bold tracking-wide",
-                step.log.includes("ERROR") || step.log.includes("WARNING") ? "text-red-500" : "text-green-400"
-              )}>{step.log || step.cmd}</span>
-            </div>
+      {/* Sidebar: Files */}
+      <div className="w-48 bg-[#252526] border-r border-[#333] flex flex-col shrink-0 hidden sm:flex">
+        <div className="p-3 text-[10px] font-bold text-slate-500 tracking-wider mb-2">EXPLORER</div>
+        <div className="space-y-1">
+          <div className="flex items-center gap-1 px-3 py-1 text-slate-300">
+            <ChevronDown size={12} />
+            <span className="font-bold">PROJECT-V1</span>
           </div>
-        ))}
-
-        {/* Memory Dumps Section */}
-        {memoryDumps.length > 0 && (
-          <>
-            <div className="flex gap-2 items-center">
-              <span className="text-green-700 font-bold">{'>'}</span>
-            </div>
-            {memoryDumps.map((dump, i) => (
-              <div key={`mem-${i}`} className="flex gap-2 items-center animate-in fade-in slide-in-from-left-2 duration-100" style={{ animationDelay: `${i * 20}ms` }}>
-                <span className="text-green-700 font-bold">{'>'}</span>
-                <span className="text-purple-400 font-mono font-bold">{dump.address}</span>
-                <span className="text-green-600 text-[10px] tracking-wide">{dump.data}</span>
+          <div className="pl-4 space-y-1">
+            {FILES.map((file, i) => (
+              <div key={i} className="flex items-center gap-2 px-3 py-1 text-slate-400 hover:bg-[#2a2d2e] cursor-default transition-colors">
+                <file.icon size={14} className={file.color} />
+                <span>{file.name}</span>
               </div>
             ))}
-          </>
-        )}
-
-        {/* Blinking cursor */}
-        <div className="flex items-center gap-2">
-           <span className="text-green-500 font-bold">{'>'}</span>
-           <span className="w-2 h-4 bg-green-500 animate-pulse block"></span>
+          </div>
         </div>
-        <div className="h-8"></div>
+      </div>
+
+      {/* Main Area: Terminal */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Fake Tabs */}
+        <div className="h-9 bg-[#2d2d2d] flex items-center border-b border-[#1e1e1e] px-3 shrink-0">
+           <div className="flex items-center gap-2 text-slate-400 px-3 py-1 bg-[#1e1e1e] border-t border-blue-500 text-xs">
+              <TerminalIcon size={12} />
+              <span>Terminal</span>
+           </div>
+        </div>
+
+        {/* Terminal Output */}
+        <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto space-y-2 font-mono scroll-smooth bg-[#1e1e1e] text-slate-300">
+          {visibleLogs.map((step, i) => (
+            <div key={i} className="flex flex-col animate-in fade-in slide-in-from-left-2 duration-100">
+              {step.cmd && (
+                <div className="flex gap-2 items-center text-white mb-1">
+                  <span className="text-green-500">➜</span>
+                  <span className="text-blue-400">~/project</span>
+                  <span>{step.cmd}</span>
+                </div>
+              )}
+              {step.log && (
+                <div className={cn(
+                  "pl-4",
+                  step.action === 'error' || step.action === 'crash' ? "text-red-400 font-bold" : 
+                  step.action === 'warn' ? "text-yellow-400" : "text-slate-400"
+                )}>
+                  {step.action === 'crash' && <AlertTriangle size={12} className="inline mr-2" />}
+                  {step.log}
+                </div>
+              )}
+            </div>
+          ))}
+          
+          {/* Active Line Cursor */}
+          <div className="flex items-center gap-2 mt-2">
+             <span className="text-green-500">➜</span>
+             <span className="text-blue-400">~/project</span>
+             <span className="w-2 h-4 bg-slate-400 animate-pulse block"></span>
+          </div>
+          <div className="h-8"></div>
+        </div>
       </div>
     </div>
   );
@@ -496,22 +505,22 @@ const VSCodeWindow = () => {
                     <span key={i} className="leading-6">{i + 1}</span>
                   ))}
                 </div>
-                <div className="flex flex-col text-slate-300 leading-6 whitespace-pre">
-                  <div><span className="text-[#c586c0]">export</span> <span className="text-[#c586c0]">default</span> <span className="text-[#569cd6]">function</span> <span className="text-[#dcdcaa]">Home</span>() {'{'}</div>
-                  <div>  <span className="text-[#c586c0]">return</span> (</div>
-                  <div>    <span className="text-[#808080]">&lt;</span><span className="text-[#569cd6]">main</span> <span className="text-[#9cdcfe]">className</span>=<span className="text-[#ce9178]">&quot;min-h-screen p-24&quot;</span><span className="text-[#808080]">&gt;</span></div>
-                  <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Hero</span></div>
-                  <div>        <span className="text-[#9cdcfe]">title</span>=<span className="text-[#ce9178]">&quot;Show. Don&apos;t tell.&quot;</span></div>
-                  <div>        <span className="text-[#9cdcfe]">description</span>=<span className="text-[#ce9178]">&quot;Experience over explanation.&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
-                  <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Features</span> <span className="text-[#9cdcfe]">grid</span>=<span className="text-[#569cd6]">{'{'}</span><span className="text-[#b5cea8]">true</span><span className="text-[#569cd6]">{'}'}</span> <span className="text-[#808080]">/&gt;</span></div>
-                  <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Pricing</span> <span className="text-[#9cdcfe]">highlight</span>=<span className="text-[#ce9178]">&quot;pro&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
-                  <div>    <span className="text-[#808080]">&lt;/</span><span className="text-[#569cd6]">main</span><span className="text-[#808080]">&gt;</span></div>
-                  <div>  );</div>
-                  <div>{'}'}</div>
+                  <div className="flex flex-col text-slate-300 leading-6 whitespace-pre">
+                    <div><span className="text-[#c586c0]">export</span> <span className="text-[#c586c0]">default</span> <span className="text-[#569cd6]">function</span> <span className="text-[#dcdcaa]">Home</span>() {'{'}</div>
+                    <div>  <span className="text-[#c586c0]">return</span> (</div>
+                    <div>    <span className="text-[#808080]">&lt;</span><span className="text-[#569cd6]">main</span> <span className="text-[#9cdcfe]">className</span>=<span className="text-[#ce9178]">&quot;min-h-screen p-24&quot;</span><span className="text-[#808080]">&gt;</span></div>
+                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Hero</span></div>
+                    <div>        <span className="text-[#9cdcfe]">title</span>=<span className="text-[#ce9178]">&quot;Show. Don&apos;t tell.&quot;</span></div>
+                    <div>        <span className="text-[#9cdcfe]">description</span>=<span className="text-[#ce9178]">&quot;Experience over explanation.&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
+                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Features</span> <span className="text-[#9cdcfe]">grid</span>=<span className="text-[#569cd6]">{'{'}</span><span className="text-[#b5cea8]">true</span><span className="text-[#569cd6]">{'}'}</span> <span className="text-[#808080]">/&gt;</span></div>
+                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Pricing</span> <span className="text-[#9cdcfe]">highlight</span>=<span className="text-[#ce9178]">&quot;pro&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
+                    <div>    <span className="text-[#808080]">&lt;/</span><span className="text-[#569cd6]">main</span><span className="text-[#808080]">&gt;</span></div>
+                    <div>  );</div>
+                    <div>{'}'}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
           {/* Terminal Area */}
           <div className="h-[35%] bg-[#1e1e1e] border-t border-[#333] flex flex-col">
@@ -636,7 +645,7 @@ export default function ShowDontTellAnimation({ scrollProgress = 0 }: { scrollPr
               }}
               className="w-1/2 h-full bg-black border-r border-green-900/50 overflow-hidden flex-shrink-0 shadow-2xl"
             >
-              <RealTerminal progress={scrollProgress} />
+              <BuildingIDE progress={scrollProgress} />
             </motion.div>
 
             {/* Right Half: Website Preview */}

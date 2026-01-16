@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${plusJakartaSans.variable} ${jetBrainsMono.variable} antialiased bg-[#020408] text-slate-50`}
+        className={`${plusJakartaSans.variable} ${jetBrainsMono.variable} antialiased bg-white text-[#1a1a1a]`}
       >
         {children}
       </body>

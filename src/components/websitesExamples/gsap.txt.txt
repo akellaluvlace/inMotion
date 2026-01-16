@@ -1,0 +1,460 @@
+<!--
+Sections animate in and out on scroll. Scroll up or down and the sections will wrap around after hitting the start or end. Uses GSAP for the animations.
+-->
+
+<header>
+  <div>Animated Sections</div>
+  <div><a href="https://codepen.io/BrianCross/pen/PoWapLP">Original Inspiration</a></div>
+</header>
+<section class="first">
+  <div class="outer">
+    <div class="inner">
+      <div class="bg one">
+        <h2 class="section-heading">Scroll down</h2>
+      </div>
+    </div>
+  </div>
+
+</section>
+<section class="second">
+  <div class="outer">
+    <div class="inner">
+      <div class="bg">
+        <h2 class="section-heading">Animated with GSAP</h2>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="third">
+  <div class="outer">
+    <div class="inner">
+      <div class="bg">
+        <h2 class="section-heading">GreenSock</h2>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="fourth">
+  <div class="outer">
+    <div class="inner">
+      <div class="bg">
+        <h2 class="section-heading">Animation platform</h2>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="fifth">
+  <div class="outer">
+    <div class="inner">
+      <div class="bg">
+        <h2 class="section-heading">Keep scrolling</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+$bg-gradient: linear-gradient(
+  180deg,
+  rgba(0, 0, 0, 0.6) 50%,
+  rgba(0, 0, 0, 0.1) 100%
+);
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+a {
+  color: var(--color-surface-white);
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  color: var(--light);
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: clamp(1rem, 6vw, 10rem);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  margin-right: -0.5em;
+  width: 90vw;
+  max-width: 1200px;
+  text-transform: none;
+}
+
+header {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  width: 100%;
+  z-index: 3;
+  height: 7em;
+  font-size: clamp(0.66rem, 2vw, 1rem);
+  letter-spacing: 0.5em;
+}
+
+section {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  position: fixed;
+  visibility: hidden;
+
+  .outer,
+  .inner {
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+  }
+
+  .bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-size: cover;
+    background-position: center;
+
+    h2 {
+      z-index: 999;
+    }
+
+    .clip-text {
+      overflow: hidden;
+    }
+  }
+}
+
+.first {
+  .bg {
+    background-image: $bg-gradient,
+       url("https://assets.codepen.io/16327/site-landscape-1.jpg");
+  }
+}
+
+.second {
+  .bg {
+    background-image: $bg-gradient,
+       url("https://assets.codepen.io/16327/site-landscape-2.jpg");
+  }
+}
+
+.third {
+  .bg {
+    background-image: $bg-gradient,
+      url("https://assets.codepen.io/16327/site-landscape-3.jpg");
+  }
+}
+
+.fourth {
+  .bg {
+    background-image: $bg-gradient,
+      url("https://assets.codepen.io/16327/site-landscape-4.jpg");
+  }
+}
+
+.fifth {
+  .bg {
+    background-image: $bg-gradient,
+      url("https://assets.codepen.io/16327/site-landscape-5.jpg");
+    background-position: 50% 45%;
+  }
+}
+
+h2 * {
+  will-change: transform;
+}
+
+
+
+
+gsap.registerPlugin(Observer);
+
+let sections = document.querySelectorAll("section"),
+  images = document.querySelectorAll(".bg"),
+  headings = gsap.utils.toArray(".section-heading"),
+  outerWrappers = gsap.utils.toArray(".outer"),
+  innerWrappers = gsap.utils.toArray(".inner"),
+  splitHeadings = headings.map(heading => new SplitText(heading, { type: "chars,words,lines", linesClass: "clip-text" })),
+  currentIndex = -1,
+  wrap = gsap.utils.wrap(0, sections.length),
+  animating;
+
+gsap.set(outerWrappers, { yPercent: 100 });
+gsap.set(innerWrappers, { yPercent: -100 });
+
+function gotoSection(index, direction) {
+  index = wrap(index); // make sure it's valid
+  animating = true;
+  let fromTop = direction === -1,
+      dFactor = fromTop ? -1 : 1,
+      tl = gsap.timeline({
+        defaults: { duration: 1.25, ease: "power1.inOut" },
+        onComplete: () => animating = false
+      });
+  if (currentIndex >= 0) {
+    // The first time this function runs, current is -1
+    gsap.set(sections[currentIndex], { zIndex: 0 });
+    tl.to(images[currentIndex], { yPercent: -15 * dFactor })
+      .set(sections[currentIndex], { autoAlpha: 0 });
+  }
+  gsap.set(sections[index], { autoAlpha: 1, zIndex: 1 });
+  tl.fromTo([outerWrappers[index], innerWrappers[index]], { 
+      yPercent: i => i ? -100 * dFactor : 100 * dFactor
+    }, { 
+      yPercent: 0 
+    }, 0)
+    .fromTo(images[index], { yPercent: 15 * dFactor }, { yPercent: 0 }, 0)
+    .fromTo(splitHeadings[index].chars, { 
+        autoAlpha: 0, 
+        yPercent: 150 * dFactor
+    }, {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: 1,
+        ease: "power2",
+        stagger: {
+          each: 0.02,
+          from: "random"
+        }
+      }, 0.2);
+
+  currentIndex = index;
+}
+
+Observer.create({
+  type: "wheel,touch,pointer",
+  wheelSpeed: -1,
+  onDown: () => !animating && gotoSection(currentIndex - 1, -1),
+  onUp: () => !animating && gotoSection(currentIndex + 1, 1),
+  tolerance: 10,
+  preventDefault: true
+});
+
+gotoSection(0, 1);
+
+// original: https://codepen.io/BrianCross/pen/PoWapLP
+// horizontal version: https://codepen.io/GreenSock/pen/xxWdeMK
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+This is a fantastic GSAP setup. The "Observer" plugin combined with the "SplitText" reveal is very premium.
+To sell this service to Irish businesses, you need to move away from generic "nature" shots and move toward "Aspiration & Commerce." The images should say Modern Ireland, and the text should promise Growth and Quality.
+Here are 5 image generation prompts (optimized for Midjourney/DALL-E 3) and the accompanying text to replace your current HTML headers.
+1. The "Tech-Forward Ireland" (Hero Section)
+Goal: Appeal to startups, tech hubs, and modern consultancies in Dublin/Cork.
+Visual: The intersection of historic and futuristic.
+H2 Text: Elevate Your Presence
+Image Prompt: > Photorealistic wide shot of Dublin Silicon Docks at twilight, sleek glass architecture reflecting on the Liffey river, blending with historic brick warehouses, cyan and warm orange cinematic lighting, shallow depth of field, 8k resolution, modern business atmosphere --ar 16:9
+The Vibe: "We build websites that look as expensive and modern as your office."
+2. The "Hospitality & Experience"
+Goal: Appeal to the massive Irish hospitality sector (hotels, gastropubs, distilleries) that need high-end booking sites.
+Visual: Warm, inviting, texture-rich.
+H2 Text: Immersive Experiences
+Image Prompt: > Interior of a high-end modern Irish gastropub, focus on a polished mahogany counter with a crystal whiskey glass, blurred background of warm edison bulb lighting and patrons, cozy atmosphere, sharp details, commercial photography style --ar 16:9
+The Vibe: GSAP isn't just code; it's a mood. This sells the feeling of the brand.
+3. The "Artisan & Retail"
+Goal: Appeal to e-commerce, Irish wool, pottery, or high-end retail brands.
+Visual: Clean, tactile, focus on product quality.
+H2 Text: Captivate & Convert
+Image Prompt: > A bright, modern artisan workshop in Galway, morning sunlight streaming through large windows, minimalist layout, handcrafted wool textures and ceramics on a sleek display table, depth of field, bright airy aesthetic, distinct Irish green accent colors --ar 16:9
+The Vibe: Animation helps specific products stand out. This implies your code translates to sales.
+4. The "Global Reach / Corporate"
+Goal: Appeal to established firms (Law, Finance, Construction) who want to look international but rooted in Ireland.
+Visual: Perspective, scale, and nature meeting industry.
+H2 Text: World-Class Motion
+Image Prompt: > A view from inside a modern glass boardroom looking out over the rolling green hills of Wicklow meeting a modern wind farm in the distance, symbolising sustainable progress, clean lines, professional corporate aesthetic, bright daylight, 8k --ar 16:9
+The Vibe: Reliability. The animation is smooth (GSAP), just like their business operations.
+5. The "Call to Action"
+Goal: The closer.
+Visual: A path forward, iconic Irish landscape but stylized.
+H2 Text: Let's Build the Future
+Image Prompt: > A futuristic, stylized interpretation of the Cliffs of Moher, geometric shapes merging with the organic rock formations, a glowing golden lighthouse beam cutting through a light mist, inspiring, epic scale, concept art style, representing guidance and innovation --ar 16:9
+The Vibe: You are the guide (the lighthouse) that will take their business to the next level.
+Implementation Tip for your Code:
+Since you are using SplitText and Observer, the contrast is vital. Your current SCSS has a linear gradient overlay:
+code
+Scss
+$bg-gradient: linear-gradient(
+  180deg,
+  rgba(0, 0, 0, 0.6) 50%,
+  rgba(0, 0, 0, 0.1) 100%
+);
+Recommendation: Because you want to sell "Energy," consider slightly tweaking the gradient to be a bit more modern/techy (a very subtle dark blue/purple tint) rather than pure black. It makes the white text pop more luxuriously against the generated images.
+code
+Scss
+$bg-gradient: linear-gradient(
+  180deg,
+  rgba(10, 25, 47, 0.7) 0%,   /* Dark Navy/Charcoal at top */
+  rgba(0, 0, 0, 0.3) 100%
+);
+Model
+ThinkingThoughts
+Expand to view model thoughts
+
+chevron_right
+I hear you. AI struggles with "vibes" like specific city streets because it hallucinates weird buildings that don't exist.
+To fix this, we need to switch to Iconic Geometry and Textures. These are prompts that rely on unmistakable shapes (bridges, rocks, weather) that AI models are trained heavily on.
+Here are 5 "Unmessable" Irish prompts. They focus on silhouettes, specific landmarks, and textures to ensure they look recognizable and expensive.
+1. The "Tech Hub" (Dublin's Harp)
+Why this works: The Samuel Beckett Bridge has a unique shape that AI recognizes easily. It screams "Modern Dublin" and "Tech" without needing complex city details.
+H2 Text: Digital Architecture
+Image Prompt: > The Samuel Beckett Bridge in Dublin at night, long exposure photography, sleek white cable-stayed architecture resembling a harp, neon blue and cyan lighting reflecting on dark water, cyberpunk business aesthetic, 8k resolution, cinematic --ar 16:9
+2. The "Solid Foundation" (Giant's Causeway)
+Why this works: This is perfect for a web developer. The basalt columns are hexagons—geometry that looks like code/grids. It implies your code is structured and solid.
+H2 Text: Structured Precision
+Image Prompt: > Close up of the Giant's Causeway basalt columns, hexagonal geometric rock formations, dramatic moody lighting, mist rolling over the stones, dark slate grey and deep green tones, texture-heavy, nature meets mathematics, realistic masterpiece --ar 16:9
+3. The "Atmosphere" (Rainy Cobblestones)
+Why this works: Instead of trying to generate a specific shop in Galway, we generate the texture of the Temple Bar/Latin Quarter area. Wet cobblestones + blurred lights = instant Irish city recognition.
+H2 Text: Fluid Motion
+Image Prompt: > Low angle shot of wet cobblestone street at night in Ireland, blurred bokeh background of warm colorful pub lights (red, gold, green), rain puddles reflecting neon signs, sharp focus on the wet stone texture, moody urban atmosphere, 8k --ar 16:9
+4. The "Connection" (Ha'penny Bridge Silhouette)
+Why this works: Silhouettes are hard for AI to mess up. The Ha'penny Bridge's arch is iconic. It symbolizes connecting a business to its customers.
+H2 Text: Bridging The Gap
+Image Prompt: > Silhouette of the Ha'penny Bridge in Dublin against a vibrant deep purple and orange sunset, cast iron details visible in silhouette, minimalist composition, glowing city lights in the distance, high contrast, elegant and timeless --ar 16:9
+5. The "Scale & Growth" (The Wild Atlantic)
+Why this works: A "Drone shot" of cliffs is the bread and butter of AI generation. It always looks epic. It sells the idea of "Big Vision."
+H2 Text: Limitless Potential
+Image Prompt: > Dramatic aerial drone shot of the Cliffs of Moher crashing against the Atlantic Ocean, deep teal water, lush bright green grass on top, golden hour sunlight hitting the cliff face, epic scale, majesty, awe-inspiring, national geographic style --ar 16:9
+CSS Tweak for these images
+Since these images rely on "moody" lighting (Night/Sunset/Storm), ensure your text pops by adding a slight text-shadow in your CSS. It will make the white letters readable even if the AI puts a light pixel behind them.
+code
+CSS
+h2.section-heading {
+  /* ... your existing styles ... */
+  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+Model
+ThinkingThoughts
+Expand to view model thoughts
+
+chevron_right
+Here is the complete master list of prompts and text, combining the conceptual business shots and the "unmessable" iconic shots. I have organized them by the vibe/industry you are trying to target.
+You can mix and match these H2 headers with the prompts.
+1. The "Modern Tech & Innovation" Vibe
+Best for: Startups, Software Companies, Modern Consultancies.
+Option A: The Samuel Beckett Bridge (The "Unmessable" Shot)
+H2 Text: Digital Architecture or Future Ready
+Prompt: > The Samuel Beckett Bridge in Dublin at night, long exposure photography, sleek white cable-stayed architecture resembling a harp, neon blue and cyan lighting reflecting on dark water, cyberpunk business aesthetic, 8k resolution, cinematic --ar 16:9
+Note: The bridge looks like a harp and a data stream. Perfect for code/design studios.
+Option B: Silicon Docks (The "Aspirational" Shot)
+H2 Text: Elevate Your Presence or Scale Up
+Prompt: > Photorealistic wide shot of Dublin Silicon Docks at twilight, sleek glass architecture reflecting on the Liffey river, blending with historic brick warehouses, cyan and warm orange cinematic lighting, shallow depth of field, 8k resolution, modern business atmosphere --ar 16:9
+Note: Sells the idea that your websites look expensive and established.
+2. The "Solid Structure & Precision" Vibe
+Best for: Construction, Legal, Finance, Engineering.
+Option A: Giant's Causeway (The "Grid" Shot)
+H2 Text: Structured Precision or Pixel Perfect
+Prompt: > Close up of the Giant's Causeway basalt columns, hexagonal geometric rock formations, dramatic moody lighting, mist rolling over the stones, dark slate grey and deep green tones, texture-heavy, nature meets mathematics, realistic masterpiece --ar 16:9
+Note: The hexagons look like a grid system (code). It implies stability and strength.
+Option B: The Corporate Horizon
+H2 Text: World-Class Motion
+Prompt: > A view from inside a modern glass boardroom looking out over the rolling green hills of Wicklow meeting a modern wind farm in the distance, symbolising sustainable progress, clean lines, professional corporate aesthetic, bright daylight, 8k --ar 16:9
+Note: Merges the "Green Ireland" image with serious business.
+3. The "Atmosphere & Hospitality" Vibe
+Best for: Hotels, Restaurants, Pubs, Tourism.
+Option A: Rainy Cobblestones (The "Mood" Shot)
+H2 Text: Fluid Motion or Immersive UX
+Prompt: > Low angle shot of wet cobblestone street at night in Ireland, blurred bokeh background of warm colorful pub lights (red, gold, green), rain puddles reflecting neon signs, sharp focus on the wet stone texture, moody urban atmosphere, 8k --ar 16:9
+Note: This sells the feeling of a brand. Great for showcasing smooth GSAP scrolling.
+Option B: High-End Gastropub
+H2 Text: Captivate The Senses
+Prompt: > Interior of a high-end modern Irish gastropub, focus on a polished mahogany counter with a crystal whiskey glass, blurred background of warm edison bulb lighting and patrons, cozy atmosphere, sharp details, commercial photography style --ar 16:9
+Note: Focuses on luxury and warmth.
+4. The "Connection & Retail" Vibe
+Best for: E-commerce, Shops, Service Providers.
+Option A: Ha'penny Bridge Silhouette
+H2 Text: Bridging The Gap or Connect & Convert
+Prompt: > Silhouette of the Ha'penny Bridge in Dublin against a vibrant deep purple and orange sunset, cast iron details visible in silhouette, minimalist composition, glowing city lights in the distance, high contrast, elegant and timeless --ar 16:9
+Note: A silhouette is very safe for AI generation (hard to mess up). Symbolizes connecting business to customer.
+Option B: The Artisan Workshop
+H2 Text: Crafted With Care
+Prompt: > A bright, modern artisan workshop in Galway, morning sunlight streaming through large windows, minimalist layout, handcrafted wool textures and ceramics on a sleek display table, depth of field, bright airy aesthetic, distinct Irish green accent colors --ar 16:9
+Note: Good for clients who sell physical products.
+5. The "Visionary & Epic" Vibe
+Best for: The final "Call to Action" section.
+Option A: Cliffs of Moher Drone Shot
+H2 Text: Limitless Potential
+Prompt: > Dramatic aerial drone shot of the Cliffs of Moher crashing against the Atlantic Ocean, deep teal water, lush bright green grass on top, golden hour sunlight hitting the cliff face, epic scale, majesty, awe-inspiring, national geographic style --ar 16:9
+Note: The ultimate "Big Vision" shot.
+Option B: The Futuristic Lighthouse
+H2 Text: Let's Build The Future
+Prompt: > A futuristic, stylized interpretation of the Cliffs of Moher, geometric shapes merging with the organic rock formations, a glowing golden lighthouse beam cutting through a light mist, inspiring, epic scale, concept art style, representing guidance and innovation --ar 16:9
+Note: Positions you as the guide/expert for their project.
+Quick Code Reminder
+Since these images have varying light levels, don't forget to add a subtle text shadow to your H2 so the text remains readable on every image:
+code
+CSS
+h2.section-heading {
+  /* ... your existing styles ... */
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
