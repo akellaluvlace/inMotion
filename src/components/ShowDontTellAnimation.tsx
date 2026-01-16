@@ -108,7 +108,186 @@ const RealTerminal = ({ progress }: { progress: number }) => {
   );
 };
 
-// --- Retro Website Preview ---
+// --- Beauty In Motion HTML Content ---
+const BEAUTY_IN_MOTION_HTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIÈRE | Modern Beauty Sanctuary</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --bg-color: #FAF9F6;
+            --white: #FFFFFF;
+            --text-main: #2C2C2C;
+            --text-muted: #666666;
+            --accent: #D4AF37;
+            --accent-soft: #F4F1EA;
+            --border-radius: 20px;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Manrope', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --container-width: 1320px;
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            line-height: 1.15;
+        }
+
+        .display-text {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            letter-spacing: -0.02em;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3.5rem auto;
+            font-size: 1.1rem;
+            padding: 0 1rem;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            background: var(--text-main);
+            color: #fff;
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid var(--text-main);
+            white-space: nowrap;
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.85); 
+        }
+
+        .hero-content {
+            z-index: 2;
+            color: #fff;
+            padding: 0 1rem;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            margin-bottom: 2rem;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-btn {
+            background: #fff;
+            color: #000;
+            border: none;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header id="home">
+        <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=2070&auto=format&fit=crop" alt="Smiling girl" class="hero-bg">
+        <div class="hero-content">
+            <span class="hero-tag">Est. 2024 New York</span>
+            <h1 class="display-text">Beauty in <br> Joyful Motion.</h1>
+            <p style="margin: 20px auto 30px auto; font-size: 1.15rem; max-width: 480px; line-height: 1.6; opacity: 0.9;">
+                More than just a salon. We are a destination for confidence.
+            </p>
+            <a href="#" class="btn hero-btn">Explore Treatments</a>
+        </div>
+    </header>
+</body>
+</html>
+`;
+
+// --- Retro Website Preview (Overlay Layer - "First Terminal") ---
 const WebsitePreview = ({ progress }: { progress: number }) => {
   const safeProgress = Math.min(Math.max(progress * 2.5, 0), 1);
 
@@ -279,7 +458,7 @@ const WebsitePreview = ({ progress }: { progress: number }) => {
   );
 };
 
-// --- VS Code Window (Underneath) ---
+// --- VS Code Window (Base Layer - "Second Terminal") ---
 const VSCodeWindow = () => {
   return (
     <div className="w-full h-full bg-[#1e1e1e] rounded-xl border border-white/10 shadow-2xl overflow-hidden flex flex-col font-sans relative z-0">
@@ -386,34 +565,14 @@ const VSCodeWindow = () => {
               localhost:3000
             </div>
           </div>
-          {/* Preview Content */}
-          <div className="flex-1 bg-neutral-950 p-3 flex flex-col gap-2 overflow-hidden">
-            {/* Mini Navbar */}
-            <div className="h-8 w-full rounded bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-between px-3 shrink-0">
-              <div className="w-12 h-1.5 rounded bg-indigo-400"></div>
-              <div className="flex gap-2">
-                <div className="w-6 h-1.5 rounded bg-indigo-400/50"></div>
-                <div className="w-6 h-1.5 rounded bg-indigo-400/50"></div>
-              </div>
-            </div>
-            {/* Mini Hero */}
-            <div className="h-24 w-full rounded bg-gradient-to-br from-indigo-600/20 to-purple-600/20 border border-indigo-500/20 flex flex-col items-center justify-center gap-1.5 shrink-0">
-              <div className="w-24 h-2 rounded bg-white"></div>
-              <div className="w-32 h-1.5 rounded bg-neutral-500"></div>
-              <div className="mt-1 px-3 py-1 bg-indigo-500 rounded text-[7px] text-white font-bold">
-                GET STARTED
-              </div>
-            </div>
-            {/* Mini Cards */}
-            <div className="flex-1 grid grid-cols-2 gap-2 min-h-0 content-start">
-              {[0, 1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="rounded bg-neutral-900 border border-neutral-800 p-2 flex flex-col gap-1">
-                  <div className="w-full h-8 rounded bg-neutral-800"></div>
-                  <div className="w-3/4 h-1.5 rounded bg-neutral-700"></div>
-                  <div className="w-1/2 h-1.5 rounded bg-neutral-700/50"></div>
-                </div>
-              ))}
-            </div>
+          {/* Preview Content - NOW USING THE IFRAME FOR BEAUTY IN MOTION */}
+          <div className="flex-1 bg-neutral-950 overflow-hidden relative">
+            <iframe 
+                srcDoc={BEAUTY_IN_MOTION_HTML}
+                className="absolute inset-0 w-[200%] h-[200%] border-none origin-top-left"
+                style={{ transform: 'scale(0.5)' }}
+                title="Beauty In Motion Preview"
+            />
           </div>
         </div>
       </div>
