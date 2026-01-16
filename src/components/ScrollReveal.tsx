@@ -48,15 +48,13 @@ const styles = `
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 5vh;
-  padding-bottom: 5vh;
 }
 
 .scroll-reveal-wrapper .sr-content {
   height: 100%;
   width: 100%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   position: relative;
   overflow: visible;
@@ -261,8 +259,6 @@ export default function ScrollReveal({
 
     if (!section || !scaler) return;
 
-    const gutter = window.innerWidth <= 600 ? 16 : 32;
-    const maxHeight = window.innerHeight * 0.9;
     const fullWidth = window.innerWidth * 0.9;
     const fullHeight = window.innerHeight * 0.9;
 
@@ -278,8 +274,8 @@ export default function ScrollReveal({
     }
 
     if (animationMode === 'pinned-sequence') {
-      // Ensure grid items are visible
-      gsap.set(gridItems, { opacity: 1, scale: 1 });
+      // Keep grid items hidden initially
+      gsap.set(gridItems, { opacity: 0, scale: 0.8 });
 
       // Just pin and track progress
       ScrollTrigger.create({
@@ -290,21 +286,39 @@ export default function ScrollReveal({
         scrub: 0.6,
         onUpdate: (self) => {
           setScrollProgress(self.progress);
-          
+
+          // Terminal/center content fades out from 0.75 to 0.85
           if (scalerRef.current) {
-            if (self.progress > 0.8) {
-              // Fade out from 0.8 to 1.0
-              const opacity = 1 - (self.progress - 0.8) * 5;
-              gsap.set(scalerRef.current, { 
+            if (self.progress > 0.75) {
+              const opacity = 1 - (self.progress - 0.75) * 10;
+              gsap.set(scalerRef.current, {
                 opacity: Math.max(0, opacity),
                 pointerEvents: opacity < 0.1 ? 'none' : 'auto'
               });
             } else {
-              gsap.set(scalerRef.current, { 
+              gsap.set(scalerRef.current, {
                 opacity: 1,
                 pointerEvents: 'auto'
               });
             }
+          }
+
+          // Grid items appear AFTER terminal fades out (from 0.85 to 1.0)
+          if (self.progress > 0.8) {
+            const gridProgress = (self.progress - 0.8) / 0.2; // 0 to 1 over the range 0.8-1.0
+            gridItems.forEach((item, index) => {
+              const itemDelay = index * 0.08;
+              const itemProgress = Math.max(0, Math.min(1, (gridProgress - itemDelay) * 2));
+              gsap.set(item, {
+                opacity: itemProgress,
+                scale: 0.8 + itemProgress * 0.2,
+              });
+            });
+          } else {
+            // Keep grid hidden before 0.8
+            gridItems.forEach((item) => {
+              gsap.set(item, { opacity: 0, scale: 0.8 });
+            });
           }
         },
       });

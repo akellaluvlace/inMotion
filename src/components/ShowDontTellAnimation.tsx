@@ -12,31 +12,51 @@ function cn(...inputs: (string | undefined | null | false)[]) {
 
 // --- Terminal Logic ---
 const SEQUENCE = [
-  { cmd: 'init_sequence.exe', action: 'init', log: 'INITIALIZING...' },
-  { cmd: 'allocating_layout', action: 'layout', log: 'CREATING WIREFRAME...' },
-  { cmd: 'inject --header', action: 'navbar', log: 'NAVBAR MODULE LOADED' },
-  { cmd: 'inject --hero', action: 'hero', log: 'HERO SECTION RENDERED' },
-  { cmd: 'inject --content', action: 'grid', log: 'CONTENT GRID ASSEMBLED' },
-  { cmd: 'apply_styles --retro', action: 'styles', log: 'APPLYING STYLESHEETS...' },
-  { cmd: 'optimize_assets', action: 'optimize', log: 'ASSETS OPTIMIZED' },
-  { cmd: 'status_check', action: 'check', log: 'SYSTEM STABLE' },
+  { cmd: 'init_sequence.exe', action: 'init', log: 'EXECUTING SCRIPT...' },
+  { cmd: 'compile --assets', action: 'compile', log: 'COMPILING ASSETS...' },
+  { cmd: 'optimize --core', action: 'optimize', log: 'OPTIMIZING CORE...' },
+  { cmd: 'render --graphics', action: 'render', log: 'RENDERING GRAPHICS...' },
+  { cmd: 'uplink --establish', action: 'uplink', log: 'ESTABLISHING UPLINK...' },
+  { cmd: 'ping 192.168.0.1', action: 'ping', log: 'PING 192.168.0.1...' },
+  { cmd: 'network_check', action: 'network', log: 'PACKET LOSS: 0%...' },
+  { cmd: 'status_check', action: 'check', log: '' },
   { cmd: 'load --max_power', action: 'stress', log: 'WARNING: OVERLOAD' },
   { cmd: 'CRITICAL_FAILURE', action: 'crash', log: 'FATAL ERROR 0xDEAD' },
 ];
+
+// --- Right Terminal Content (Memory Dumps & System Data) ---
+const generateMemoryDumps = (count: number) => {
+  const addresses = [
+    '0x8FEA3D2A', '0xD3EBBAAE', '0x01F1675E', '0x3381260C',
+    '0x32FB4E33', '0x365F52C0', '0x13592C1B', '0xE2D410C4',
+    '0x0CB3F98B', '0xA92A5AD3', '0x9959B0C2', '0x81FE6F7C',
+    '0xE34AA7E6', '0xF1C28B4D', '0x7A3E9C01', '0xB5D4F782',
+  ];
+  return addresses.slice(0, count).map(addr => ({
+    address: addr,
+    data: '-- MEMORY DUMP --',
+  }));
+};
+
 
 const RealTerminal = ({ progress }: { progress: number }) => {
   const totalSteps = SEQUENCE.length;
   const safeProgress = Math.min(Math.max(progress * 2.2, 0), 1);
   const currentIndex = Math.floor(safeProgress * totalSteps);
-  
+
   const visibleLogs = SEQUENCE.slice(0, currentIndex + 1);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Show memory dumps after the main sequence starts
+  const memoryDumpProgress = Math.max(0, (safeProgress - 0.5) * 2);
+  const memoryDumpCount = Math.floor(memoryDumpProgress * 14);
+  const memoryDumps = generateMemoryDumps(memoryDumpCount);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [visibleLogs.length]);
+  }, [visibleLogs.length, memoryDumpCount]);
 
   return (
     <div className="w-full h-full bg-black font-mono text-xs sm:text-sm flex flex-col relative overflow-hidden border-r border-white/10">
@@ -48,23 +68,36 @@ const RealTerminal = ({ progress }: { progress: number }) => {
          <span className="font-bold tracking-widest text-[10px]">ROOT_ACCESS_TERMINAL</span>
       </div>
 
-      <div ref={scrollRef} className="flex-1 p-6 overflow-y-auto space-y-2 font-mono scroll-smooth">
+      <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto space-y-1 font-mono scroll-smooth">
         {visibleLogs.map((step, i) => (
           <div key={i} className="flex flex-col animate-in fade-in slide-in-from-left-2 duration-100">
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <span className="text-green-700 font-bold">{'>'}</span>
-              <span className="text-green-400 font-bold typing-effect">{step.cmd}</span>
+              <span className={cn(
+                "font-bold tracking-wide",
+                step.log.includes("ERROR") || step.log.includes("WARNING") ? "text-red-500" : "text-green-400"
+              )}>{step.log || step.cmd}</span>
             </div>
-            {step.log && (
-              <div className={cn(
-                "pl-4 text-[10px] tracking-wider",
-                step.log.includes("ERROR") || step.log.includes("WARNING") ? "text-red-500 font-bold blink" : "text-green-800"
-              )}>
-                {step.log}
-              </div>
-            )}
           </div>
         ))}
+
+        {/* Memory Dumps Section */}
+        {memoryDumps.length > 0 && (
+          <>
+            <div className="flex gap-2 items-center">
+              <span className="text-green-700 font-bold">{'>'}</span>
+            </div>
+            {memoryDumps.map((dump, i) => (
+              <div key={`mem-${i}`} className="flex gap-2 items-center animate-in fade-in slide-in-from-left-2 duration-100" style={{ animationDelay: `${i * 20}ms` }}>
+                <span className="text-green-700 font-bold">{'>'}</span>
+                <span className="text-purple-400 font-mono font-bold">{dump.address}</span>
+                <span className="text-green-600 text-[10px] tracking-wide">{dump.data}</span>
+              </div>
+            ))}
+          </>
+        )}
+
+        {/* Blinking cursor */}
         <div className="flex items-center gap-2">
            <span className="text-green-500 font-bold">{'>'}</span>
            <span className="w-2 h-4 bg-green-500 animate-pulse block"></span>
@@ -77,112 +110,168 @@ const RealTerminal = ({ progress }: { progress: number }) => {
 
 // --- Retro Website Preview ---
 const WebsitePreview = ({ progress }: { progress: number }) => {
-  const totalSteps = SEQUENCE.length;
-  const safeProgress = Math.min(Math.max(progress * 2.2, 0), 1);
-  const currentIndex = Math.floor(safeProgress * totalSteps);
-  
-  const hasLayout = currentIndex >= 1;
-  const hasNavbar = currentIndex >= 2;
-  const hasHero = currentIndex >= 3;
-  const hasGrid = currentIndex >= 4;
-  const hasStyles = currentIndex >= 5;
+  const safeProgress = Math.min(Math.max(progress * 2.5, 0), 1);
+
+  // Smooth step progression for uniform appearance
+  const step1 = Math.min(safeProgress * 10, 1); // Browser frame
+  const step2 = Math.min(Math.max((safeProgress - 0.1) * 5, 0), 1); // Navbar
+  const step3 = Math.min(Math.max((safeProgress - 0.25) * 4, 0), 1); // Hero
+  const step4 = Math.min(Math.max((safeProgress - 0.4) * 3, 0), 1); // Content cards
+  const step5 = Math.min(Math.max((safeProgress - 0.6) * 3, 0), 1); // Footer
+  const stylesApplied = safeProgress > 0.7;
+
   const isCrashed = progress > 0.45 && progress < 0.6;
 
   return (
     <div className={cn(
-      "w-full h-full bg-[#111] p-8 flex items-center justify-center transition-colors duration-100 relative overflow-hidden font-mono",
+      "w-full h-full bg-[#0a0a0a] p-3 md:p-4 flex items-center justify-center transition-colors duration-200 relative overflow-hidden",
       isCrashed && "bg-red-950"
     )}>
-      <div className="absolute inset-0 opacity-20 pointer-events-none" 
-           style={{ 
-             backgroundImage: `linear-gradient(${isCrashed ? '#500' : '#030'} 1px, transparent 1px), linear-gradient(90deg, ${isCrashed ? '#500' : '#030'} 1px, transparent 1px)`, 
-             backgroundSize: '20px 20px' 
+      {/* Subtle grid background */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none"
+           style={{
+             backgroundImage: `linear-gradient(${isCrashed ? '#500' : '#1a1a1a'} 1px, transparent 1px), linear-gradient(90deg, ${isCrashed ? '#500' : '#1a1a1a'} 1px, transparent 1px)`,
+             backgroundSize: '24px 24px'
            }}>
       </div>
 
       {isCrashed && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-           <div className="border-4 border-red-600 p-8 bg-black text-red-600 font-black text-5xl tracking-widest transform -rotate-6 shadow-[0_0_30px_rgba(220,38,38,0.6)]">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+           <div className="border-4 border-red-600 p-6 bg-black text-red-600 font-black text-3xl md:text-5xl tracking-widest transform -rotate-3 shadow-[0_0_40px_rgba(220,38,38,0.5)]">
              FATAL ERROR
            </div>
         </div>
       )}
 
-      {/* Browser Window Frame (Retro Style) */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: hasLayout ? 1 : 0, scale: hasLayout ? 1 : 0.8 }}
-        className="w-full h-full max-w-md bg-[#000] border border-green-800 flex flex-col shadow-[0_0_20px_rgba(0,50,0,0.3)] relative z-10 overflow-hidden"
+      {/* Browser Window */}
+      <motion.div
+        style={{ opacity: step1, scale: 0.9 + step1 * 0.1 }}
+        className="w-full h-full max-w-md bg-[#0f0f0f] border border-neutral-800 rounded-lg flex flex-col shadow-2xl relative z-10 overflow-hidden"
       >
-        {/* Browser Header */}
-        <div className="h-6 bg-green-900/20 border-b border-green-800 flex items-center px-2 justify-between shrink-0">
-           <div className="text-[9px] text-green-600 font-bold">NETSCAPE NAVIGATOR v1.0</div>
-           <div className="flex gap-1">
-             <div className="w-2 h-2 border border-green-700 bg-green-900/50"></div>
-             <div className="w-2 h-2 border border-green-700 bg-green-900/50"></div>
-           </div>
+        {/* Browser Chrome */}
+        <div className="h-8 bg-neutral-900 border-b border-neutral-800 flex items-center px-3 gap-2 shrink-0">
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+          </div>
+          <div className="flex-1 mx-3">
+            <div className="bg-neutral-800 rounded px-3 py-1 text-[9px] text-neutral-500 font-mono">
+              https://mysite.local
+            </div>
+          </div>
         </div>
 
-        {/* Website Canvas */}
-        <div className="flex-1 p-4 flex flex-col gap-4 overflow-hidden relative">
-           {/* Scanline overlay for retro feel */}
-           <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 bg-[length:100%_2px,3px_100%]"></div>
+        {/* Website Content */}
+        <div className="flex-1 bg-neutral-950 p-3 flex flex-col gap-3 overflow-hidden relative">
 
-           {/* Navbar */}
-           <motion.div 
-             initial={{ opacity: 0, y: -20 }}
-             animate={{ opacity: hasNavbar ? 1 : 0, y: hasNavbar ? 0 : -20 }}
-             className={cn(
-               "h-8 w-full border border-dashed border-green-700/50 flex items-center justify-between px-3 shrink-0",
-               hasStyles && "border-solid bg-green-900/20 border-green-600"
-             )}
-           >
-              <div className={cn("w-20 h-2 bg-green-900/30", hasStyles && "bg-green-500")}></div>
-              <div className="flex gap-2">
-                <div className={cn("w-8 h-2 bg-green-900/20", hasStyles && "bg-green-700")}></div>
-                <div className={cn("w-8 h-2 bg-green-900/20", hasStyles && "bg-green-700")}></div>
-              </div>
-           </motion.div>
+          {/* Navbar */}
+          <motion.div
+            style={{ opacity: step2, y: (1 - step2) * -15 }}
+            className={cn(
+              "h-10 w-full rounded border flex items-center justify-between px-4 shrink-0 transition-all duration-300",
+              stylesApplied
+                ? "bg-indigo-600/20 border-indigo-500/50"
+                : "border-dashed border-neutral-700 bg-neutral-900/50"
+            )}
+          >
+            <div className={cn(
+              "h-2 rounded transition-all duration-300",
+              stylesApplied ? "w-16 bg-indigo-400" : "w-12 bg-neutral-700"
+            )}></div>
+            <div className="flex gap-3">
+              <div className={cn(
+                "h-2 rounded transition-all duration-300",
+                stylesApplied ? "w-10 bg-indigo-400/60" : "w-8 bg-neutral-700/60"
+              )}></div>
+              <div className={cn(
+                "h-2 rounded transition-all duration-300",
+                stylesApplied ? "w-10 bg-indigo-400/60" : "w-8 bg-neutral-700/60"
+              )}></div>
+              <div className={cn(
+                "h-2 rounded transition-all duration-300",
+                stylesApplied ? "w-14 bg-indigo-500" : "w-10 bg-neutral-600"
+              )}></div>
+            </div>
+          </motion.div>
 
-           {/* Hero */}
-           <motion.div 
-             initial={{ opacity: 0, scale: 0.9 }}
-             animate={{ opacity: hasHero ? 1 : 0, scale: hasHero ? 1 : 0.9 }}
-             className={cn(
-               "h-32 w-full border border-dashed border-green-700/50 flex flex-col items-center justify-center gap-3 shrink-0",
-               hasStyles && "border-solid bg-green-900/10 border-green-600"
-             )}
-           >
-              <Layout className={cn("w-8 h-8 text-green-900", hasStyles && "text-green-500")} />
-              <div className={cn("w-32 h-2 bg-green-900/30", hasStyles && "bg-green-500")}></div>
-              
-              {hasStyles && (
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="flex items-center gap-2 mt-1 px-3 py-1 border border-green-500 text-[8px] text-green-500 font-bold hover:bg-green-500 hover:text-black cursor-pointer"
-                >
-                  <MousePointer2 size={8} />
-                  CLICK ME
-                </motion.div>
-              )}
-           </motion.div>
+          {/* Hero Section */}
+          <motion.div
+            style={{ opacity: step3, scale: 0.95 + step3 * 0.05 }}
+            className={cn(
+              "h-28 md:h-36 w-full rounded border flex flex-col items-center justify-center gap-2 shrink-0 transition-all duration-300",
+              stylesApplied
+                ? "bg-gradient-to-br from-indigo-600/20 to-purple-600/20 border-indigo-500/30"
+                : "border-dashed border-neutral-700 bg-neutral-900/30"
+            )}
+          >
+            <div className={cn(
+              "h-3 rounded transition-all duration-300",
+              stylesApplied ? "w-40 bg-white" : "w-32 bg-neutral-600"
+            )}></div>
+            <div className={cn(
+              "h-2 rounded transition-all duration-300",
+              stylesApplied ? "w-48 bg-neutral-400" : "w-40 bg-neutral-700"
+            )}></div>
+            {stylesApplied && (
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.1 }}
+                className="mt-2 px-4 py-1.5 bg-indigo-500 rounded text-[8px] text-white font-bold tracking-wide"
+              >
+                GET STARTED
+              </motion.div>
+            )}
+          </motion.div>
 
-           {/* Grid */}
-           <div className="flex-1 grid grid-cols-2 gap-3 min-h-0">
-             {[1, 2, 3, 4].map((i) => (
+          {/* Content Cards Grid */}
+          <div className="flex-1 grid grid-cols-2 gap-2 min-h-0">
+            {[0, 1, 2, 3].map((i) => {
+              const cardProgress = Math.min(Math.max((step4 - i * 0.15) * 2, 0), 1);
+              return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: hasGrid ? 1 : 0, y: hasGrid ? 0 : 10 }}
-                  transition={{ delay: i * 0.05 }}
+                  style={{ opacity: cardProgress, y: (1 - cardProgress) * 20 }}
                   className={cn(
-                    "w-full h-full border border-dashed border-green-800/50 min-h-[40px]",
-                    hasStyles && "border-solid bg-green-900/20 border-green-700"
+                    "w-full h-full rounded border flex flex-col p-2 gap-1.5 min-h-[50px] transition-all duration-300",
+                    stylesApplied
+                      ? "bg-neutral-900/80 border-neutral-700"
+                      : "border-dashed border-neutral-800 bg-neutral-900/20"
                   )}
-                />
-             ))}
-           </div>
+                >
+                  <div className={cn(
+                    "w-full h-8 rounded transition-all duration-300",
+                    stylesApplied ? "bg-neutral-800" : "bg-neutral-800/50"
+                  )}></div>
+                  <div className={cn(
+                    "h-1.5 rounded transition-all duration-300",
+                    stylesApplied ? "w-3/4 bg-neutral-600" : "w-2/3 bg-neutral-700/50"
+                  )}></div>
+                  <div className={cn(
+                    "h-1.5 rounded transition-all duration-300",
+                    stylesApplied ? "w-1/2 bg-neutral-700" : "w-1/2 bg-neutral-700/30"
+                  )}></div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Footer */}
+          <motion.div
+            style={{ opacity: step5, y: (1 - step5) * 10 }}
+            className={cn(
+              "h-6 w-full rounded border flex items-center justify-center shrink-0 transition-all duration-300",
+              stylesApplied
+                ? "bg-neutral-900 border-neutral-800"
+                : "border-dashed border-neutral-800 bg-neutral-900/20"
+            )}
+          >
+            <div className={cn(
+              "h-1.5 rounded transition-all duration-300",
+              stylesApplied ? "w-24 bg-neutral-600" : "w-20 bg-neutral-700/50"
+            )}></div>
+          </motion.div>
 
         </div>
       </motion.div>
@@ -216,9 +305,9 @@ const VSCodeWindow = () => {
         </div>
 
         {/* Sidebar */}
-        <div className="w-64 bg-[#252526] border-r border-[#1e1e1e] flex flex-col shrink-0 hidden md:flex">
-          <div className="p-4">
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 px-4 pt-2">Explorer</div>
+        <div className="w-48 bg-[#252526] border-r border-[#1e1e1e] flex flex-col shrink-0 hidden md:flex">
+          <div className="p-3">
+            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2 pt-2">Explorer</div>
             <div className="space-y-0.5">
               <div className="flex items-center gap-1 text-sm text-slate-300 px-2 py-1 cursor-pointer hover:bg-[#2a2d2e]">
                 <ChevronDown className="w-4 h-4" />
@@ -248,34 +337,121 @@ const VSCodeWindow = () => {
           </div>
         </div>
 
-        {/* Editor Area */}
-        <div className="flex-1 flex flex-col bg-[#1e1e1e] overflow-hidden min-w-0">
-          <div className="h-9 bg-[#2d2d2d] flex items-center border-b border-[#1e1e1e] overflow-x-auto no-scrollbar shrink-0">
-            <div className="flex items-center gap-2 text-sm text-white bg-[#1e1e1e] border-t-2 border-indigo-400 h-full px-3 min-w-fit">
-              <Code2 className="w-4 h-4 text-blue-400" />
-              <span>page.tsx</span>
-              <X className="w-3 h-3 ml-2 opacity-50 hover:bg-slate-700 rounded" />
+        {/* Main Editor + Preview Area */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Top: Editor + Preview */}
+          <div className="flex-1 flex overflow-hidden">
+            {/* Editor Area */}
+            <div className="flex-1 flex flex-col bg-[#1e1e1e] overflow-hidden min-w-0 border-r border-[#1e1e1e]">
+              <div className="h-9 bg-[#2d2d2d] flex items-center border-b border-[#1e1e1e] overflow-x-auto no-scrollbar shrink-0">
+                <div className="flex items-center gap-2 text-sm text-white bg-[#1e1e1e] border-t-2 border-indigo-400 h-full px-3 min-w-fit">
+                  <Code2 className="w-4 h-4 text-blue-400" />
+                  <span>page.tsx</span>
+                  <X className="w-3 h-3 ml-2 opacity-50 hover:bg-slate-700 rounded" />
+                </div>
+              </div>
+              <div className="flex-1 p-4 overflow-hidden relative font-mono text-sm">
+                <div className="flex gap-4 h-full">
+                  <div className="flex flex-col text-[#858585] select-none text-right pr-4 border-r border-[#404040]">
+                    {Array.from({length: 15}).map((_, i) => (
+                      <span key={i} className="leading-6">{i + 1}</span>
+                    ))}
+                  </div>
+                  <div className="flex flex-col text-slate-300 leading-6 whitespace-pre">
+                    <div><span className="text-[#c586c0]">export</span> <span className="text-[#c586c0]">default</span> <span className="text-[#569cd6]">function</span> <span className="text-[#dcdcaa]">Home</span>() {'{'}</div>
+                    <div>  <span className="text-[#c586c0]">return</span> (</div>
+                    <div>    <span className="text-[#808080]">&lt;</span><span className="text-[#569cd6]">main</span> <span className="text-[#9cdcfe]">className</span>=<span className="text-[#ce9178]">&quot;min-h-screen p-24&quot;</span><span className="text-[#808080]">&gt;</span></div>
+                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Hero</span></div>
+                    <div>        <span className="text-[#9cdcfe]">title</span>=<span className="text-[#ce9178]">&quot;Show. Don&apos;t tell.&quot;</span></div>
+                    <div>        <span className="text-[#9cdcfe]">description</span>=<span className="text-[#ce9178]">&quot;Experience over explanation.&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
+                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Features</span> <span className="text-[#9cdcfe]">grid</span>=<span className="text-[#569cd6]">{'{'}</span><span className="text-[#b5cea8]">true</span><span className="text-[#569cd6]">{'}'}</span> <span className="text-[#808080]">/&gt;</span></div>
+                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Pricing</span> <span className="text-[#9cdcfe]">highlight</span>=<span className="text-[#ce9178]">&quot;pro&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
+                    <div>    <span className="text-[#808080]">&lt;/</span><span className="text-[#569cd6]">main</span><span className="text-[#808080]">&gt;</span></div>
+                    <div>  );</div>
+                    <div>{'}'}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Website Preview Panel */}
+            <div className="w-[35%] flex flex-col bg-[#0f0f0f] border-l border-[#333]">
+              {/* Preview Header */}
+              <div className="h-9 bg-[#2d2d2d] flex items-center px-3 border-b border-[#1e1e1e] shrink-0">
+                <div className="flex gap-1.5 mr-3">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                </div>
+                <div className="flex-1 bg-[#1e1e1e] rounded px-2 py-1 text-[10px] text-slate-400 font-mono">
+                  localhost:3000
+                </div>
+              </div>
+              {/* Preview Content */}
+              <div className="flex-1 bg-neutral-950 p-3 flex flex-col gap-2 overflow-hidden">
+                {/* Mini Navbar */}
+                <div className="h-8 w-full rounded bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-between px-3 shrink-0">
+                  <div className="w-12 h-1.5 rounded bg-indigo-400"></div>
+                  <div className="flex gap-2">
+                    <div className="w-6 h-1.5 rounded bg-indigo-400/50"></div>
+                    <div className="w-6 h-1.5 rounded bg-indigo-400/50"></div>
+                  </div>
+                </div>
+                {/* Mini Hero */}
+                <div className="h-24 w-full rounded bg-gradient-to-br from-indigo-600/20 to-purple-600/20 border border-indigo-500/20 flex flex-col items-center justify-center gap-1.5 shrink-0">
+                  <div className="w-24 h-2 rounded bg-white"></div>
+                  <div className="w-32 h-1.5 rounded bg-neutral-500"></div>
+                  <div className="mt-1 px-3 py-1 bg-indigo-500 rounded text-[7px] text-white font-bold">
+                    GET STARTED
+                  </div>
+                </div>
+                {/* Mini Cards */}
+                <div className="flex-1 grid grid-cols-2 gap-2 min-h-0">
+                  {[0, 1, 2, 3].map((i) => (
+                    <div key={i} className="rounded bg-neutral-900 border border-neutral-800 p-2 flex flex-col gap-1">
+                      <div className="w-full h-8 rounded bg-neutral-800"></div>
+                      <div className="w-3/4 h-1.5 rounded bg-neutral-700"></div>
+                      <div className="w-1/2 h-1.5 rounded bg-neutral-700/50"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex-1 p-4 overflow-hidden relative font-mono text-sm">
-            <div className="flex gap-4 h-full">
-               <div className="flex flex-col text-[#858585] select-none text-right pr-4 border-r border-[#404040]">
-                {Array.from({length: 15}).map((_, i) => (
-                  <span key={i} className="leading-6">{i + 1}</span>
-                ))}
+
+          {/* Bottom: Terminal */}
+          <div className="h-[28%] bg-[#1e1e1e] border-t border-[#333] flex flex-col">
+            {/* Terminal Header */}
+            <div className="h-8 bg-[#2d2d2d] flex items-center px-3 border-b border-[#1e1e1e] shrink-0">
+              <div className="flex items-center gap-2 text-xs text-slate-400">
+                <TerminalIcon size={14} className="text-slate-400" />
+                <span>Terminal</span>
               </div>
-              <div className="flex flex-col text-slate-300 leading-6 whitespace-pre">
-                <div><span className="text-[#c586c0]">export</span> <span className="text-[#c586c0]">default</span> <span className="text-[#569cd6]">function</span> <span className="text-[#dcdcaa]">Home</span>() {'{'}</div>
-                <div>  <span className="text-[#c586c0]">return</span> (</div>
-                <div>    <span className="text-[#808080]">&lt;</span><span className="text-[#569cd6]">main</span> <span className="text-[#9cdcfe]">className</span>=<span className="text-[#ce9178]">&quot;min-h-screen p-24&quot;</span><span className="text-[#808080]">&gt;</span></div>
-                <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Hero</span></div>
-                <div>        <span className="text-[#9cdcfe]">title</span>=<span className="text-[#ce9178]">&quot;Show. Don&apos;t tell.&quot;</span></div>
-                <div>        <span className="text-[#9cdcfe]">description</span>=<span className="text-[#ce9178]">&quot;Experience over explanation.&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
-                <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Features</span> <span className="text-[#9cdcfe]">grid</span>=<span className="text-[#569cd6]">{'{'}</span><span className="text-[#b5cea8]">true</span><span className="text-[#569cd6]">{'}'}</span> <span className="text-[#808080]">/&gt;</span></div>
-                <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Pricing</span> <span className="text-[#9cdcfe]">highlight</span>=<span className="text-[#ce9178]">&quot;pro&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
-                <div>    <span className="text-[#808080]">&lt;/</span><span className="text-[#569cd6]">main</span><span className="text-[#808080]">&gt;</span></div>
-                <div>  );</div>
-                <div>{'}'}</div>
+              <div className="ml-4 flex gap-2 text-[10px] text-slate-500">
+                <span className="px-2 py-0.5 bg-[#1e1e1e] rounded">zsh</span>
+              </div>
+            </div>
+            {/* Terminal Content */}
+            <div className="flex-1 p-3 font-mono text-xs overflow-hidden">
+              <div className="space-y-1 text-slate-300">
+                <div className="flex gap-2">
+                  <span className="text-green-400">➜</span>
+                  <span className="text-indigo-400">~/akella-in-motion</span>
+                  <span className="text-slate-500">git:(</span><span className="text-red-400">main</span><span className="text-slate-500">)</span>
+                  <span className="text-white">npm run dev</span>
+                </div>
+                <div className="text-slate-500 pl-4">
+                  <div>&gt; akella-in-motion@1.0.0 dev</div>
+                  <div>&gt; next dev</div>
+                </div>
+                <div className="text-green-400 pl-4">✓ Ready in 1.2s</div>
+                <div className="text-slate-400 pl-4">○ Compiling / ...</div>
+                <div className="text-green-400 pl-4">✓ Compiled /page in 234ms</div>
+                <div className="flex gap-2 mt-2">
+                  <span className="text-green-400">➜</span>
+                  <span className="text-indigo-400">~/akella-in-motion</span>
+                  <span className="w-2 h-4 bg-slate-400 animate-pulse"></span>
+                </div>
               </div>
             </div>
           </div>
@@ -298,59 +474,64 @@ export default function ShowDontTellAnimation({ scrollProgress = 0 }: { scrollPr
   
   return (
     <div className="w-full h-full flex flex-col items-center justify-center relative overflow-hidden font-sans">
-      <motion.div 
+      {/* First headline - "This is how our competitors code" */}
+      <motion.div
         style={{ opacity: 1 - Math.min(scrollProgress * 2, 1) }}
-        className="absolute top-[5%] z-30 text-center w-full px-4"
+        className="absolute top-[3%] z-30 text-center w-full px-4"
       >
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 mb-4 tracking-tight">
-          We code just like you&apos;ve seen in movies.
+        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 tracking-tight">
+          This is how our competitors code.
         </h2>
       </motion.div>
 
-      <div className="relative w-full h-screen p-0 md:p-10 flex items-center justify-center">
-        
-        {/* Layer 1: VS Code (Underneath) */}
-        {/* This is what we see when the doors open */}
-        <div className="absolute inset-0 md:inset-10 z-0 flex items-center justify-center">
-           <div className="w-full h-full shadow-[0_0_100px_rgba(99,102,241,0.2)]">
-             <VSCodeWindow />
-           </div>
-        </div>
+      {/* Second headline - "This is how we code" (appears after reveal) */}
+      <motion.div
+        style={{ opacity: Math.min(Math.max((scrollProgress - 0.5) * 4, 0), 1) }}
+        className="absolute top-[3%] z-30 text-center w-full px-4"
+      >
+        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 tracking-tight">
+          This is how we code.
+        </h2>
+      </motion.div>
 
-        {/* Layer 2: Split Overlay (Terminal Left | Website Right) */}
-        {/* This covers Layer 1 until split */}
-        <div className="absolute inset-0 z-10 flex pointer-events-none md:p-10 overflow-hidden">
-           {/* We use a container that matches the VS Code size exactly so the split feels like the 'screen' cracking open */}
-           <div className="w-full h-full relative flex">
-              
-              {/* Left Half: Terminal */}
-              <motion.div 
-                style={{ 
-                   x: `${revealProgress * -100}%`,
-                   opacity: revealProgress > 0.9 ? 0 : 1
-                }}
-                className="w-1/2 h-full bg-[#1e1e1e] border-r border-green-900 overflow-hidden relative shadow-2xl z-20"
-              >
-                  {/* Inner width 200% */}
-                 <div className="w-[200%] h-full absolute top-0 left-0">
-                    <RealTerminal progress={scrollProgress} />
-                 </div>
-              </motion.div>
+      <div className="relative w-full h-screen flex items-end justify-center pb-6">
 
-              {/* Right Half: Website Preview */}
-              <motion.div 
-                style={{ 
-                   x: `${revealProgress * 100}%`,
-                   opacity: revealProgress > 0.9 ? 0 : 1
-                }}
-                className="w-1/2 h-full bg-[#111] overflow-hidden relative shadow-2xl z-20"
-              >
-                 {/* Inner width 200%, shifted left by 100% */}
-                 <div className="w-[200%] h-full absolute top-0 -left-[100%]">
-                    <WebsitePreview progress={scrollProgress} />
-                 </div>
-              </motion.div>
-           </div>
+        {/* Shared container for both layers - same size and position */}
+        <div className="relative w-[98%] h-[82%] max-w-[1800px]">
+
+          {/* Layer 1: VS Code (Underneath) */}
+          <div className="absolute inset-0 z-0">
+            <div className="w-full h-full shadow-[0_0_100px_rgba(99,102,241,0.2)] rounded-lg overflow-hidden">
+              <VSCodeWindow />
+            </div>
+          </div>
+
+          {/* Layer 2: Split Overlay (Terminal Left | Website Right) */}
+          <div className="absolute inset-0 z-10 flex pointer-events-none overflow-hidden rounded-lg">
+
+            {/* Left Half: Terminal */}
+            <motion.div
+              style={{
+                x: `${revealProgress * -100}%`,
+                opacity: revealProgress > 0.9 ? 0 : 1
+              }}
+              className="w-1/2 h-full bg-black border-r border-green-900/50 overflow-hidden flex-shrink-0 shadow-2xl"
+            >
+              <RealTerminal progress={scrollProgress} />
+            </motion.div>
+
+            {/* Right Half: Website Preview */}
+            <motion.div
+              style={{
+                x: `${revealProgress * 100}%`,
+                opacity: revealProgress > 0.9 ? 0 : 1
+              }}
+              className="w-1/2 h-full bg-[#0a0a0a] overflow-hidden flex-shrink-0 shadow-2xl"
+            >
+              <WebsitePreview progress={scrollProgress} />
+            </motion.div>
+          </div>
+
         </div>
 
       </div>
