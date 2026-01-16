@@ -297,130 +297,45 @@ const VSCodeWindow = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Activity Bar */}
-        <div className="w-12 bg-[#333333] border-r border-[#1e1e1e] flex flex-col items-center py-4 gap-6 shrink-0 z-10">
-          <Folder className="w-6 h-6 text-white" />
-          <Search className="w-6 h-6 text-slate-500" />
-          <GitBranch className="w-6 h-6 text-slate-500" />
-        </div>
-
-        {/* Sidebar */}
-        <div className="w-48 bg-[#252526] border-r border-[#1e1e1e] flex flex-col shrink-0 hidden md:flex">
-          <div className="p-3">
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2 pt-2">Explorer</div>
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-1 text-sm text-slate-300 px-2 py-1 cursor-pointer hover:bg-[#2a2d2e]">
-                <ChevronDown className="w-4 h-4" />
-                <span className="font-bold text-xs">AKELLA-IN-MOTION</span>
-              </div>
-              <div className="pl-4">
-                <div className="flex items-center gap-1 text-sm text-slate-400 px-2 py-1 cursor-pointer hover:bg-[#2a2d2e]">
-                  <ChevronRight className="w-4 h-4" />
-                  <Folder className="w-3 h-3 text-blue-400" />
-                  <span>src</span>
-                </div>
-                <div className="pl-4">
-                  <div className="flex items-center gap-1 text-sm text-slate-400 px-2 py-1 cursor-pointer hover:bg-[#2a2d2e]">
-                    <ChevronRight className="w-4 h-4" />
-                    <Folder className="w-3 h-3 text-green-400" />
-                    <span>components</span>
-                  </div>
-                  <div className="pl-4">
-                    <div className="flex items-center gap-2 text-sm text-white bg-[#37373d] px-2 py-1 cursor-pointer">
-                      <Code2 className="w-4 h-4 text-blue-300" />
-                      <span>page.tsx</span>
-                    </div>
-                  </div>
-                </div>
+        
+        {/* Left Column: Editor + Terminal */}
+        <div className="flex-1 flex flex-col min-w-0 border-r border-[#333]">
+          
+          {/* Editor Area */}
+          <div className="flex-1 flex flex-col bg-[#1e1e1e] overflow-hidden">
+            <div className="h-9 bg-[#2d2d2d] flex items-center border-b border-[#1e1e1e] overflow-x-auto no-scrollbar shrink-0">
+              <div className="flex items-center gap-2 text-sm text-white bg-[#1e1e1e] border-t-2 border-indigo-400 h-full px-3 min-w-fit">
+                <Code2 className="w-4 h-4 text-blue-400" />
+                <span>page.tsx</span>
+                <X className="w-3 h-3 ml-2 opacity-50 hover:bg-slate-700 rounded" />
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Main Editor + Preview Area */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Top: Editor + Preview */}
-          <div className="flex-1 flex overflow-hidden">
-            {/* Editor Area */}
-            <div className="flex-1 flex flex-col bg-[#1e1e1e] overflow-hidden min-w-0 border-r border-[#1e1e1e]">
-              <div className="h-9 bg-[#2d2d2d] flex items-center border-b border-[#1e1e1e] overflow-x-auto no-scrollbar shrink-0">
-                <div className="flex items-center gap-2 text-sm text-white bg-[#1e1e1e] border-t-2 border-indigo-400 h-full px-3 min-w-fit">
-                  <Code2 className="w-4 h-4 text-blue-400" />
-                  <span>page.tsx</span>
-                  <X className="w-3 h-3 ml-2 opacity-50 hover:bg-slate-700 rounded" />
-                </div>
-              </div>
-              <div className="flex-1 p-4 overflow-hidden relative font-mono text-sm">
-                <div className="flex gap-4 h-full">
-                  <div className="flex flex-col text-[#858585] select-none text-right pr-4 border-r border-[#404040]">
-                    {Array.from({length: 15}).map((_, i) => (
-                      <span key={i} className="leading-6">{i + 1}</span>
-                    ))}
-                  </div>
-                  <div className="flex flex-col text-slate-300 leading-6 whitespace-pre">
-                    <div><span className="text-[#c586c0]">export</span> <span className="text-[#c586c0]">default</span> <span className="text-[#569cd6]">function</span> <span className="text-[#dcdcaa]">Home</span>() {'{'}</div>
-                    <div>  <span className="text-[#c586c0]">return</span> (</div>
-                    <div>    <span className="text-[#808080]">&lt;</span><span className="text-[#569cd6]">main</span> <span className="text-[#9cdcfe]">className</span>=<span className="text-[#ce9178]">&quot;min-h-screen p-24&quot;</span><span className="text-[#808080]">&gt;</span></div>
-                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Hero</span></div>
-                    <div>        <span className="text-[#9cdcfe]">title</span>=<span className="text-[#ce9178]">&quot;Show. Don&apos;t tell.&quot;</span></div>
-                    <div>        <span className="text-[#9cdcfe]">description</span>=<span className="text-[#ce9178]">&quot;Experience over explanation.&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
-                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Features</span> <span className="text-[#9cdcfe]">grid</span>=<span className="text-[#569cd6]">{'{'}</span><span className="text-[#b5cea8]">true</span><span className="text-[#569cd6]">{'}'}</span> <span className="text-[#808080]">/&gt;</span></div>
-                    <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Pricing</span> <span className="text-[#9cdcfe]">highlight</span>=<span className="text-[#ce9178]">&quot;pro&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
-                    <div>    <span className="text-[#808080]">&lt;/</span><span className="text-[#569cd6]">main</span><span className="text-[#808080]">&gt;</span></div>
-                    <div>  );</div>
-                    <div>{'}'}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Website Preview Panel */}
-            <div className="w-[35%] flex flex-col bg-[#0f0f0f] border-l border-[#333]">
-              {/* Preview Header */}
-              <div className="h-9 bg-[#2d2d2d] flex items-center px-3 border-b border-[#1e1e1e] shrink-0">
-                <div className="flex gap-1.5 mr-3">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
-                </div>
-                <div className="flex-1 bg-[#1e1e1e] rounded px-2 py-1 text-[10px] text-slate-400 font-mono">
-                  localhost:3000
-                </div>
-              </div>
-              {/* Preview Content */}
-              <div className="flex-1 bg-neutral-950 p-3 flex flex-col gap-2 overflow-hidden">
-                {/* Mini Navbar */}
-                <div className="h-8 w-full rounded bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-between px-3 shrink-0">
-                  <div className="w-12 h-1.5 rounded bg-indigo-400"></div>
-                  <div className="flex gap-2">
-                    <div className="w-6 h-1.5 rounded bg-indigo-400/50"></div>
-                    <div className="w-6 h-1.5 rounded bg-indigo-400/50"></div>
-                  </div>
-                </div>
-                {/* Mini Hero */}
-                <div className="h-24 w-full rounded bg-gradient-to-br from-indigo-600/20 to-purple-600/20 border border-indigo-500/20 flex flex-col items-center justify-center gap-1.5 shrink-0">
-                  <div className="w-24 h-2 rounded bg-white"></div>
-                  <div className="w-32 h-1.5 rounded bg-neutral-500"></div>
-                  <div className="mt-1 px-3 py-1 bg-indigo-500 rounded text-[7px] text-white font-bold">
-                    GET STARTED
-                  </div>
-                </div>
-                {/* Mini Cards */}
-                <div className="flex-1 grid grid-cols-2 gap-2 min-h-0">
-                  {[0, 1, 2, 3].map((i) => (
-                    <div key={i} className="rounded bg-neutral-900 border border-neutral-800 p-2 flex flex-col gap-1">
-                      <div className="w-full h-8 rounded bg-neutral-800"></div>
-                      <div className="w-3/4 h-1.5 rounded bg-neutral-700"></div>
-                      <div className="w-1/2 h-1.5 rounded bg-neutral-700/50"></div>
-                    </div>
+            <div className="flex-1 p-4 overflow-hidden relative font-mono text-sm">
+              <div className="flex gap-4 h-full">
+                <div className="flex flex-col text-[#858585] select-none text-right pr-4 border-r border-[#404040]">
+                  {Array.from({length: 15}).map((_, i) => (
+                    <span key={i} className="leading-6">{i + 1}</span>
                   ))}
                 </div>
+                <div className="flex flex-col text-slate-300 leading-6 whitespace-pre">
+                  <div><span className="text-[#c586c0]">export</span> <span className="text-[#c586c0]">default</span> <span className="text-[#569cd6]">function</span> <span className="text-[#dcdcaa]">Home</span>() {'{'}</div>
+                  <div>  <span className="text-[#c586c0]">return</span> (</div>
+                  <div>    <span className="text-[#808080]">&lt;</span><span className="text-[#569cd6]">main</span> <span className="text-[#9cdcfe]">className</span>=<span className="text-[#ce9178]">&quot;min-h-screen p-24&quot;</span><span className="text-[#808080]">&gt;</span></div>
+                  <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Hero</span></div>
+                  <div>        <span className="text-[#9cdcfe]">title</span>=<span className="text-[#ce9178]">&quot;Show. Don&apos;t tell.&quot;</span></div>
+                  <div>        <span className="text-[#9cdcfe]">description</span>=<span className="text-[#ce9178]">&quot;Experience over explanation.&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
+                  <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Features</span> <span className="text-[#9cdcfe]">grid</span>=<span className="text-[#569cd6]">{'{'}</span><span className="text-[#b5cea8]">true</span><span className="text-[#569cd6]">{'}'}</span> <span className="text-[#808080]">/&gt;</span></div>
+                  <div>      <span className="text-[#808080]">&lt;</span><span className="text-[#4ec9b0]">Pricing</span> <span className="text-[#9cdcfe]">highlight</span>=<span className="text-[#ce9178]">&quot;pro&quot;</span> <span className="text-[#808080]">/&gt;</span></div>
+                  <div>    <span className="text-[#808080]">&lt;/</span><span className="text-[#569cd6]">main</span><span className="text-[#808080]">&gt;</span></div>
+                  <div>  );</div>
+                  <div>{'}'}</div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Bottom: Terminal */}
-          <div className="h-[28%] bg-[#1e1e1e] border-t border-[#333] flex flex-col">
+          {/* Terminal Area */}
+          <div className="h-[35%] bg-[#1e1e1e] border-t border-[#333] flex flex-col">
             {/* Terminal Header */}
             <div className="h-8 bg-[#2d2d2d] flex items-center px-3 border-b border-[#1e1e1e] shrink-0">
               <div className="flex items-center gap-2 text-xs text-slate-400">
@@ -455,6 +370,51 @@ const VSCodeWindow = () => {
               </div>
             </div>
           </div>
+
+        </div>
+
+        {/* Right Column: Website Preview Panel (Full Height) */}
+        <div className="w-[45%] flex flex-col bg-[#0f0f0f] border-l border-[#333]">
+          {/* Preview Header */}
+          <div className="h-9 bg-[#2d2d2d] flex items-center px-3 border-b border-[#1e1e1e] shrink-0">
+            <div className="flex gap-1.5 mr-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+            </div>
+            <div className="flex-1 bg-[#1e1e1e] rounded px-2 py-1 text-[10px] text-slate-400 font-mono">
+              localhost:3000
+            </div>
+          </div>
+          {/* Preview Content */}
+          <div className="flex-1 bg-neutral-950 p-3 flex flex-col gap-2 overflow-hidden">
+            {/* Mini Navbar */}
+            <div className="h-8 w-full rounded bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-between px-3 shrink-0">
+              <div className="w-12 h-1.5 rounded bg-indigo-400"></div>
+              <div className="flex gap-2">
+                <div className="w-6 h-1.5 rounded bg-indigo-400/50"></div>
+                <div className="w-6 h-1.5 rounded bg-indigo-400/50"></div>
+              </div>
+            </div>
+            {/* Mini Hero */}
+            <div className="h-24 w-full rounded bg-gradient-to-br from-indigo-600/20 to-purple-600/20 border border-indigo-500/20 flex flex-col items-center justify-center gap-1.5 shrink-0">
+              <div className="w-24 h-2 rounded bg-white"></div>
+              <div className="w-32 h-1.5 rounded bg-neutral-500"></div>
+              <div className="mt-1 px-3 py-1 bg-indigo-500 rounded text-[7px] text-white font-bold">
+                GET STARTED
+              </div>
+            </div>
+            {/* Mini Cards */}
+            <div className="flex-1 grid grid-cols-2 gap-2 min-h-0 content-start">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="rounded bg-neutral-900 border border-neutral-800 p-2 flex flex-col gap-1">
+                  <div className="w-full h-8 rounded bg-neutral-800"></div>
+                  <div className="w-3/4 h-1.5 rounded bg-neutral-700"></div>
+                  <div className="w-1/2 h-1.5 rounded bg-neutral-700/50"></div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -477,7 +437,7 @@ export default function ShowDontTellAnimation({ scrollProgress = 0 }: { scrollPr
       {/* First headline - "This is how our competitors code" */}
       <motion.div
         style={{ opacity: 1 - Math.min(scrollProgress * 2, 1) }}
-        className="absolute top-[3%] z-30 text-center w-full px-4"
+        className="absolute top-[10%] z-30 text-center w-full px-4"
       >
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 tracking-tight">
           This is how our competitors code.
@@ -487,7 +447,7 @@ export default function ShowDontTellAnimation({ scrollProgress = 0 }: { scrollPr
       {/* Second headline - "This is how we code" (appears after reveal) */}
       <motion.div
         style={{ opacity: Math.min(Math.max((scrollProgress - 0.5) * 4, 0), 1) }}
-        className="absolute top-[3%] z-30 text-center w-full px-4"
+        className="absolute top-[10%] z-30 text-center w-full px-4"
       >
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 tracking-tight">
           This is how we code.
