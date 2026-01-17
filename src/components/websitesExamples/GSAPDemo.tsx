@@ -2,7 +2,7 @@
 
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import Observer from "gsap/Observer";
+import { Observer } from "gsap/dist/Observer";
 // We'll use basic text animation since SplitText is a paid plugin
 // If the user has it, they can uncomment. For now, we simulate.
 // import SplitText from "gsap/SplitText"; 

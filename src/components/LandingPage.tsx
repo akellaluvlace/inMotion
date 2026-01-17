@@ -25,6 +25,7 @@ import {
   Plus,
   Minus,
   X,
+  Menu,
 } from 'lucide-react';
 import ShowDontTellAnimation from './ShowDontTellAnimation';
 import ScrollReveal, { ImageItem } from './ScrollReveal';
@@ -43,8 +44,6 @@ import HowthRoadRoasters from './websitesExamples/HowthRoadRoasters';
 import SurgeFitness from './websitesExamples/SurgeFitness';
 import GSAPDemo from './websitesExamples/GSAPDemo';
 import ServicesCarousel from './servicesWeProvide';
-
-import AkellaBadge from './AkellaBadge';
 
 // Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
 const customStyles = `
@@ -401,6 +400,7 @@ export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeExample, setActiveExample] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleExampleClick = (image: ImageItem, index: number) => {
     // Map image index/id to component
@@ -484,7 +484,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="bg-white text-[#1a1a1a] font-sans min-h-screen relative selection:bg-black/10 selection:text-[#1a1a1a]">
+    <div className="bg-white text-[#1a1a1a] font-sans min-h-screen relative selection:bg-black/10 selection:text-[#1a1a1a] overflow-x-hidden">
       {/* 
         FIXED: Replaced <style jsx global> with standard style injection 
         to prevent class name hydration mismatches 
@@ -502,7 +502,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="fixed w-full z-50 px-4 py-4 transition-all duration-300 nav-load">
         <div className="max-w-6xl mx-auto">
-          <div className="glass-strong rounded-2xl px-6 py-3 flex items-center justify-between">
+          <div className="glass-strong rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between">
             {/* Logo */}
             <a href="#" className="flex items-center group">
               <div className="flex flex-col">
@@ -523,14 +523,75 @@ export default function LandingPage() {
               <a href="/about" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">About</a>
             </div>
 
-            {/* CTA Button */}
-            <a href="#contact" className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold text-white">
+            {/* Desktop CTA Button */}
+            <a href="#contact" className="hidden sm:flex btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold text-white">
               <span className="flex items-center gap-2">
                 Start Project
                 <ArrowRight className="w-4 h-4" />
               </span>
             </a>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-black/5 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-2 glass-strong rounded-2xl overflow-hidden">
+              <div className="flex flex-col p-4 gap-2">
+                <a
+                  href="#services"
+                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Services
+                </a>
+                <a
+                  href="#pricing"
+                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Pricing
+                </a>
+                <a
+                  href="#vibe-rescue"
+                  className="px-4 py-3 text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors flex items-center gap-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Vibe Rescue
+                </a>
+                <a
+                  href="#process"
+                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Process
+                </a>
+                <a
+                  href="/about"
+                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a
+                  href="#contact"
+                  className="mt-2 px-4 py-3 btn-primary text-white font-semibold rounded-xl text-center flex items-center justify-center gap-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Start Project
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
