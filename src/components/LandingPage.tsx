@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import ShowDontTellAnimation from './ShowDontTellAnimation';
 import Navigation from './Navigation';
+import ImagePreloader from './ImagePreloader';
 import ScrollReveal, { ImageItem } from './ScrollReveal';
 import StyleShowcase from './StyleShowcase';
 import DigitalExperienceHero from './DigitalExperienceHero';
@@ -489,6 +490,13 @@ export default function LandingPage() {
         to prevent class name hydration mismatches 
       */}
       <style dangerouslySetInnerHTML={{ __html: customStyles }} />
+
+      {/* Preload images for website examples */}
+      <ImagePreloader />
+
+      {/* Preconnect to Unsplash for faster image loading */}
+      <link rel="preconnect" href="https://images.unsplash.com" />
+      <link rel="dns-prefetch" href="https://images.unsplash.com" />
 
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -971,7 +979,13 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             {/* Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center gap-4">
+              {/* Logo image - desktop only */}
+              <img
+                src="/assets/logo.png"
+                alt="Akella inMotion"
+                className="hidden md:block h-48 w-auto"
+              />
               <span className="text-lg font-semibold text-[#1a1a1a]">Akella <span className="font-normal text-[#888888]">inMotion</span></span>
             </div>
 

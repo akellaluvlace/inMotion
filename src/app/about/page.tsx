@@ -30,11 +30,13 @@ export default function AboutPage() {
             {/* 1. Founder Photo - Large */}
             <div className="md:col-span-1 md:row-span-2 bg-[#fafafa] rounded-2xl sm:rounded-3xl overflow-hidden border border-[#e0e0e0] group hover:border-[#1a1a1a] transition-all">
               <div className="relative h-[300px] sm:h-[350px] md:h-full md:min-h-[400px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/assets/aboutus/akella.jpeg"
-                  alt="Founder"
-                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  alt="Akella - Founder & Lead Developer"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover object-top"
+                  priority
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
                   <p className="text-white font-bold text-lg sm:text-xl">Akella</p>
@@ -89,11 +91,12 @@ export default function AboutPage() {
           {/* AI CHALLENGE BANNER - Full Width */}
           <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden mb-6 sm:mb-8 group">
             <div className="relative h-[250px] sm:h-[300px] md:h-[400px]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="/assets/aboutus/AI CHALLENGE.png"
-                alt="TechIreland National AI Challenge"
-                className="absolute inset-0 w-full h-full object-cover object-center"
+                alt="TechIreland National AI Challenge 2025 Winner"
+                fill
+                sizes="100vw"
+                className="object-cover object-center"
               />
               {/* Mobile: bottom gradient, Desktop: side gradient */}
               <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-black/90 via-black/60 to-transparent" />

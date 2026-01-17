@@ -482,8 +482,17 @@ export default function ScrollReveal({
                 ref={(el) => { gridItemsRef.current[i] = el; }}
                 className="sr-grid-item"
                 onClick={() => onImageClick?.(img, i)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && onImageClick?.(img, i)}
               >
-                <img src={img.src} alt={img.alt || ''} />
+                <img
+                  src={img.src}
+                  alt={img.alt || img.label || 'Portfolio example'}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ aspectRatio: '16/9' }}
+                />
                 {showLabels && img.label && (
                   <div className="sr-label">{img.label}</div>
                 )}
