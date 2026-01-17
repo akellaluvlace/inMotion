@@ -461,7 +461,6 @@ export default function BloomWellness({ previewMode = false }: { previewMode?: b
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
                 scrolled ? 'bg-[#FDF8F3]/95 backdrop-blur-md shadow-sm' : 'bg-[#FDF8F3]/90 backdrop-blur-md'
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="max-w-7xl mx-auto px-6 lg:px-12">
                 <div className="flex items-center justify-between h-20">
@@ -512,7 +511,6 @@ export default function BloomWellness({ previewMode = false }: { previewMode?: b
             className={`fixed inset-0 bg-[#FDF8F3] z-40 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col justify-center items-center ${
                 mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="flex flex-col items-center gap-8 mb-12">
                 {['Treatments', 'About', 'Team', 'Testimonials', 'Contact'].map((item) => (
@@ -533,7 +531,7 @@ export default function BloomWellness({ previewMode = false }: { previewMode?: b
         </div>
 
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
             {/* Background Blobs */}
             <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-[#F5E1E1]/40 blob-shape pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#B8C9A3]/30 blob-shape-2 pointer-events-none"></div>

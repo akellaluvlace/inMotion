@@ -439,10 +439,9 @@ export default function AshfordHouse({ previewMode = false }: { previewMode?: bo
     <div className="ashford-wrapper relative">
       {/* Navigation */}
       <nav 
-        className={`fixed left-0 right-0 z-50 border-b border-transparent transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-all duration-300 ${
             scrolled ? 'bg-[#FFFFF0]/95 backdrop-blur-sm shadow-md border-b-[#C9A962]/20' : ''
         }`}
-        style={{ top: previewMode ? '64px' : '0' }}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-20 lg:h-24">
@@ -516,36 +515,37 @@ export default function AshfordHouse({ previewMode = false }: { previewMode?: bo
       <section className="relative min-h-screen flex items-center">
         {/* Full-bleed Background */}
         <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1920&h=1080&fit=crop&q=80" 
-            alt="Ashford House Estate" 
+          <img
+            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1920&h=1080&fit=crop&q=80"
+            alt="Ashford House Estate"
             className="w-full h-full object-cover"
           />
-          
+
           {/* High Contrast Overlays */}
           <div className="absolute inset-0 bg-black/40"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#36454F]/80 via-[#36454F]/50 to-transparent"></div>
           <div className="absolute inset-0 bg-gradient-to-b from-[#36454F]/50 via-transparent to-[#36454F]/50"></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-24 md:py-32 relative z-10 w-full">
           <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
-            <span ref={addAosRef} className="ashford-fade-up font-script text-3xl md:text-4xl text-[#F7E7CE] mb-4 block drop-shadow-md">Where Dreams Begin</span>
-            
-            <h1 ref={addAosRef} className="ashford-fade-up text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-white mb-6 leading-[1.1] drop-shadow-lg" style={{ transitionDelay: '100ms' }}>
-              A Timeless Setting for Your <em className="italic text-[#FBF3E4]">Perfect Day</em>
+            <span className="font-script text-3xl md:text-4xl text-[#F7E7CE] mb-4 block drop-shadow-md">Where Dreams Begin</span>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-white mb-6 leading-[1.1] drop-shadow-lg">
+              A Timeless Setting for Your{' '}
+              <em className="italic text-[#FBF3E4]">Perfect Day</em>
             </h1>
-            
-            <p ref={addAosRef} className="ashford-fade-up text-base md:text-lg text-white/90 mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0 drop-shadow-md" style={{ transitionDelay: '200ms' }}>
+
+            <p className="text-base md:text-lg text-white/90 mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0 drop-shadow-md">
               Nestled in 500 acres of pristine Irish countryside, Ashford House Estate offers an unparalleled setting for celebrations of love.
             </p>
-            
-            <div ref={addAosRef} className="ashford-fade-up flex flex-col sm:flex-row gap-4 justify-center lg:justify-start" style={{ transitionDelay: '300ms' }}>
-              <a onClick={() => scrollToSection('contact')} className="btn-gold w-full sm:w-auto justify-center">
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <a onClick={() => scrollToSection('contact')} className="btn-gold w-full sm:w-auto justify-center cursor-pointer">
                 Arrange a Viewing
                 <ArrowRight className="w-4 h-4" />
               </a>
-              <a onClick={() => scrollToSection('venues')} className="btn-elegant-outline border-white/60 text-white hover:bg-white hover:text-[#36454F] w-full sm:w-auto justify-center backdrop-blur-sm">
+              <a onClick={() => scrollToSection('venues')} className="btn-elegant-outline border-white/60 text-white hover:bg-white hover:text-[#36454F] w-full sm:w-auto justify-center backdrop-blur-sm cursor-pointer">
                 Explore Venues
               </a>
             </div>

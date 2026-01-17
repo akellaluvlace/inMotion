@@ -437,7 +437,6 @@ export default function KieranMurphy({ previewMode = false }: { previewMode?: bo
             className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#E2E8F0] transition-all duration-300 ${
                 scrolled ? 'shadow-md' : ''
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="max-w-7xl mx-auto px-6 lg:px-12">
                 <div className="flex items-center justify-between h-20">
@@ -500,7 +499,7 @@ export default function KieranMurphy({ previewMode = false }: { previewMode?: bo
         </nav>
 
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-[#F8F9FA]">
+        <section className="relative min-h-screen flex items-center pt-16 overflow-hidden bg-[#F8F9FA]">
             {/* Geometric Decorations */}
             <div className="kmurphy-wrapper geo-shape geo-square" style={{ top: '20%', right: '5%' }}></div>
             <div className="kmurphy-wrapper geo-shape geo-circle" style={{ bottom: '-10%', left: '-5%' }}></div>

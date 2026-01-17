@@ -503,7 +503,6 @@ export default function HowthRoadRoasters({ previewMode = false }: { previewMode
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${ 
                 scrolled ? 'bg-[#F5F0E8]/95 backdrop-blur-sm border-b border-[#3D2314]/15' : 'bg-[#F5F0E8]/95 backdrop-blur-sm border-b border-[#3D2314]/10'
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="max-w-7xl mx-auto px-6 lg:px-12">
                 <div className="flex items-center justify-between h-20">
@@ -558,7 +557,6 @@ export default function HowthRoadRoasters({ previewMode = false }: { previewMode
             className={`fixed inset-0 bg-[#F5F0E8] z-40 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col justify-center items-center ${ 
                 mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="flex flex-col items-center gap-8 mb-12">
                 {['Story', 'Coffee', 'Process', 'Cafe', 'Wholesale'].map((item) => (
@@ -579,7 +577,7 @@ export default function HowthRoadRoasters({ previewMode = false }: { previewMode
         </div>
 
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
             {/* Decorative Elements */}
             <div className="coffee-ring" style={{ top: '15%', right: '10%', transform: 'rotate(15deg)' }}></div>
             <div className="coffee-ring" style={{ bottom: '20%', left: '5%', transform: 'rotate(-10deg)' }}></div>

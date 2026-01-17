@@ -190,10 +190,9 @@ export default function CamdenBarbers({ previewMode = false }: { previewMode?: b
 
         {/* Navigation */}
         <nav 
-            className={`fixed w-full z-40 transition-all duration-300 backdrop-blur-md border-b border-white/5 ${
+            className={`fixed top-0 w-full z-40 transition-all duration-300 backdrop-blur-md border-b border-white/5 ${
                 scrolled ? 'bg-[#050505]/95' : 'bg-[#050505]/80'
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
                 {/* Logo */}
@@ -232,7 +231,6 @@ export default function CamdenBarbers({ previewMode = false }: { previewMode?: b
             className={`fixed inset-0 bg-[#050505] z-50 transform transition-transform duration-300 ease-in-out md:hidden flex flex-col justify-center items-center ${
                 mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <button onClick={toggleMobileMenu} className="absolute top-6 right-6 text-white">
                 <X className="w-8 h-8" />
@@ -256,7 +254,7 @@ export default function CamdenBarbers({ previewMode = false }: { previewMode?: b
         </div>
 
         {/* Hero Section */}
-        <header className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <header className="relative min-h-screen flex items-center pt-16 overflow-hidden">
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-transparent z-10"></div>

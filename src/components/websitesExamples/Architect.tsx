@@ -353,89 +353,89 @@ export default function Architect() {
       <div className="page-overlay"></div>
 
       {/* Navigation */}
-      <nav style={{
-        position: 'fixed',
-        width: '100%',
-        zIndex: 50,
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(8px)',
-        transition: 'all 0.3s',
-        borderBottom: scrolled ? '1px solid #e5e5e5' : '1px solid transparent'
-      }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 80, borderBottom: '1px solid #f5f5f5', transition: 'all 0.3s' }}>
+      <nav 
+        className={`fixed w-full z-50 transition-all duration-300 backdrop-blur-md ${
+          scrolled ? 'bg-white/95 border-b border-gray-200' : 'bg-white/80 border-b border-transparent'
+        }`}
+      >
+        <div className="max-w-[1400px] mx-auto px-6">
+          <div className="flex items-center justify-between h-20 border-b border-gray-50 transition-all duration-300">
             {/* Logo */}
-            <a href="#" style={{ display: 'flex', alignItems: 'center', zIndex: 50, position: 'relative', textDecoration: 'none', color: 'inherit' }}>
-              <span style={{ fontSize: 18, letterSpacing: '-0.02em', fontWeight: 400 }}>Kavanagh <span style={{ color: '#a3a3a3' }}>&</span> Cole</span>
+            <a href="#" className="flex items-center z-50 relative no-underline color-inherit">
+              <span className="text-lg tracking-tight font-normal">
+                Kavanagh <span className="text-[#a3a3a3]">&</span> Cole
+              </span>
             </a>
 
             {/* Desktop Nav */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 48 }} className="hidden-mobile">
-              <a onClick={() => scrollToSection('work')} className="nav-link" style={{ cursor: 'pointer' }}>Work</a>
-              <a onClick={() => scrollToSection('about')} className="nav-link" style={{ cursor: 'pointer' }}>About</a>
-              <a onClick={() => scrollToSection('services')} className="nav-link" style={{ cursor: 'pointer' }}>Services</a>
-              <a onClick={() => scrollToSection('contact')} className="nav-link" style={{ cursor: 'pointer' }}>Contact</a>
+            <div className="hidden md:flex items-center gap-8 lg:gap-12">
+              <a onClick={() => scrollToSection('work')} className="nav-link cursor-pointer">Work</a>
+              <a onClick={() => scrollToSection('about')} className="nav-link cursor-pointer">About</a>
+              <a onClick={() => scrollToSection('services')} className="nav-link cursor-pointer">Services</a>
+              <a onClick={() => scrollToSection('contact')} className="nav-link cursor-pointer">Contact</a>
             </div>
 
-            {/* CTA */}
-            <a onClick={() => scrollToSection('contact')} style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', transition: 'color 0.3s' }} className="hidden-mobile-sm">
-              Start a Project
-            </a>
+            {/* Desktop CTA */}
+            <div className="flex items-center gap-6">
+              <a 
+                onClick={() => scrollToSection('contact')} 
+                className="hidden sm:block text-[11px] font-medium tracking-[0.15em] uppercase cursor-pointer transition-colors hover:text-[#a3a3a3]"
+              >
+                Start a Project
+              </a>
 
-            {/* Mobile Menu Button */}
-            <button onClick={toggleMobileMenu} style={{ background: 'none', border: 'none', cursor: 'pointer', zIndex: 50, position: 'relative' }} className="mobile-only">
-              {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
+              {/* Mobile Menu Button */}
+              <button 
+                onClick={toggleMobileMenu} 
+                className="md:hidden bg-transparent border-none cursor-pointer z-50 relative p-2"
+                aria-label="Toggle Menu"
+              >
+                {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <div className="mobile-menu-architect" style={{
-        position: 'fixed',
-        inset: 0,
-        background: '#ffffff',
-        zIndex: 40,
-        transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
-        paddingTop: 128,
-        paddingLeft: 24,
-        paddingRight: 24,
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <a onClick={() => scrollToSection('work')} className="mobile-nav-link" style={{ cursor: 'pointer' }}>Work</a>
-          <a onClick={() => scrollToSection('about')} className="mobile-nav-link" style={{ cursor: 'pointer' }}>About</a>
-          <a onClick={() => scrollToSection('services')} className="mobile-nav-link" style={{ cursor: 'pointer' }}>Services</a>
-          <a onClick={() => scrollToSection('contact')} className="mobile-nav-link" style={{ cursor: 'pointer' }}>Contact</a>
+      <div 
+        className={`fixed inset-0 bg-white z-40 transform transition-transform duration-500 ease-in-out flex flex-col p-6 pt-32 ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col gap-6">
+          <a onClick={() => scrollToSection('work')} className="mobile-nav-link cursor-pointer">Work</a>
+          <a onClick={() => scrollToSection('about')} className="mobile-nav-link cursor-pointer">About</a>
+          <a onClick={() => scrollToSection('services')} className="mobile-nav-link cursor-pointer">Services</a>
+          <a onClick={() => scrollToSection('contact')} className="mobile-nav-link cursor-pointer">Contact</a>
         </div>
-        <div style={{ marginTop: 'auto', paddingBottom: 48 }}>
-          <p style={{ fontSize: 12, color: '#a3a3a3', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Get in touch</p>
-          <a href="mailto:studio@kavanaghcole.ie" style={{ fontSize: 18, textDecoration: 'none', color: 'inherit' }}>studio@kavanaghcole.ie</a>
+        <div className="mt-auto pb-12">
+          <p className="text-[11px] text-[#a3a3a3] uppercase tracking-[0.2em] mb-4">Get in touch</p>
+          <a href="mailto:studio@kavanaghcole.ie" className="text-xl no-underline color-inherit">studio@kavanaghcole.ie</a>
         </div>
       </div>
 
       {/* Hero Section */}
-      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'flex-end', padding: '128px 24px 48px', paddingBottom: 96 }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto', width: '100%' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 48, alignItems: 'flex-end' }}>
+      <section className="min-h-screen flex items-end pt-24 pb-12 md:pb-24 px-6">
+        <div className="max-w-[1400px] mx-auto w-full">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-12 items-end">
             {/* Left Content */}
-            <div style={{ gridColumn: 'span 7' }}>
-              <p ref={addAosRef} className="aos-fade-up" style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3', marginBottom: 32 }}>
+            <div className="md:col-span-7">
+              <p ref={addAosRef} className="aos-fade-up text-[11px] font-medium tracking-[0.2em] uppercase text-[#a3a3a3] mb-8">
                 Architecture & Interior Design
               </p>
 
-              <h1 ref={addAosRef} className="aos-fade-up" style={{ fontSize: 'clamp(48px, 8vw, 96px)', fontWeight: 300, lineHeight: 0.95, marginBottom: 48, marginLeft: -4 }}>
+              <h1 ref={addAosRef} className="aos-fade-up text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-light leading-[0.95] mb-12 -ml-1">
                 Designing spaces<br />
-                <span style={{ color: '#a3a3a3' }}>that inspire.</span>
+                <span className="text-[#a3a3a3]">that inspire.</span>
               </h1>
 
-              <div ref={addAosRef} className="aos-fade-up" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 32 }}>
-                <a onClick={() => scrollToSection('work')} className="btn-minimal-filled" style={{ cursor: 'pointer', justifyContent: 'center' }}>
+              <div ref={addAosRef} className="aos-fade-up flex flex-wrap items-center gap-8">
+                <a onClick={() => scrollToSection('work')} className="btn-minimal-filled cursor-pointer w-full sm:w-auto justify-center">
                   View Projects
                   <ArrowRight />
                 </a>
-                <a onClick={() => scrollToSection('about')} className="btn-minimal" style={{ cursor: 'pointer', justifyContent: 'center' }}>
+                <a onClick={() => scrollToSection('about')} className="btn-minimal cursor-pointer w-full sm:w-auto justify-center">
                   Our Approach
                   <ArrowDown />
                 </a>
@@ -443,24 +443,24 @@ export default function Architect() {
             </div>
 
             {/* Right - Stats */}
-            <div style={{ gridColumn: 'span 5', borderLeft: '1px solid #e5e5e5', paddingLeft: 48 }}>
-              <div ref={addAosRef} className="aos-fade-up" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+            <div className="md:col-span-5 border-t md:border-t-0 md:border-l border-gray-200 pt-12 md:pt-0 md:pl-12">
+              <div ref={addAosRef} className="aos-fade-up grid grid-cols-3 gap-8">
                 <div>
-                  <div style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 300, marginBottom: 8 }}>25</div>
-                  <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Years</div>
+                  <div className="text-4xl lg:text-5xl font-light mb-2">25</div>
+                  <div className="text-[10px] tracking-[0.1em] uppercase text-[#a3a3a3]">Years</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 300, marginBottom: 8 }}>180</div>
-                  <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Projects</div>
+                  <div className="text-4xl lg:text-5xl font-light mb-2">180</div>
+                  <div className="text-[10px] tracking-[0.1em] uppercase text-[#a3a3a3]">Projects</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 300, marginBottom: 8 }}>12</div>
-                  <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Awards</div>
+                  <div className="text-4xl lg:text-5xl font-light mb-2">12</div>
+                  <div className="text-[10px] tracking-[0.1em] uppercase text-[#a3a3a3]">Awards</div>
                 </div>
               </div>
 
-              <div ref={addAosRef} className="aos-fade-up" style={{ marginTop: 48, paddingTop: 32, borderTop: '1px solid #e5e5e5' }}>
-                <p style={{ color: '#737373', lineHeight: 1.7 }}>
+              <div ref={addAosRef} className="aos-fade-up mt-12 pt-8 border-t border-gray-100">
+                <p className="text-[#737373] leading-relaxed max-w-sm">
                   Award-winning Dublin architecture studio specializing in residential, commercial, and cultural spaces. Thoughtful design, timeless execution.
                 </p>
               </div>
@@ -468,63 +468,69 @@ export default function Architect() {
           </div>
 
           {/* Scroll Indicator */}
-          <div ref={addAosRef} className="aos-fade-up hidden-mobile" style={{ marginTop: 64, display: 'flex', alignItems: 'center', gap: 16 }}>
-            <div style={{ width: 1, height: 64, background: '#d4d4d4' }}></div>
-            <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Scroll</span>
+          <div ref={addAosRef} className="aos-fade-up hidden md:flex mt-16 items-center gap-4">
+            <div className="w-px h-16 bg-gray-200"></div>
+            <span className="text-[10px] tracking-[0.2em] uppercase text-[#a3a3a3]">Scroll</span>
           </div>
         </div>
       </section>
 
-      {/* Featured Image */}
-      <section style={{ padding: '48px 24px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div ref={addAosRef} className="aos-fade-up" style={{ position: 'relative' }}>
-            <div ref={addImageRevealRef} className="image-reveal" style={{ aspectRatio: '21/9', width: '100%' }}>
-              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2560&auto=format&fit=crop" alt="Brennan Residence" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      {/* Featured Image Section */}
+      <section className="py-12 md:py-24 px-6">
+        <div className="max-w-[1400px] mx-auto">
+          <div ref={addAosRef} className="aos-fade-up relative group cursor-pointer">
+            <div ref={addImageRevealRef} className="image-reveal aspect-[4/3] md:aspect-[21/9] w-full">
+              <img 
+                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2560&auto=format&fit=crop" 
+                alt="Brennan Residence" 
+                className="w-full h-full object-cover" 
+              />
             </div>
-            <div className="hidden-mobile" style={{ position: 'absolute', bottom: 0, left: 0, padding: 32, background: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(8px)', margin: 24 }}>
-              <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#737373', marginBottom: 4 }}>Featured Project</div>
-              <div style={{ fontSize: 20, fontWeight: 300 }}>Brennan Residence / Dublin Mountains</div>
+            
+            {/* Caption - Adaptive positioning */}
+            <div className="mt-6 md:mt-0 md:absolute md:bottom-8 md:left-8 md:p-8 bg-white/90 md:backdrop-blur-md md:shadow-xl">
+              <div className="text-[10px] tracking-[0.2em] uppercase text-[#737373] mb-2 md:mb-1">Featured Project</div>
+              <div className="text-xl md:text-2xl font-light">Brennan Residence / Dublin Mountains</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Work Section */}
-      <section id="work" style={{ padding: '96px 24px 128px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+      <section id="work" className="py-24 md:py-32 px-6">
+        <div className="max-w-[1400px] mx-auto">
           {/* Section Header */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 48, marginBottom: 80 }}>
-            <div style={{ gridColumn: 'span 4' }}>
-              <span ref={addAosRef} className="aos-fade-up index-number" style={{ marginBottom: 16 }}>01</span>
-              <h2 ref={addAosRef} className="aos-fade-up" style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 300 }}>Selected Work</h2>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-20 md:mb-32">
+            <div className="md:col-span-4">
+              <span ref={addAosRef} className="aos-fade-up index-number mb-4">01</span>
+              <h2 ref={addAosRef} className="aos-fade-up text-4xl md:text-5xl font-light">Selected Work</h2>
             </div>
-            <div style={{ gridColumn: '7 / span 6' }}>
-              <p ref={addAosRef} className="aos-fade-up" style={{ color: '#737373', lineHeight: 1.7 }}>
+            <div className="md:col-span-6 md:col-start-7">
+              <p ref={addAosRef} className="aos-fade-up text-[#737373] leading-relaxed">
                 Each project is a unique response to its context, program, and the aspirations of our clients. We believe in architecture that serves people while pushing creative boundaries.
               </p>
             </div>
           </div>
 
           {/* Projects Grid */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 128 }}>
+          <div className="flex flex-col gap-24 md:gap-32">
             {/* Project 1 */}
-            <div className="group" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 32, alignItems: 'flex-start' }}>
-              <div ref={addAosRef} className="aos-fade-up" style={{ gridColumn: 'span 7', order: 1 }}>
-                <div ref={addImageRevealRef} className="image-reveal" style={{ aspectRatio: '4/3', width: '100%' }}>
-                  <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop" alt="Brennan Residence Interior" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
+              <div ref={addAosRef} className="aos-fade-up md:col-span-7">
+                <div ref={addImageRevealRef} className="image-reveal aspect-[4/3] w-full">
+                  <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop" alt="Brennan Residence Interior" className="w-full h-full object-cover" />
                 </div>
               </div>
-              <div ref={addAosRef} className="aos-fade-up" style={{ gridColumn: '9 / span 4', order: 2, position: 'sticky', top: 128 }}>
-                <span className="index-number" style={{ marginBottom: 8, display: 'block' }}>2024</span>
-                <h3 style={{ fontSize: 'clamp(24px, 2.5vw, 32px)', fontWeight: 300, marginBottom: 16 }}>Brennan Residence</h3>
-                <p style={{ color: '#737373', fontSize: 14, lineHeight: 1.7, marginBottom: 24 }}>
+              <div ref={addAosRef} className="aos-fade-up md:col-span-4 md:col-start-9 md:sticky md:top-32">
+                <span className="index-number mb-2 block">2024</span>
+                <h3 className="text-2xl md:text-3xl font-light mb-4">Brennan Residence</h3>
+                <p className="text-[#737373] text-sm leading-relaxed mb-6">
                   A contemporary home nestled in the Dublin Mountains, designed to frame panoramic views while maintaining privacy and sustainability.
                 </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
-                  <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Residential</span>
-                  <span style={{ color: '#d4d4d4' }}>·</span>
-                  <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>450 m²</span>
+                <div className="flex flex-wrap gap-4 mb-8">
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3]">Residential</span>
+                  <span className="text-gray-200">·</span>
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3]">450 m²</span>
                 </div>
                 <a href="#" className="btn-minimal">
                   View Project
@@ -534,47 +540,47 @@ export default function Architect() {
             </div>
 
             {/* Project 2 */}
-            <div className="group" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 32, alignItems: 'flex-start' }}>
-              <div ref={addAosRef} className="aos-fade-up" style={{ gridColumn: 'span 4', order: 1, position: 'sticky', top: 128 }}>
-                <span className="index-number" style={{ marginBottom: 8, display: 'block' }}>2023</span>
-                <h3 style={{ fontSize: 'clamp(24px, 2.5vw, 32px)', fontWeight: 300, marginBottom: 16 }}>The Granary</h3>
-                <p style={{ color: '#737373', fontSize: 14, lineHeight: 1.7, marginBottom: 24 }}>
+            <div className="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
+              <div ref={addAosRef} className="aos-fade-up md:col-span-4 order-2 md:order-1 md:sticky md:top-32">
+                <span className="index-number mb-2 block">2023</span>
+                <h3 className="text-2xl md:text-3xl font-light mb-4">The Granary</h3>
+                <p className="text-[#737373] text-sm leading-relaxed mb-6">
                   Adaptive reuse of a 19th-century grain warehouse into a mixed-use development featuring offices, retail, and public spaces.
                 </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
-                  <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Commercial</span>
-                  <span style={{ color: '#d4d4d4' }}>·</span>
-                  <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>2,800 m²</span>
+                <div className="flex flex-wrap gap-4 mb-8">
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3]">Commercial</span>
+                  <span className="text-gray-200">·</span>
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3]">2,800 m²</span>
                 </div>
                 <a href="#" className="btn-minimal">
                   View Project
                   <ArrowRight />
                 </a>
               </div>
-              <div ref={addAosRef} className="aos-fade-up" style={{ gridColumn: '6 / span 7', order: 2 }}>
-                <div ref={addImageRevealRef} className="image-reveal" style={{ aspectRatio: '4/3', width: '100%' }}>
-                  <img src="https://images.unsplash.com/photo-1555636222-cae831e670b3?q=80&w=2077&auto=format&fit=crop" alt="The Granary" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div ref={addAosRef} className="aos-fade-up md:col-span-7 md:col-start-6 order-1 md:order-2">
+                <div ref={addImageRevealRef} className="image-reveal aspect-[4/3] w-full">
+                  <img src="https://images.unsplash.com/photo-1555636222-cae831e670b3?q=80&w=2077&auto=format&fit=crop" alt="The Granary" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
 
             {/* Project 3 */}
-            <div className="group" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 32, alignItems: 'flex-start' }}>
-              <div ref={addAosRef} className="aos-fade-up" style={{ gridColumn: 'span 7', order: 1 }}>
-                <div ref={addImageRevealRef} className="image-reveal" style={{ aspectRatio: '4/3', width: '100%' }}>
-                  <img src="https://images.unsplash.com/photo-1577083288073-40892c0860a4?q=80&w=2076&auto=format&fit=crop" alt="Harbour Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
+              <div ref={addAosRef} className="aos-fade-up md:col-span-7">
+                <div ref={addImageRevealRef} className="image-reveal aspect-[4/3] w-full">
+                  <img src="https://images.unsplash.com/photo-1577083288073-40892c0860a4?q=80&w=2076&auto=format&fit=crop" alt="Harbour Gallery" className="w-full h-full object-cover" />
                 </div>
               </div>
-              <div ref={addAosRef} className="aos-fade-up" style={{ gridColumn: '9 / span 4', order: 2, position: 'sticky', top: 128 }}>
-                <span className="index-number" style={{ marginBottom: 8, display: 'block' }}>2023</span>
-                <h3 style={{ fontSize: 'clamp(24px, 2.5vw, 32px)', fontWeight: 300, marginBottom: 16 }}>Harbour Gallery</h3>
-                <p style={{ color: '#737373', fontSize: 14, lineHeight: 1.7, marginBottom: 24 }}>
+              <div ref={addAosRef} className="aos-fade-up md:col-span-4 md:col-start-9 md:sticky md:top-32">
+                <span className="index-number mb-2 block">2023</span>
+                <h3 className="text-2xl md:text-3xl font-light mb-4">Harbour Gallery</h3>
+                <p className="text-[#737373] text-sm leading-relaxed mb-6">
                   A new cultural institution on the Dublin waterfront, designed to celebrate Irish contemporary art while engaging with its maritime context.
                 </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
-                  <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Cultural</span>
-                  <span style={{ color: '#d4d4d4' }}>·</span>
-                  <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>1,200 m²</span>
+                <div className="flex flex-wrap gap-4 mb-8">
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3]">Cultural</span>
+                  <span className="text-gray-200">·</span>
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3]">1,200 m²</span>
                 </div>
                 <a href="#" className="btn-minimal">
                   View Project
@@ -584,33 +590,33 @@ export default function Architect() {
             </div>
 
             {/* Project 4 */}
-            <div className="group" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 32, alignItems: 'flex-start' }}>
-              <div ref={addAosRef} className="aos-fade-up" style={{ gridColumn: 'span 4', order: 1, position: 'sticky', top: 128 }}>
-                <span className="index-number" style={{ marginBottom: 8, display: 'block' }}>2022</span>
-                <h3 style={{ fontSize: 'clamp(24px, 2.5vw, 32px)', fontWeight: 300, marginBottom: 16 }}>Clontarf House</h3>
-                <p style={{ color: '#737373', fontSize: 14, lineHeight: 1.7, marginBottom: 24 }}>
+            <div className="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
+              <div ref={addAosRef} className="aos-fade-up md:col-span-4 order-2 md:order-1 md:sticky md:top-32">
+                <span className="index-number mb-2 block">2022</span>
+                <h3 className="text-2xl md:text-3xl font-light mb-4">Clontarf House</h3>
+                <p className="text-[#737373] text-sm leading-relaxed mb-6">
                   Sensitive renovation and extension of a Victorian residence, balancing heritage preservation with contemporary living requirements.
                 </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
-                  <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Residential</span>
-                  <span style={{ color: '#d4d4d4' }}>·</span>
-                  <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>320 m²</span>
+                <div className="flex flex-wrap gap-4 mb-8">
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3]">Residential</span>
+                  <span className="text-gray-200">·</span>
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3]">320 m²</span>
                 </div>
                 <a href="#" className="btn-minimal">
                   View Project
                   <ArrowRight />
                 </a>
               </div>
-              <div ref={addAosRef} className="aos-fade-up" style={{ gridColumn: '6 / span 7', order: 2 }}>
-                <div ref={addImageRevealRef} className="image-reveal" style={{ aspectRatio: '4/3', width: '100%' }}>
-                  <img src="https://images.unsplash.com/photo-1505577058444-a3dab90d4253?q=80&w=2670&auto=format&fit=crop" alt="Clontarf House" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div ref={addAosRef} className="aos-fade-up md:col-span-7 md:col-start-6 order-1 md:order-2">
+                <div ref={addImageRevealRef} className="image-reveal aspect-[4/3] w-full">
+                  <img src="https://images.unsplash.com/photo-1505577058444-a3dab90d4253?q=80&w=2670&auto=format&fit=crop" alt="Clontarf House" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
           </div>
 
           {/* View All */}
-          <div ref={addAosRef} className="aos-fade-up" style={{ marginTop: 96, textAlign: 'center' }}>
+          <div ref={addAosRef} className="aos-fade-up mt-24 text-center">
             <a href="#" className="btn-minimal-outline">
               View All Projects
               <ArrowRight />
@@ -620,58 +626,58 @@ export default function Architect() {
       </section>
 
       {/* About Section */}
-      <section id="about" style={{ padding: '128px 24px', background: '#fafafa' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 64 }}>
+      <section id="about" className="py-24 md:py-32 bg-[#fafafa] px-6">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
             {/* Left - Large Text */}
-            <div style={{ gridColumn: 'span 6' }}>
-              <span ref={addAosRef} className="aos-fade-up index-number" style={{ marginBottom: 16 }}>02</span>
-              <h2 ref={addAosRef} className="aos-fade-up" style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 300, marginBottom: 32, lineHeight: 1.1 }}>
+            <div className="md:col-span-6">
+              <span ref={addAosRef} className="aos-fade-up index-number mb-4">02</span>
+              <h2 ref={addAosRef} className="aos-fade-up text-4xl md:text-5xl lg:text-6xl font-light mb-8 leading-tight">
                 Architecture should elevate the everyday.
               </h2>
-              <p ref={addAosRef} className="aos-fade-up" style={{ color: '#737373', lineHeight: 1.7, marginBottom: 32 }}>
+              <p ref={addAosRef} className="aos-fade-up text-[#737373] leading-relaxed mb-8">
                 Founded in 1999 by Eoin Kavanagh and Claire Cole, our practice has grown from a two-person studio to a team of fifteen dedicated architects and designers. Our work spans residential, commercial, cultural, and hospitality sectors.
               </p>
-              <p ref={addAosRef} className="aos-fade-up" style={{ color: '#737373', lineHeight: 1.7 }}>
+              <p ref={addAosRef} className="aos-fade-up text-[#737373] leading-relaxed">
                 We believe that thoughtful design has the power to transform not just spaces, but lives. Every project begins with listening — to our clients, to the site, to the community — before putting pencil to paper.
               </p>
             </div>
 
             {/* Right - Team & Values */}
-            <div style={{ gridColumn: '8 / span 5' }}>
+            <div className="md:col-span-5 md:col-start-8">
               {/* Founders */}
-              <div ref={addAosRef} className="aos-fade-up" style={{ marginBottom: 64 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, marginBottom: 32 }}>
+              <div ref={addAosRef} className="aos-fade-up mb-16 md:mb-20">
+                <div className="grid grid-cols-2 gap-6 md:gap-8 mb-12">
                   <div className="group">
-                    <div ref={addImageRevealRef} className="image-reveal" style={{ aspectRatio: '3/4', width: '100%', marginBottom: 16 }}>
-                      <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=1974&auto=format&fit=crop" alt="Eoin Kavanagh" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)', transition: 'filter 0.7s' }} />
+                    <div ref={addImageRevealRef} className="image-reveal aspect-[3/4] w-full mb-4">
+                      <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=1974&auto=format&fit=crop" alt="Eoin Kavanagh" className="w-full h-full object-cover filter grayscale transition-all duration-700 group-hover:grayscale-0" />
                     </div>
-                    <h4 style={{ fontWeight: 500, marginBottom: 4 }}>Eoin Kavanagh</h4>
-                    <p style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Founding Partner</p>
+                    <h4 className="font-medium mb-1">Eoin Kavanagh</h4>
+                    <p className="text-[10px] tracking-[0.1em] uppercase text-[#a3a3a3]">Founding Partner</p>
                   </div>
                   <div className="group">
-                    <div ref={addImageRevealRef} className="image-reveal" style={{ aspectRatio: '3/4', width: '100%', marginBottom: 16 }}>
-                      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop" alt="Claire Cole" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)', transition: 'filter 0.7s' }} />
+                    <div ref={addImageRevealRef} className="image-reveal aspect-[3/4] w-full mb-4">
+                      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop" alt="Claire Cole" className="w-full h-full object-cover filter grayscale transition-all duration-700 group-hover:grayscale-0" />
                     </div>
-                    <h4 style={{ fontWeight: 500, marginBottom: 4 }}>Claire Cole</h4>
-                    <p style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>Founding Partner</p>
+                    <h4 className="font-medium mb-1">Claire Cole</h4>
+                    <p className="text-[10px] tracking-[0.1em] uppercase text-[#a3a3a3]">Founding Partner</p>
                   </div>
                 </div>
               </div>
 
               {/* Values */}
-              <div ref={addAosRef} className="aos-fade-up" style={{ display: 'flex', flexDirection: 'column', gap: 32, paddingTop: 32, borderTop: '1px solid #e5e5e5' }}>
+              <div ref={addAosRef} className="aos-fade-up flex flex-col gap-12 pt-12 border-t border-gray-200">
                 <div>
-                  <h4 style={{ fontSize: 14, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>Context</h4>
-                  <p style={{ color: '#737373', fontSize: 14, lineHeight: 1.7 }}>Every design responds to its unique physical, cultural, and historical context.</p>
+                  <h4 className="text-sm tracking-[0.1em] uppercase mb-3">Context</h4>
+                  <p className="text-[#737373] text-sm leading-relaxed">Every design responds to its unique physical, cultural, and historical context.</p>
                 </div>
                 <div>
-                  <h4 style={{ fontSize: 14, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>Craft</h4>
-                  <p style={{ color: '#737373', fontSize: 14, lineHeight: 1.7 }}>We obsess over details, materials, and the quality of construction.</p>
+                  <h4 className="text-sm tracking-[0.1em] uppercase mb-3">Craft</h4>
+                  <p className="text-[#737373] text-sm leading-relaxed">We obsess over details, materials, and the quality of construction.</p>
                 </div>
                 <div>
-                  <h4 style={{ fontSize: 14, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>Sustainability</h4>
-                  <p style={{ color: '#737373', fontSize: 14, lineHeight: 1.7 }}>Environmental responsibility is embedded in every decision we make.</p>
+                  <h4 className="text-sm tracking-[0.1em] uppercase mb-3">Sustainability</h4>
+                  <p className="text-[#737373] text-sm leading-relaxed">Environmental responsibility is embedded in every decision we make.</p>
                 </div>
               </div>
             </div>
@@ -680,56 +686,47 @@ export default function Architect() {
       </section>
 
       {/* Services Section */}
-      <section id="services" style={{ padding: '128px 24px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+      <section id="services" className="py-24 md:py-32 px-6">
+        <div className="max-w-[1400px] mx-auto">
           {/* Section Header */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 48, marginBottom: 80 }}>
-            <div style={{ gridColumn: 'span 4' }}>
-              <span ref={addAosRef} className="aos-fade-up index-number" style={{ marginBottom: 16 }}>03</span>
-              <h2 ref={addAosRef} className="aos-fade-up" style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 300 }}>Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-20 md:mb-32">
+            <div className="md:col-span-4">
+              <span ref={addAosRef} className="aos-fade-up index-number mb-4">03</span>
+              <h2 ref={addAosRef} className="aos-fade-up text-4xl md:text-5xl font-light">Services</h2>
             </div>
-            <div style={{ gridColumn: '7 / span 6' }}>
-              <p ref={addAosRef} className="aos-fade-up" style={{ color: '#737373', lineHeight: 1.7 }}>
+            <div className="md:col-span-6 md:col-start-7">
+              <p ref={addAosRef} className="aos-fade-up text-[#737373] leading-relaxed">
                 From initial concept through to completion, we offer a comprehensive range of architectural services tailored to each project's unique requirements.
               </p>
             </div>
           </div>
 
           {/* Services List */}
-          <div>
+          <div className="border-b border-gray-200">
             {[
               { num: '01', title: 'Architecture', desc: 'Full architectural services from concept design through construction, including planning and building regulations.' },
               { num: '02', title: 'Interior Design', desc: 'Comprehensive interior design services including space planning, material selection, and bespoke furniture design.' },
               { num: '03', title: 'Master Planning', desc: 'Strategic site planning for large-scale developments, campus designs, and urban regeneration projects.' },
               { num: '04', title: 'Conservation', desc: 'Sensitive restoration and adaptation of historic buildings, with specialist expertise in protected structures.' },
               { num: '05', title: 'Consultation', desc: 'Expert advice on feasibility, site analysis, and design direction for clients at the earliest stages of a project.' },
-            ].map((service, index) => (
+            ].map((service) => (
               <div
                 key={service.num}
                 ref={addAosRef}
-                className="aos-fade-up service-item"
-                style={{
-                  padding: '32px 0',
-                  borderTop: '1px solid #e5e5e5',
-                  borderBottom: index === 4 ? '1px solid #e5e5e5' : 'none',
-                  cursor: 'pointer',
-                  transition: 'background 0.5s'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#fafafa'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                className="aos-fade-up service-item group border-t border-gray-200 py-10 md:py-12 cursor-pointer transition-all duration-500 hover:bg-[#fafafa]"
               >
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 32, alignItems: 'center' }}>
-                  <div style={{ gridColumn: 'span 1' }}>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-center">
+                  <div className="md:col-span-1">
                     <span className="index-number">{service.num}</span>
                   </div>
-                  <div style={{ gridColumn: 'span 3' }}>
-                    <h3 style={{ fontSize: 'clamp(20px, 2vw, 24px)', fontWeight: 300, transition: 'transform 0.3s' }}>{service.title}</h3>
+                  <div className="md:col-span-3">
+                    <h3 className="text-2xl font-light transition-transform duration-300">{service.title}</h3>
                   </div>
-                  <div style={{ gridColumn: 'span 5' }}>
-                    <p style={{ color: '#737373', fontSize: 14, lineHeight: 1.7 }}>{service.desc}</p>
+                  <div className="md:col-span-5">
+                    <p className="text-[#737373] text-sm leading-relaxed">{service.desc}</p>
                   </div>
-                  <div style={{ gridColumn: 'span 3', textAlign: 'right' }}>
-                    <a href="#" className="link-minimal" style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Learn More</a>
+                  <div className="md:col-span-3 text-left md:text-right">
+                    <a href="#" className="link-minimal text-[11px] font-medium tracking-[0.1em] uppercase">Learn More</a>
                   </div>
                 </div>
               </div>
@@ -739,16 +736,16 @@ export default function Architect() {
       </section>
 
       {/* Recognition Section */}
-      <section style={{ padding: '128px 24px', background: '#0a0a0a', color: '#ffffff' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 64 }}>
-            <div style={{ gridColumn: 'span 4' }}>
-              <span ref={addAosRef} className="aos-fade-up" style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#737373' }}>Recognition</span>
-              <h2 ref={addAosRef} className="aos-fade-up" style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 300, marginTop: 16 }}>Awards & Press</h2>
+      <section className="py-24 md:py-32 bg-[#0a0a0a] text-white px-6">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+            <div className="md:col-span-4">
+              <span ref={addAosRef} className="aos-fade-up text-[11px] font-medium tracking-[0.2em] uppercase text-[#737373]">Recognition</span>
+              <h2 ref={addAosRef} className="aos-fade-up text-4xl md:text-5xl font-light mt-6">Awards & Press</h2>
             </div>
 
-            <div style={{ gridColumn: '6 / span 7' }}>
-              <div ref={addAosRef} className="aos-fade-up" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div className="md:col-span-7 md:col-start-6">
+              <div ref={addAosRef} className="aos-fade-up flex flex-col gap-6">
                 {[
                   { title: 'RIAI Award for Housing', subtitle: 'Brennan Residence / 2024' },
                   { title: 'Irish Architecture Award', subtitle: 'The Granary / 2023' },
@@ -757,26 +754,13 @@ export default function Architect() {
                 ].map((award) => (
                   <div
                     key={award.title}
-                    style={{ padding: '24px 0', borderBottom: '1px solid #262626', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'default' }}
-                    className="group"
-                    onMouseEnter={(e) => {
-                      const h4 = e.currentTarget.querySelector('h4');
-                      const icon = e.currentTarget.querySelector('.award-icon');
-                      if (h4) (h4 as HTMLElement).style.color = '#a3a3a3';
-                      if (icon) (icon as HTMLElement).style.opacity = '1';
-                    }}
-                    onMouseLeave={(e) => {
-                      const h4 = e.currentTarget.querySelector('h4');
-                      const icon = e.currentTarget.querySelector('.award-icon');
-                      if (h4) (h4 as HTMLElement).style.color = '#ffffff';
-                      if (icon) (icon as HTMLElement).style.opacity = '0';
-                    }}
+                    className="group flex items-center justify-between py-8 border-b border-white/10 cursor-default"
                   >
                     <div>
-                      <h4 style={{ fontSize: 18, fontWeight: 300, marginBottom: 4, transition: 'color 0.3s' }}>{award.title}</h4>
-                      <p style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#737373' }}>{award.subtitle}</p>
+                      <h4 className="text-xl font-light mb-2 transition-colors duration-300 group-hover:text-[#a3a3a3]">{award.title}</h4>
+                      <p className="text-[10px] tracking-[0.1em] uppercase text-[#737373]">{award.subtitle}</p>
                     </div>
-                    <div className="award-icon" style={{ opacity: 0, transition: 'opacity 0.3s' }}>
+                    <div className="opacity-0 transition-all duration-300 transform translate-x-4 group-hover:opacity-100 group-hover:translate-x-0">
                       <ArrowUpRight />
                     </div>
                   </div>
@@ -788,20 +772,20 @@ export default function Architect() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" style={{ padding: '128px 24px' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 64 }}>
+      <section id="contact" className="py-24 md:py-32 px-6">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-16">
             {/* Left - CTA */}
-            <div style={{ gridColumn: 'span 6' }}>
-              <span ref={addAosRef} className="aos-fade-up index-number" style={{ marginBottom: 16 }}>04</span>
-              <h2 ref={addAosRef} className="aos-fade-up" style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 300, marginTop: 16, marginBottom: 32, lineHeight: 1.1 }}>
+            <div className="md:col-span-6">
+              <span ref={addAosRef} className="aos-fade-up index-number mb-4">04</span>
+              <h2 ref={addAosRef} className="aos-fade-up text-4xl md:text-5xl lg:text-6xl font-light mt-6 mb-12 leading-tight">
                 Let's create something meaningful together.
               </h2>
-              <p ref={addAosRef} className="aos-fade-up" style={{ color: '#737373', lineHeight: 1.7, marginBottom: 48, maxWidth: 400 }}>
+              <p ref={addAosRef} className="aos-fade-up text-[#737373] leading-relaxed mb-12 max-w-md">
                 Whether you're planning a new build, renovation, or simply exploring possibilities, we'd love to hear from you. Every great project starts with a conversation.
               </p>
               <div ref={addAosRef} className="aos-fade-up">
-                <a href="mailto:studio@kavanaghcole.ie" className="btn-minimal-filled">
+                <a href="mailto:studio@kavanaghcole.ie" className="btn-minimal-filled w-full sm:w-auto justify-center">
                   Start a Conversation
                   <ArrowRight />
                 </a>
@@ -809,30 +793,30 @@ export default function Architect() {
             </div>
 
             {/* Right - Contact Info */}
-            <div style={{ gridColumn: '9 / span 4' }}>
-              <div ref={addAosRef} className="aos-fade-up" style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
+            <div className="md:col-span-4 md:col-start-9">
+              <div ref={addAosRef} className="aos-fade-up flex flex-col gap-12 md:gap-16">
                 <div>
-                  <h4 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3', marginBottom: 16 }}>General Enquiries</h4>
-                  <a href="mailto:studio@kavanaghcole.ie" className="link-minimal" style={{ fontSize: 18 }}>studio@kavanaghcole.ie</a>
+                  <h4 className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3] mb-4">General Enquiries</h4>
+                  <a href="mailto:studio@kavanaghcole.ie" className="link-minimal text-xl">studio@kavanaghcole.ie</a>
                 </div>
                 <div>
-                  <h4 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3', marginBottom: 16 }}>Telephone</h4>
-                  <a href="tel:+35312345678" className="link-minimal" style={{ fontSize: 18 }}>+353 1 234 5678</a>
+                  <h4 className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3] mb-4">Telephone</h4>
+                  <a href="tel:+35312345678" className="link-minimal text-xl">+353 1 234 5678</a>
                 </div>
                 <div>
-                  <h4 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3', marginBottom: 16 }}>Studio</h4>
-                  <p style={{ fontSize: 18, lineHeight: 1.7 }}>
+                  <h4 className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3] mb-4">Studio</h4>
+                  <p className="text-xl leading-relaxed">
                     14 Merrion Square<br />
                     Dublin 2, D02 VR66<br />
                     Ireland
                   </p>
                 </div>
                 <div>
-                  <h4 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3', marginBottom: 16 }}>Follow</h4>
-                  <div style={{ display: 'flex', gap: 24 }}>
-                    <a href="#" className="link-minimal" style={{ fontSize: 14 }}>Instagram</a>
-                    <a href="#" className="link-minimal" style={{ fontSize: 14 }}>LinkedIn</a>
-                    <a href="#" className="link-minimal" style={{ fontSize: 14 }}>Pinterest</a>
+                  <h4 className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#a3a3a3] mb-4">Follow</h4>
+                  <div className="flex gap-8">
+                    <a href="#" className="link-minimal text-sm">Instagram</a>
+                    <a href="#" className="link-minimal text-sm">LinkedIn</a>
+                    <a href="#" className="link-minimal text-sm">Pinterest</a>
                   </div>
                 </div>
               </div>
@@ -842,47 +826,21 @@ export default function Architect() {
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '32px 24px', borderTop: '1px solid #e5e5e5' }}>
-        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
-            <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>
+      <footer className="py-12 md:py-16 px-6 border-t border-gray-100">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="text-[10px] tracking-[0.1em] uppercase text-[#a3a3a3] text-center md:text-left">
               © 2025 Kavanagh & Cole Architects
             </div>
-            <div style={{ display: 'flex', gap: 32, fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a3a3a3' }}>
-              <a href="#" style={{ textDecoration: 'none', color: 'inherit', transition: 'color 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#0a0a0a'} onMouseLeave={(e) => e.currentTarget.style.color = '#a3a3a3'}>Privacy</a>
-              <a href="#" style={{ textDecoration: 'none', color: 'inherit', transition: 'color 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#0a0a0a'} onMouseLeave={(e) => e.currentTarget.style.color = '#a3a3a3'}>Terms</a>
-              <a href="#" style={{ textDecoration: 'none', color: 'inherit', transition: 'color 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#0a0a0a'} onMouseLeave={(e) => e.currentTarget.style.color = '#a3a3a3'}>Sitemap</a>
+            <div className="flex gap-8 text-[10px] tracking-[0.1em] uppercase text-[#a3a3a3]">
+              <a href="#" className="no-underline color-inherit transition-colors hover:text-[#0a0a0a]">Privacy</a>
+              <a href="#" className="no-underline color-inherit transition-colors hover:text-[#0a0a0a]">Terms</a>
+              <a href="#" className="no-underline color-inherit transition-colors hover:text-[#0a0a0a]">Sitemap</a>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Responsive styles */}
-      <style jsx>{`
-        @media (max-width: 1024px) {
-          .architect-wrapper section > div > div[style*="gridTemplateColumns"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-        @media (max-width: 768px) {
-          .hidden-mobile {
-            display: none !important;
-          }
-          .mobile-only {
-            display: block !important;
-          }
-        }
-        @media (min-width: 769px) {
-          .mobile-only {
-            display: none !important;
-          }
-        }
-        @media (max-width: 640px) {
-          .hidden-mobile-sm {
-            display: none !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }

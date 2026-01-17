@@ -947,8 +947,8 @@ export default function LandingPage() {
           className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-sm"
           style={{ animation: 'fadeIn 0.3s ease-out' }}
         >
-          {/* Exit Button - Fixed at top */}
-          <div className="fixed top-0 left-0 right-0 z-[10001] bg-gradient-to-b from-black/80 to-transparent py-4 px-4">
+          {/* Exit Button - Fixed at bottom */}
+          <div className="fixed bottom-0 left-0 right-0 z-[10001] bg-gradient-to-t from-black/80 to-transparent py-4 px-4 pb-8">
             <div className="max-w-6xl mx-auto flex justify-between items-center">
               <span className="text-white/60 text-sm">Preview Mode</span>
               <button
@@ -964,7 +964,7 @@ export default function LandingPage() {
 
           {/* Modal Content */}
           <div
-            className="w-full h-full overflow-auto pt-16"
+            className="w-full h-full overflow-auto pt-0 pb-24"
             style={{ animation: 'slideUp 0.4s ease-out' }}
           >
             {activeExample === 'architect' && <Architect />}

@@ -450,7 +450,6 @@ export default function FlowdeskProffesional({ previewMode = false }: { previewM
             className={`fixed top-0 left-0 right-0 z-50 bg-[#FAFAF9]/95 backdrop-blur-sm border-b border-gray-100 transition-all duration-300 ${
                 scrolled ? 'shadow-sm' : ''
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="max-w-6xl mx-auto px-6">
                 <div className="flex items-center justify-between h-20">
@@ -496,7 +495,6 @@ export default function FlowdeskProffesional({ previewMode = false }: { previewM
         {/* Mobile Menu */}
         <div 
             className={`mobile-menu ${mobileMenuOpen ? 'active' : ''}`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="p-6">
                 <div className="flex items-center justify-between mb-12">
@@ -533,7 +531,7 @@ export default function FlowdeskProffesional({ previewMode = false }: { previewM
         </div>
 
         {/* Hero Section */}
-        <section className="pt-32 pb-20 md:pt-40 md:pb-32 grid-bg">
+        <section className="pt-24 pb-20 md:pt-32 md:pb-32 grid-bg">
             <div className="max-w-6xl mx-auto px-6">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     {/* Left Content */}

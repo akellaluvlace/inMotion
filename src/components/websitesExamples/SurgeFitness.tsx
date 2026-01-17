@@ -499,7 +499,6 @@ export default function SurgeFitness({ previewMode = false }: { previewMode?: bo
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/5 ${
                 scrolled ? 'bg-[#0A0A0A]/95 backdrop-blur-md shadow-lg' : 'bg-[#0A0A0A]/90 backdrop-blur-md'
             }`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="max-w-7xl mx-auto px-6 lg:px-12">
                 <div className="flex items-center justify-between h-20">
@@ -543,7 +542,6 @@ export default function SurgeFitness({ previewMode = false }: { previewMode?: bo
         {/* Mobile Menu Overlay */}
         <div 
             className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}
-            style={{ top: previewMode ? '64px' : '0' }}
         >
             <div className="flex flex-col gap-8 text-center">
                 {['Classes', 'App', 'Trainers', 'Pricing', 'Locations'].map((item) => (
@@ -564,7 +562,7 @@ export default function SurgeFitness({ previewMode = false }: { previewMode?: bo
         </div>
 
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
             {/* Background Image with Overlay */}
             <div className="absolute inset-0">
                 <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&h=1080&fit=crop&q=80" 
