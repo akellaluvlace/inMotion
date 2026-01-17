@@ -404,7 +404,7 @@ export default function LandingPage() {
 
   const handleExampleClick = (image: ImageItem, index: number) => {
     // Map image index/id to component
-    if (index === 0 || image.id === 'architect') {
+    if (image.id === 'architect') {
       setActiveExample('architect');
       document.body.style.overflow = 'hidden';
     } else if (image.id === 'ashford') {

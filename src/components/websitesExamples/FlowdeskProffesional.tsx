@@ -60,7 +60,23 @@ const injectStyles = () => {
         font-family: 'Instrument Serif', Georgia, serif;
         font-weight: 400;
         line-height: 1.15;
+    }
+
+    /* Dark section utility */
+    .flowdesk-wrapper .dark-section h2,
+    .flowdesk-wrapper .dark-section .stat-number {
+        color: #FFFFFF !important;
+    }
+
+    .flowdesk-wrapper .dark-section .btn-secondary {
+        color: #FFFFFF;
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .flowdesk-wrapper .dark-section .btn-secondary:hover {
+        background: #FFFFFF;
         color: #0A1628;
+        border-color: #FFFFFF;
     }
 
     /* Elegant Line Divider */
@@ -300,7 +316,6 @@ const injectStyles = () => {
         font-family: 'Instrument Serif', Georgia, serif;
         font-size: 48px;
         line-height: 1;
-        color: #0A1628;
     }
 
     /* Grid pattern background */
@@ -813,24 +828,24 @@ export default function FlowdeskProffesional({ previewMode = false }: { previewM
         </section>
 
         {/* Stats Section */}
-        <section className="py-20 md:py-24 bg-[#0A1628]">
+        <section className="py-20 md:py-24 bg-[#0A1628] dark-section">
             <div className="max-w-6xl mx-auto px-6">
                 <div ref={addAosRef} className="flowdesk-fade-up grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
                     <div className="text-center">
                         <p className="stat-number text-white mb-2">2,400+</p>
-                        <p className="text-[#94A3B8] text-sm">Active Teams</p>
+                        <p className="text-blue-100 text-sm">Active Teams</p>
                     </div>
                     <div className="text-center">
                         <p className="stat-number text-white mb-2">50M+</p>
-                        <p className="text-[#94A3B8] text-sm">Tasks Completed</p>
+                        <p className="text-blue-100 text-sm">Tasks Completed</p>
                     </div>
                     <div className="text-center">
                         <p className="stat-number text-white mb-2">99.9%</p>
-                        <p className="text-[#94A3B8] text-sm">Uptime SLA</p>
+                        <p className="text-blue-100 text-sm">Uptime SLA</p>
                     </div>
                     <div className="text-center">
                         <p className="stat-number text-white mb-2">4.9★</p>
-                        <p className="text-[#94A3B8] text-sm">User Rating</p>
+                        <p className="text-blue-100 text-sm">User Rating</p>
                     </div>
                 </div>
             </div>
@@ -977,7 +992,7 @@ export default function FlowdeskProffesional({ previewMode = false }: { previewM
         </section>
 
         {/* CTA Section */}
-        <section className="py-24 md:py-32 bg-[#0A1628]">
+        <section className="py-24 md:py-32 bg-[#0A1628] dark-section">
             <div className="max-w-4xl mx-auto px-6 text-center">
                 <h2 ref={addAosRef} className="flowdesk-fade-up text-3xl md:text-4xl lg:text-5xl text-white mb-6">
                     Ready to ship<br /><em className="italic">faster?</em>
