@@ -549,8 +549,7 @@ export default function AshfordHouse({ previewMode = false }: { previewMode?: bo
               </a>
               <a
                 onClick={() => scrollToSection('venues')}
-                className="w-full sm:w-auto justify-center cursor-pointer inline-flex items-center gap-3 px-10 py-[18px] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:opacity-80"
-                style={{ backgroundColor: '#4A5568', color: '#FFFFF0' }}
+                className="w-full sm:w-auto justify-center cursor-pointer inline-flex items-center gap-3 px-10 py-[18px] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 border border-white/40 backdrop-blur-sm text-white bg-white/10 hover:bg-white hover:text-[#36454F] hover:border-white"
               >
                 Explore Venues
               </a>
