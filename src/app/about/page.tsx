@@ -1,81 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ArrowRight, MapPin, Award, Globe, Users, Menu, X } from 'lucide-react';
+import React from 'react';
+import { ArrowRight, MapPin, Award, Globe, Users } from 'lucide-react';
 import Image from 'next/image';
+import Navigation from '@/components/Navigation';
 
 export default function AboutPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   return (
     <div className="bg-white text-[#1a1a1a] font-sans min-h-screen selection:bg-black/10">
 
       {/* Navigation */}
-      <nav className="fixed w-full z-50 px-4 py-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="glass-strong rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between border border-[#e0e0e0]">
-            <a href="/" className="flex items-center group">
-              <div className="flex flex-col">
-                <span className="text-lg font-bold tracking-tight leading-none text-[#1a1a1a]">Akella</span>
-                <span className="text-xs text-[#666666] font-medium tracking-wider">inMotion</span>
-              </div>
-            </a>
-
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
-              <a href="/" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">Home</a>
-              <a href="/about" className="px-4 py-2 text-sm text-[#1a1a1a] font-medium bg-black/5 rounded-lg">About</a>
-            </div>
-
-            {/* Desktop CTA */}
-            <a href="/#contact" className="hidden sm:flex px-5 py-2.5 bg-[#1a1a1a] hover:bg-[#333333] rounded-xl text-sm font-semibold text-white transition-all">
-              <span className="flex items-center gap-2">
-                Start Project
-                <ArrowRight className="w-4 h-4" />
-              </span>
-            </a>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-black/5 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-
-          {/* Mobile Menu Dropdown */}
-          {mobileMenuOpen && (
-            <div className="md:hidden mt-2 glass-strong rounded-2xl border border-[#e0e0e0] overflow-hidden">
-              <div className="flex flex-col p-4 gap-2">
-                <a
-                  href="/"
-                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Home
-                </a>
-                <a
-                  href="/about"
-                  className="px-4 py-3 text-[#1a1a1a] font-medium bg-black/5 rounded-xl"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About
-                </a>
-                <a
-                  href="/#contact"
-                  className="mt-2 px-4 py-3 bg-[#1a1a1a] text-white font-semibold rounded-xl text-center flex items-center justify-center gap-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Start Project
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navigation currentPage="about" />
 
       {/* Main Content */}
       <main className="pt-28 px-4 pb-12 sm:pb-20">

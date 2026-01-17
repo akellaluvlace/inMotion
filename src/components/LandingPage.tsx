@@ -25,9 +25,9 @@ import {
   Plus,
   Minus,
   X,
-  Menu,
 } from 'lucide-react';
 import ShowDontTellAnimation from './ShowDontTellAnimation';
+import Navigation from './Navigation';
 import ScrollReveal, { ImageItem } from './ScrollReveal';
 import StyleShowcase from './StyleShowcase';
 import DigitalExperienceHero from './DigitalExperienceHero';
@@ -400,7 +400,6 @@ export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeExample, setActiveExample] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleExampleClick = (image: ImageItem, index: number) => {
     // Map image index/id to component
@@ -500,100 +499,7 @@ export default function LandingPage() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed w-full z-50 px-4 py-4 transition-all duration-300 nav-load">
-        <div className="max-w-6xl mx-auto">
-          <div className="glass-strong rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between">
-            {/* Logo */}
-            <a href="#" className="flex items-center group">
-              <div className="flex flex-col">
-                <span className="text-lg font-bold tracking-tight leading-none text-[#1a1a1a]">Akella</span>
-                <span className="text-xs text-[#666666] font-medium tracking-wider">inMotion</span>
-              </div>
-            </a>
-
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
-              <a href="#services" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">Services</a>
-              <a href="#pricing" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">Pricing</a>
-              <a href="#vibe-rescue" className="px-4 py-2 text-sm text-[#1a1a1a] hover:text-[#333333] transition-colors rounded-lg hover:bg-black/5 flex items-center gap-2">
-                <Sparkles className="w-4 h-4" />
-                Vibe Rescue
-              </a>
-              <a href="#process" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">Process</a>
-              <a href="/about" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">About</a>
-            </div>
-
-            {/* Desktop CTA Button */}
-            <a href="#contact" className="hidden sm:flex btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold text-white">
-              <span className="flex items-center gap-2">
-                Start Project
-                <ArrowRight className="w-4 h-4" />
-              </span>
-            </a>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-black/5 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-
-          {/* Mobile Menu Dropdown */}
-          {mobileMenuOpen && (
-            <div className="md:hidden mt-2 glass-strong rounded-2xl overflow-hidden">
-              <div className="flex flex-col p-4 gap-2">
-                <a
-                  href="#services"
-                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Services
-                </a>
-                <a
-                  href="#pricing"
-                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Pricing
-                </a>
-                <a
-                  href="#vibe-rescue"
-                  className="px-4 py-3 text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors flex items-center gap-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  Vibe Rescue
-                </a>
-                <a
-                  href="#process"
-                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Process
-                </a>
-                <a
-                  href="/about"
-                  className="px-4 py-3 text-[#666666] hover:text-[#1a1a1a] hover:bg-black/5 rounded-xl transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About
-                </a>
-                <a
-                  href="#contact"
-                  className="mt-2 px-4 py-3 btn-primary text-white font-semibold rounded-xl text-center flex items-center justify-center gap-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Start Project
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navigation currentPage="home" />
 
       {/* Hero Section - Ultra Minimal with Load Animations */}
       <section className="relative min-h-screen flex items-center justify-center px-4 pt-24 pb-20">
@@ -627,7 +533,7 @@ export default function LandingPage() {
           {/* Minimal Stats - Slide from bottom with stagger */}
           <div className="mt-24 flex justify-center gap-16 sm:gap-24">
             <div className="text-center hero-load-stat-1">
-              <div className="text-4xl sm:text-5xl font-light text-[#1a1a1a]">50+</div>
+              <div className="text-4xl sm:text-5xl font-light text-[#1a1a1a]">100+</div>
               <div className="text-xs text-[#888888] mt-2 tracking-wide">Projects</div>
             </div>
             <div className="text-center hero-load-stat-2">
@@ -669,7 +575,7 @@ export default function LandingPage() {
       </section>
 
       {/* Services Section */}
-      <div id="services">
+      <div id="services" className="scroll-mt-20">
         <ServicesCarousel onPreview={handleServicePreview} />
       </div>
 
