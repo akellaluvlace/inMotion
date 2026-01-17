@@ -46,6 +46,99 @@ import AkellaBadge from './AkellaBadge';
 
 // Move styles to a constant to avoid hydration mismatch from styled-jsx hashing
 const customStyles = `
+  /* Initial load animations */
+  @keyframes slideInFromTop {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideInFromBottom {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideInFromLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slideInFromRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-load-badge {
+    animation: slideInFromTop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+  }
+
+  .hero-load-headline-1 {
+    animation: slideInFromLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+  }
+
+  .hero-load-headline-2 {
+    animation: slideInFromRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+  }
+
+  .hero-load-subtitle {
+    animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.7s;
+    opacity: 0;
+  }
+
+  .hero-load-cta {
+    animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.9s;
+    opacity: 0;
+  }
+
+  .hero-load-stat-1 {
+    animation: slideInFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 1.1s;
+    opacity: 0;
+  }
+
+  .hero-load-stat-2 {
+    animation: slideInFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 1.2s;
+    opacity: 0;
+  }
+
+  .hero-load-stat-3 {
+    animation: slideInFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 1.3s;
+    opacity: 0;
+  }
+
+  /* Bento grid load animations */
+  .bento-load-1 { animation: slideInFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+  .bento-load-2 { animation: slideInFromTop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.1s; opacity: 0; }
+  .bento-load-3 { animation: slideInFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.15s; opacity: 0; }
+  .bento-load-4 { animation: slideInFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.2s; opacity: 0; }
+  .bento-load-5 { animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.25s; opacity: 0; }
+  .bento-load-6 { animation: slideInFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.3s; opacity: 0; }
+
+  /* Navigation load animation */
+  .nav-load {
+    animation: slideInFromTop 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+
   /* Animated gradient background - Clean minimal */
   .hero-gradient {
       position: absolute;
@@ -400,7 +493,7 @@ export default function LandingPage() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed w-full z-50 px-4 py-4 transition-all duration-300">
+      <nav className="fixed w-full z-50 px-4 py-4 transition-all duration-300 nav-load">
         <div className="max-w-6xl mx-auto">
           <div className="glass-strong rounded-2xl px-6 py-3 flex items-center justify-between">
             {/* Logo */}
@@ -433,46 +526,46 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section - Ultra Minimal */}
+      {/* Hero Section - Ultra Minimal with Load Animations */}
       <section className="relative min-h-screen flex items-center justify-center px-4 pt-24 pb-20">
         <div className="hero-gradient"></div>
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          {/* Minimal Badge */}
-          <div data-aos="fade-down" data-aos-duration="600" className="mb-12">
+          {/* Minimal Badge - Slides from top */}
+          <div className="mb-12 hero-load-badge">
             <span className="text-xs tracking-[0.3em] uppercase text-[#888888]">Dublin Web Studio</span>
           </div>
 
-          {/* Headline - Bold & Simple */}
-          <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100" className="text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] font-bold tracking-tight mb-8 leading-[0.9]">
-            <span className="text-[#1a1a1a]">Websites</span><br />
-            <span className="text-[#1a1a1a]">that convert.</span>
+          {/* Headline - Bold & Simple - Words slide from different directions */}
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] font-bold tracking-tight mb-8 leading-[0.9]">
+            <span className="text-[#1a1a1a] inline-block hero-load-headline-1">Websites</span><br />
+            <span className="text-[#1a1a1a] inline-block hero-load-headline-2">that convert.</span>
           </h1>
 
-          {/* Subheadline - Minimal */}
-          <p data-aos="fade-up" data-aos-duration="800" data-aos-delay="300" className="text-lg text-[#666666] mb-12 max-w-lg mx-auto leading-relaxed">
+          {/* Subheadline - Minimal - Fades up */}
+          <p className="text-lg text-[#666666] mb-12 max-w-lg mx-auto leading-relaxed hero-load-subtitle">
             10+ years experience. 20% below agency rates. Fixed prices, no surprises.
           </p>
 
-          {/* Single CTA - Ultra Minimal */}
-          <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="500" className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* Single CTA - Ultra Minimal - Scales in */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center hero-load-cta">
             <a href="#contact" className="group inline-flex items-center gap-3 px-8 py-4 bg-[#1a1a1a] hover:bg-[#333333] rounded-full text-white font-medium transition-all duration-300 hover:gap-5">
               Start a project
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </a>
           </div>
 
-          {/* Minimal Stats */}
-          <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="700" className="mt-24 flex justify-center gap-16 sm:gap-24">
-            <div className="text-center">
+          {/* Minimal Stats - Slide from bottom with stagger */}
+          <div className="mt-24 flex justify-center gap-16 sm:gap-24">
+            <div className="text-center hero-load-stat-1">
               <div className="text-4xl sm:text-5xl font-light text-[#1a1a1a]">50+</div>
               <div className="text-xs text-[#888888] mt-2 tracking-wide">Projects</div>
             </div>
-            <div className="text-center">
+            <div className="text-center hero-load-stat-2">
               <div className="text-4xl sm:text-5xl font-light text-[#1a1a1a]">10y</div>
               <div className="text-xs text-[#888888] mt-2 tracking-wide">Experience</div>
             </div>
-            <div className="text-center">
+            <div className="text-center hero-load-stat-3">
               <div className="text-4xl sm:text-5xl font-light text-[#1a1a1a]">24h</div>
               <div className="text-xs text-[#888888] mt-2 tracking-wide">Response</div>
             </div>
@@ -480,7 +573,7 @@ export default function LandingPage() {
         </div>
 
         {/* Scroll Indicator - Minimal */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 hero-load-cta">
           <div className="w-px h-16 bg-gradient-to-b from-transparent via-[#e0e0e0] to-transparent animate-pulse"></div>
         </div>
       </section>
@@ -525,28 +618,28 @@ export default function LandingPage() {
             <p data-aos="fade-up" data-aos-delay="200" className="text-[#666666] text-lg mt-4">We finish what you started.</p>
           </div>
 
-          {/* Bento Grid */}
+          {/* Bento Grid with smooth load animations */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Large Terminal Card */}
-            <div data-aos="fade-up" className="md:col-span-2 md:row-span-2 bg-[#2a2a2a] rounded-3xl p-8 relative overflow-hidden">
+            <div data-aos="fade-up" className="md:col-span-2 md:row-span-2 bg-[#2a2a2a] rounded-3xl p-8 relative overflow-hidden group hover:bg-[#333333] transition-all duration-500">
               <div className="font-mono text-sm space-y-3">
                 <div className="flex items-center gap-2 mb-6">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#4a4a4a]"></div>
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#4a4a4a]"></div>
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#4a4a4a]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#27ca3f]"></div>
                 </div>
-                <div className="text-[#666666]">$ npm run build</div>
+                <div className="text-[#27ca3f]">$ npm run build</div>
                 <div className="text-[#888888]">✓ Compiled successfully</div>
                 <div className="text-[#888888]">✓ No errors found</div>
                 <div className="text-white mt-6">That&apos;s how we do it.</div>
               </div>
-              <div className="absolute bottom-8 right-8">
+              <div className="absolute bottom-8 right-8 group-hover:translate-x-2 transition-transform duration-500">
                 <span className="text-[#4a4a4a] text-7xl font-extralight">→</span>
               </div>
             </div>
 
             {/* Price Card */}
-            <div data-aos="fade-up" data-aos-delay="100" className="bg-white rounded-3xl p-8 border border-[#e0e0e0] flex flex-col justify-between">
+            <div data-aos="fade-up" data-aos-delay="100" className="bg-white rounded-3xl p-8 border border-[#e0e0e0] flex flex-col justify-between hover:border-[#1a1a1a] hover:shadow-lg transition-all duration-300">
               <div>
                 <p className="text-xs tracking-[0.2em] uppercase text-[#888888] mb-2">Starting at</p>
                 <p className="text-4xl font-bold text-[#1a1a1a]">€200</p>
@@ -555,7 +648,7 @@ export default function LandingPage() {
             </div>
 
             {/* Time Card */}
-            <div data-aos="fade-up" data-aos-delay="150" className="bg-white rounded-3xl p-8 border border-[#e0e0e0] flex flex-col justify-between">
+            <div data-aos="fade-up" data-aos-delay="150" className="bg-white rounded-3xl p-8 border border-[#e0e0e0] flex flex-col justify-between hover:border-[#1a1a1a] hover:shadow-lg transition-all duration-300">
               <div>
                 <p className="text-xs tracking-[0.2em] uppercase text-[#888888] mb-2">Delivery</p>
                 <p className="text-4xl font-bold text-[#1a1a1a]">3-7</p>
@@ -564,30 +657,30 @@ export default function LandingPage() {
             </div>
 
             {/* What we fix - spans 2 cols */}
-            <div data-aos="fade-up" data-aos-delay="200" className="md:col-span-2 bg-white rounded-3xl p-8 border border-[#e0e0e0]">
+            <div data-aos="fade-up" data-aos-delay="200" className="md:col-span-2 bg-white rounded-3xl p-8 border border-[#e0e0e0] hover:border-[#1a1a1a] hover:shadow-lg transition-all duration-300">
               <p className="text-xs tracking-[0.2em] uppercase text-[#888888] mb-6">What we fix</p>
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a]"></div>
+                <div className="flex items-center gap-3 group/item">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a] group-hover/item:scale-150 transition-transform"></div>
                   <span className="text-[#1a1a1a]">Bug fixes</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a]"></div>
+                <div className="flex items-center gap-3 group/item">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a] group-hover/item:scale-150 transition-transform"></div>
                   <span className="text-[#1a1a1a]">Deployment</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a]"></div>
+                <div className="flex items-center gap-3 group/item">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a] group-hover/item:scale-150 transition-transform"></div>
                   <span className="text-[#1a1a1a]">Code cleanup</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a]"></div>
+                <div className="flex items-center gap-3 group/item">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#1a1a1a] group-hover/item:scale-150 transition-transform"></div>
                   <span className="text-[#1a1a1a]">Responsiveness</span>
                 </div>
               </div>
             </div>
 
             {/* CTA Card */}
-            <div data-aos="fade-up" data-aos-delay="250" className="bg-[#1a1a1a] hover:bg-[#2a2a2a] rounded-3xl p-8 transition-all duration-500 group cursor-pointer" onClick={() => window.location.href='#contact'}>
+            <div data-aos="fade-up" data-aos-delay="250" className="bg-[#1a1a1a] hover:bg-[#2a2a2a] rounded-3xl p-8 transition-all duration-500 group cursor-pointer hover:scale-[1.02]" onClick={() => window.location.href='#contact'}>
               <p className="text-white font-medium mb-4">Send your project</p>
               <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-2 transition-transform" />
             </div>
@@ -609,33 +702,33 @@ export default function LandingPage() {
           {/* Asymmetric Bento Grid Process */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Step 1 - Large, spans 2 cols */}
-            <div data-aos="fade-up" className="md:col-span-2 group bg-[#fafafa] hover:bg-[#f0f0f0] rounded-3xl p-10 md:p-12 transition-all duration-500 border border-transparent hover:border-[#e0e0e0]">
+            <div data-aos="fade-up" className="md:col-span-2 group bg-[#fafafa] hover:bg-[#f0f0f0] rounded-3xl p-10 md:p-12 transition-all duration-500 border border-transparent hover:border-[#1a1a1a] hover:shadow-xl cursor-default">
               <span className="text-8xl font-extralight text-[#e0e0e0] group-hover:text-[#1a1a1a] transition-colors duration-500">01</span>
-              <h3 className="text-3xl font-semibold mt-6 mb-3 text-[#1a1a1a]">Discovery</h3>
+              <h3 className="text-3xl font-semibold mt-6 mb-3 text-[#1a1a1a] group-hover:translate-x-1 transition-transform duration-300">Discovery</h3>
               <p className="text-[#666666] text-lg leading-relaxed max-w-md">We listen. You talk. Fixed quote within 24 hours.</p>
             </div>
 
             {/* Step 2 - Small */}
-            <div data-aos="fade-up" data-aos-delay="100" className="group bg-[#fafafa] hover:bg-[#f0f0f0] rounded-3xl p-8 transition-all duration-500 border border-transparent hover:border-[#e0e0e0]">
+            <div data-aos="fade-up" data-aos-delay="100" className="group bg-[#fafafa] hover:bg-[#f0f0f0] rounded-3xl p-8 transition-all duration-500 border border-transparent hover:border-[#1a1a1a] hover:shadow-xl cursor-default hover:-translate-y-1">
               <span className="text-5xl font-extralight text-[#e0e0e0] group-hover:text-[#1a1a1a] transition-colors duration-500">02</span>
               <h3 className="text-xl font-semibold mt-4 mb-2 text-[#1a1a1a]">Design</h3>
               <p className="text-[#666666] text-sm">Pixel-perfect mockups. Your approval.</p>
             </div>
 
             {/* Step 3 - Small */}
-            <div data-aos="fade-up" data-aos-delay="150" className="group bg-[#fafafa] hover:bg-[#f0f0f0] rounded-3xl p-8 transition-all duration-500 border border-transparent hover:border-[#e0e0e0]">
+            <div data-aos="fade-up" data-aos-delay="150" className="group bg-[#fafafa] hover:bg-[#f0f0f0] rounded-3xl p-8 transition-all duration-500 border border-transparent hover:border-[#1a1a1a] hover:shadow-xl cursor-default hover:-translate-y-1">
               <span className="text-5xl font-extralight text-[#e0e0e0] group-hover:text-[#1a1a1a] transition-colors duration-500">03</span>
               <h3 className="text-xl font-semibold mt-4 mb-2 text-[#1a1a1a]">Build</h3>
               <p className="text-[#666666] text-sm">Weekly updates. Full transparency.</p>
             </div>
 
             {/* Step 4 - Dark, spans 2 cols */}
-            <div data-aos="fade-up" data-aos-delay="200" className="md:col-span-2 group bg-[#2a2a2a] hover:bg-[#333333] rounded-3xl p-10 md:p-12 transition-all duration-500 relative overflow-hidden">
-              <span className="text-8xl font-extralight text-[#3a3a3a] group-hover:text-[#4a4a4a] transition-colors duration-500">04</span>
-              <h3 className="text-3xl font-semibold mt-6 mb-3 text-white">Launch</h3>
+            <div data-aos="fade-up" data-aos-delay="200" className="md:col-span-2 group bg-[#2a2a2a] hover:bg-[#333333] rounded-3xl p-10 md:p-12 transition-all duration-500 relative overflow-hidden hover:shadow-2xl cursor-default">
+              <span className="text-8xl font-extralight text-[#3a3a3a] group-hover:text-[#27ca3f] transition-colors duration-500">04</span>
+              <h3 className="text-3xl font-semibold mt-6 mb-3 text-white group-hover:translate-x-1 transition-transform duration-300">Launch</h3>
               <p className="text-[#888888] text-lg leading-relaxed max-w-md">Deploy. Train. Support. Always available.</p>
-              <div className="absolute bottom-8 right-8">
-                <Check className="w-12 h-12 text-[#3a3a3a] group-hover:text-[#4a4a4a] transition-colors" />
+              <div className="absolute bottom-8 right-8 group-hover:scale-110 transition-transform duration-500">
+                <Check className="w-12 h-12 text-[#3a3a3a] group-hover:text-[#27ca3f] transition-colors" />
               </div>
             </div>
           </div>
@@ -653,53 +746,53 @@ export default function LandingPage() {
           {/* Asymmetric Bento Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Dublin - Large */}
-            <div data-aos="fade-up" className="md:col-span-2 md:row-span-2 group bg-white hover:bg-[#f5f5f5] rounded-3xl p-10 transition-all duration-500 border border-[#e0e0e0] relative overflow-hidden">
-              <MapPin className="w-8 h-8 text-[#1a1a1a] mb-8" />
-              <h3 className="text-4xl font-bold mb-4 text-[#1a1a1a]">Dublin.</h3>
+            <div data-aos="fade-up" className="md:col-span-2 md:row-span-2 group bg-white hover:bg-[#f5f5f5] rounded-3xl p-10 transition-all duration-500 border border-[#e0e0e0] hover:border-[#1a1a1a] hover:shadow-xl relative overflow-hidden cursor-default">
+              <MapPin className="w-8 h-8 text-[#1a1a1a] mb-8 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-4xl font-bold mb-4 text-[#1a1a1a] group-hover:translate-x-1 transition-transform duration-300">Dublin.</h3>
               <h3 className="text-4xl font-bold mb-6 text-[#888888]">Actually.</h3>
               <p className="text-[#666666] text-lg max-w-sm">Same timezone. Real accountability. Here when you need us.</p>
             </div>
 
             {/* 20% Below - Dark */}
-            <div data-aos="fade-up" data-aos-delay="100" className="md:col-span-2 group bg-[#2a2a2a] hover:bg-[#333333] rounded-3xl p-8 transition-all duration-500">
-              <BadgePercent className="w-6 h-6 text-[#666666] mb-4" />
-              <h3 className="text-3xl font-bold text-white">20% Below</h3>
+            <div data-aos="fade-up" data-aos-delay="100" className="md:col-span-2 group bg-[#2a2a2a] hover:bg-[#333333] rounded-3xl p-8 transition-all duration-500 hover:shadow-2xl cursor-default">
+              <BadgePercent className="w-6 h-6 text-[#666666] mb-4 group-hover:text-[#27ca3f] group-hover:scale-110 transition-all duration-300" />
+              <h3 className="text-3xl font-bold text-white group-hover:translate-x-1 transition-transform duration-300">20% Below</h3>
               <p className="text-[#666666] text-sm mt-2">Agency rates. Senior expertise.</p>
             </div>
 
             {/* Fixed Price */}
-            <div data-aos="fade-up" data-aos-delay="150" className="group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0]">
-              <Lock className="w-5 h-5 text-[#1a1a1a] mb-3" />
+            <div data-aos="fade-up" data-aos-delay="150" className="group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0] hover:border-[#1a1a1a] hover:shadow-lg hover:-translate-y-1 cursor-default">
+              <Lock className="w-5 h-5 text-[#1a1a1a] mb-3 group-hover:scale-110 transition-transform duration-300" />
               <h3 className="text-lg font-semibold text-[#1a1a1a]">Fixed Prices</h3>
               <p className="text-[#888888] text-xs mt-1">Always.</p>
             </div>
 
             {/* 24hr */}
-            <div data-aos="fade-up" data-aos-delay="200" className="group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0]">
-              <Clock className="w-5 h-5 text-[#1a1a1a] mb-3" />
+            <div data-aos="fade-up" data-aos-delay="200" className="group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0] hover:border-[#1a1a1a] hover:shadow-lg hover:-translate-y-1 cursor-default">
+              <Clock className="w-5 h-5 text-[#1a1a1a] mb-3 group-hover:scale-110 transition-transform duration-300" />
               <h3 className="text-lg font-semibold text-[#1a1a1a]">&lt;24h</h3>
               <p className="text-[#888888] text-xs mt-1">Response time.</p>
             </div>
 
             {/* AI Rescue */}
-            <div data-aos="fade-up" data-aos-delay="250" className="group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0]">
-              <Sparkles className="w-5 h-5 text-[#1a1a1a] mb-3" />
+            <div data-aos="fade-up" data-aos-delay="250" className="group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0] hover:border-[#1a1a1a] hover:shadow-lg hover:-translate-y-1 cursor-default">
+              <Sparkles className="w-5 h-5 text-[#1a1a1a] mb-3 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
               <h3 className="text-lg font-semibold text-[#1a1a1a]">AI Rescue</h3>
               <p className="text-[#888888] text-xs mt-1">We finish it.</p>
             </div>
 
             {/* Modern Stack - Wide */}
-            <div data-aos="fade-up" data-aos-delay="300" className="md:col-span-3 group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0]">
+            <div data-aos="fade-up" data-aos-delay="300" className="md:col-span-3 group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0] hover:border-[#1a1a1a] hover:shadow-lg cursor-default">
               <div className="flex items-center justify-between">
                 <div>
-                  <Code2 className="w-5 h-5 text-[#1a1a1a] mb-3" />
+                  <Code2 className="w-5 h-5 text-[#1a1a1a] mb-3 group-hover:scale-110 transition-transform duration-300" />
                   <h3 className="text-lg font-semibold text-[#1a1a1a]">Modern Stack</h3>
                 </div>
                 <div className="flex gap-2 font-mono text-xs text-[#666666]">
-                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0]">React</span>
-                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0]">Next.js</span>
-                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0]">TypeScript</span>
-                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0]">Django</span>
+                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">React</span>
+                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">Next.js</span>
+                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">TypeScript</span>
+                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">Django</span>
                 </div>
               </div>
             </div>
@@ -785,6 +878,7 @@ export default function LandingPage() {
       <ScrollReveal
         centerContent={<ShowDontTellAnimation />}
         animationMode="pinned-sequence"
+        transitionText=""
         images={[
           { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop', label: 'Kavanagh & Cole Architects', id: 'architect' },
           { src: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=800&auto=format&fit=crop', label: 'Camden Gentlemen Barbers', id: 'barbers' },

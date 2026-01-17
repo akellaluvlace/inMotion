@@ -25,18 +25,29 @@ export interface ScrollRevealProps {
 const styles = `
 .scroll-reveal-wrapper {
   --sr-gutter: 2rem;
-  --sr-gap: clamp(8px, 2vw, 16px);
+  --sr-gap: clamp(12px, 2vw, 20px);
   --sr-max-height: 100vh;
   position: relative;
   width: 100%;
-  background: #030712;
+  background: #ffffff;
   overflow: visible;
+}
+
+/* Subtle dot pattern background */
+.scroll-reveal-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, #e0e0e0 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 @media (max-width: 600px) {
   .scroll-reveal-wrapper {
     --sr-gutter: 1rem;
-    --sr-gap: 8px;
+    --sr-gap: 10px;
   }
 }
 
@@ -61,90 +72,106 @@ const styles = `
 
 /* 3x3 Grid */
 .scroll-reveal-wrapper .sr-grid {
-  width: min(1050px, 70%);
-  height: 60vh;
+  width: min(1100px, 80%);
+  height: 65vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: var(--sr-gap);
   position: relative;
-  transform: translateY(5vh);
+  transform: translateY(2vh);
 }
 
-/* Grid items */
+/* Grid items - minimalistic style */
 .scroll-reveal-wrapper .sr-grid-item {
   position: relative;
-  border-radius: 0.375rem;
+  border-radius: 16px;
   overflow: hidden;
   opacity: 0;
   transform: scale(0);
   cursor: pointer;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.scroll-reveal-wrapper .sr-grid-item:hover {
+  transform: scale(1.03) translateY(-4px) !important;
+  border-color: #1a1a1a;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
 }
 
 .scroll-reveal-wrapper .sr-grid-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: filter 0.4s ease, transform 0.4s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scroll-reveal-wrapper .sr-grid-item:hover img {
-  filter: blur(3px) brightness(0.7);
+  filter: brightness(0.95);
   transform: scale(1.05);
 }
 
+/* Minimal label */
 .scroll-reveal-wrapper .sr-grid-item .sr-label {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.75rem 0.5rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
-  color: white;
-  font-size: clamp(0.6rem, 1.2vw, 0.8rem);
-  font-weight: 600;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.9) 60%, transparent 100%);
+  color: #1a1a1a;
+  font-size: clamp(0.65rem, 1vw, 0.75rem);
+  font-weight: 500;
   text-align: center;
-  line-height: 1.2;
-  transition: opacity 0.3s ease;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
 }
 
 .scroll-reveal-wrapper .sr-grid-item:hover .sr-label {
   opacity: 0;
+  transform: translateY(10px);
 }
 
-/* Click to preview overlay */
+/* Click to preview overlay - minimal */
 .scroll-reveal-wrapper .sr-grid-item .sr-preview-overlay {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(26,26,26,0.03);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 
 .scroll-reveal-wrapper .sr-grid-item:hover .sr-preview-overlay {
   opacity: 1;
+  background: rgba(26,26,26,0.6);
 }
 
 .scroll-reveal-wrapper .sr-grid-item .sr-preview-text {
   color: white;
-  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid rgba(255,255,255,0.8);
-  border-radius: 0.375rem;
-  background: rgba(0,0,0,0.3);
-  backdrop-filter: blur(4px);
-  transform: translateY(10px);
-  transition: transform 0.4s ease;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 100px;
+  background: transparent;
+  backdrop-filter: blur(8px);
+  transform: translateY(8px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scroll-reveal-wrapper .sr-grid-item:hover .sr-preview-text {
   transform: translateY(0);
+  border-color: white;
 }
 
 /* Center scaler - overlays the grid */
@@ -158,25 +185,23 @@ const styles = `
   overflow: hidden;
 }
 
-/* Transition Text */
+/* Transition Text - minimal */
 .transition-text {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 800;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 400;
   text-align: center;
   opacity: 0;
   z-index: 5;
-  background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #888888;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   pointer-events: none;
   width: 100%;
   padding: 0 1rem;
-  line-height: 1.1;
 }
 
 /* Center card styles - Split layout */
