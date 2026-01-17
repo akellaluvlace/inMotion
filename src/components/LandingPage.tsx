@@ -761,16 +761,19 @@ export default function LandingPage() {
 
             {/* Modern Stack - Wide */}
             <div data-aos="fade-up" data-aos-delay="300" className="md:col-span-3 group bg-white hover:bg-[#f5f5f5] rounded-3xl p-8 transition-all duration-500 border border-[#e0e0e0] hover:border-[#1a1a1a] hover:shadow-lg cursor-default">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div>
                   <Code2 className="w-5 h-5 text-[#1a1a1a] mb-3 group-hover:scale-110 transition-transform duration-300" />
                   <h3 className="text-lg font-semibold text-[#1a1a1a]">Modern Stack</h3>
                 </div>
-                <div className="flex gap-2 font-mono text-xs text-[#666666]">
-                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">React</span>
-                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">Next.js</span>
-                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">TypeScript</span>
-                  <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">Django</span>
+                <div className="flex flex-col items-start md:items-end gap-2">
+                    <div className="flex flex-wrap gap-2 font-mono text-xs text-[#666666]">
+                      <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">React</span>
+                      <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">Next.js</span>
+                      <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">TypeScript</span>
+                      <span className="px-3 py-1.5 bg-[#fafafa] rounded-full border border-[#e0e0e0] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 cursor-default">Django</span>
+                    </div>
+                    <span className="text-[10px] text-[#888888] font-mono">and much more...</span>
                 </div>
               </div>
             </div>

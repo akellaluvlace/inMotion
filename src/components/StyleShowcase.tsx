@@ -156,6 +156,7 @@ export default function StyleShowcase({ onExampleClick }: StyleShowcaseProps) {
           <p data-aos="fade-up" data-aos-delay="200" className="text-[#666666] text-lg mt-4 max-w-2xl mx-auto">
             We don&apos;t just build websites. We craft digital identities. Which one speaks to you?
           </p>
+          <p data-aos="fade-up" data-aos-delay="300" className="md:hidden text-xs text-[#27ca3f] font-mono mt-4 animate-pulse">Tap items to preview projects</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 auto-rows-[200px]">

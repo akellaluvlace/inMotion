@@ -17,6 +17,9 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Akella inMotion — Dublin Web Development Studio",
   description: "Dublin web development studio. Landing pages, business websites & AI project rescue. Transparent pricing, 10+ years experience.",
+  icons: {
+    icon: '/assets/logo.png',
+  },
 };
 
 export default function RootLayout({

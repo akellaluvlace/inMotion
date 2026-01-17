@@ -24,6 +24,7 @@ interface Service {
   included: string[];
   addons: Addon[];
   size: "large" | "medium" | "small";
+  isCustom?: boolean;
 }
 
 const servicesData: Service[] = [
@@ -101,6 +102,7 @@ const servicesData: Service[] = [
     title: "MVPs",
     description: "Rapid prototypes to validate your startup idea.",
     price: 4000,
+    isCustom: true,
     size: "small",
     included: [
       "Product discovery & flows",
@@ -124,6 +126,7 @@ const servicesData: Service[] = [
     title: "AI Automation",
     description: "Smart workflows that save you 20+ hours a week.",
     price: 3000,
+    isCustom: true,
     size: "small",
     included: [
       "AI strategy consultation",
@@ -241,8 +244,11 @@ export default function ServicesBento({ onPreview }: ServicesBentoProps) {
         
         {/* Header - Only visible when no service selected or subtle transition */}
         <div className={`section-header text-center overflow-hidden ${selectedId ? 'opacity-0 h-0 mb-0' : 'opacity-100 mb-16'}`}>
-          <div className="text-xs tracking-[0.3em] uppercase text-[#888888] mb-4">Services</div>
-          <h2 className="text-5xl sm:text-6xl font-bold tracking-tight text-[#1a1a1a]">What we build.</h2>
+          <div data-aos="fade-up">
+            <div className="text-xs tracking-[0.3em] uppercase text-[#888888] mb-4">Services</div>
+            <h2 className="text-5xl sm:text-6xl font-bold tracking-tight text-[#1a1a1a]">What we build.</h2>
+            <p className="md:hidden text-xs text-[#27ca3f] font-mono mt-4 animate-pulse">Tap items to explore details</p>
+          </div>
         </div>
 
         <div ref={containerRef} className={`
@@ -270,6 +276,8 @@ export default function ServicesBento({ onPreview }: ServicesBentoProps) {
               <div 
                 key={service.id}
                 data-flip-id={`card-${service.id}`}
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
                 className={`bento-item group relative bg-[#fafafa] rounded-3xl p-8 border border-transparent hover:border-[#1a1a1a] hover:shadow-xl cursor-pointer flex flex-col justify-between overflow-hidden ${spanClass}`}
                 onClick={() => toggleService(service.id)}
               >
@@ -282,7 +290,7 @@ export default function ServicesBento({ onPreview }: ServicesBentoProps) {
                    <h3 className="text-3xl font-bold text-[#1a1a1a] mb-2 font-sans tracking-tight">{service.title}</h3>
                    <p className="text-[#666666] mb-4 max-w-[80%]">{service.description}</p>
                    <div className="flex items-center gap-2 font-mono text-sm text-[#888888] group-hover:text-[#1a1a1a] transition-colors">
-                      <span>from {formatPrice(service.price)}</span>
+                      <span>{service.isCustom ? "Custom Pricing" : `from ${formatPrice(service.price)}`}</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                    </div>
                 </div>
@@ -351,13 +359,11 @@ export default function ServicesBento({ onPreview }: ServicesBentoProps) {
               {/* 3. Included List */}
               <div className="bento-content md:col-span-2 bg-[#fafafa] rounded-3xl p-8 border border-[#e0e0e0] flex flex-col">
                 <h3 className="text-sm font-bold uppercase tracking-widest text-[#888888] mb-6">Included</h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4 flex-1">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 flex-1">
                   {activeService.included.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-[#1a1a1a]">
-                      <div className="mt-0.5 w-5 h-5 rounded-full bg-[#e8fce8] flex items-center justify-center shrink-0 text-[#27ca3f]">
-                        <Check className="w-3 h-3" />
-                      </div>
-                      <span className="leading-snug">{item}</span>
+                    <li key={i} className="flex items-start gap-3 text-sm text-[#333333]">
+                      <Check className="w-4 h-4 text-[#27ca3f] shrink-0 mt-0.5 stroke-[3]" />
+                      <span className="leading-snug font-medium">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -366,11 +372,11 @@ export default function ServicesBento({ onPreview }: ServicesBentoProps) {
                {/* 4. Total & Call to Action (Bottom center) */}
                <div className="bento-content md:col-span-1 bg-[#f8f8f8] rounded-3xl p-8 border border-[#e0e0e0] flex flex-col justify-between gap-8">
                 <div>
-                   <p className="text-xs uppercase tracking-widest text-[#888888] mb-2">Estimated Total</p>
+                   <p className="text-xs uppercase tracking-widest text-[#888888] mb-2">{activeService.isCustom ? "Pricing" : "Estimated Total"}</p>
                    <div className="text-4xl font-bold text-[#1a1a1a] tracking-tight font-mono">
-                     {formatPrice(getTotal(activeService))}
+                     {activeService.isCustom ? "Custom" : formatPrice(getTotal(activeService))}
                    </div>
-                   <p className="text-sm text-[#666666] mt-2">Fixed price.</p>
+                   <p className="text-sm text-[#666666] mt-2">{activeService.isCustom ? "Consultation required." : "Fixed price."}</p>
                 </div>
 
                 <div className="flex flex-col gap-3 w-full">

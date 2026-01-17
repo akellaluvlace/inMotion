@@ -583,14 +583,14 @@ export default function HowthRoadRoasters({ previewMode = false }: { previewMode
             <div className="coffee-ring" style={{ bottom: '20%', left: '5%', transform: 'rotate(-10deg)' }}></div>
             
             <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 relative z-10">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
+                <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
                     {/* Left Content */}
                     <div>
                         <div ref={addAosRef} className="roast-fade-up vintage-badge mb-8">
                             Small Batch Roasters · Dublin
                         </div>
                         
-                        <h1 ref={addAosRef} className="roast-fade-up text-5xl md:text-6xl lg:text-7xl font-display text-[#3D2314] mb-6 leading-tight" style={{ transitionDelay: '100ms' }}>
+                        <h1 ref={addAosRef} className="roast-fade-up text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-[#3D2314] mb-6 leading-tight" style={{ transitionDelay: '100ms' }}>
                             Crafted with <span className="handwritten text-[#C67B4E]">Passion,</span><br />
                             Roasted with Care
                         </h1>
@@ -604,12 +604,12 @@ export default function HowthRoadRoasters({ previewMode = false }: { previewMode
                             <span className="font-mono text-xs tracking-wider">100% SPECIALTY GRADE</span>
                         </div>
                         
-                        <div ref={addAosRef} className="roast-fade-up flex flex-wrap gap-4" style={{ transitionDelay: '300ms' }}>
-                            <a onClick={() => scrollToSection('coffee')} className="btn-vintage">
+                        <div ref={addAosRef} className="roast-fade-up flex flex-col sm:flex-row gap-4" style={{ transitionDelay: '300ms' }}>
+                            <a onClick={() => scrollToSection('coffee')} className="btn-vintage justify-center sm:justify-start">
                                 Shop Our Beans
                                 <ArrowRight className="w-4 h-4" />
                             </a>
-                            <a onClick={() => scrollToSection('story')} className="btn-vintage-outline">
+                            <a onClick={() => scrollToSection('story')} className="btn-vintage-outline justify-center sm:justify-start">
                                 Our Story
                             </a>
                         </div>
@@ -1037,10 +1037,10 @@ export default function HowthRoadRoasters({ previewMode = false }: { previewMode
                         </p>
 
                         <form ref={addAosRef} className="roast-fade-up space-y-4" style={{ transitionDelay: '300ms' }} onSubmit={(e) => e.preventDefault()}>
-                            <div className="flex gap-4">
+                            <div className="flex flex-col sm:flex-row gap-4">
                                 <input type="email" placeholder="Your email address" 
                                        className="flex-1 px-6 py-4 bg-[#EBE4D8] border border-[#3D2314]/20 text-[#3D2314] placeholder-[#8B5E3C]/50 focus:outline-none focus:border-[#C67B4E] transition-colors" />
-                                <button type="submit" className="btn-vintage">
+                                <button type="submit" className="btn-vintage justify-center">
                                     Subscribe
                                 </button>
                             </div>
@@ -1067,7 +1067,7 @@ export default function HowthRoadRoasters({ previewMode = false }: { previewMode
                     </div>
 
                     {/* Right - Contact Form */}
-                    <div ref={addAosRef} className="roast-fade-left paper-card p-8 lg:p-10">
+                    <div ref={addAosRef} className="roast-fade-left paper-card p-6 sm:p-8 lg:p-10">
                         <h3 className="text-2xl font-display text-[#3D2314] mb-6">Get in Touch</h3>
                         
                         <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>

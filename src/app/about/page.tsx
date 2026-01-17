@@ -208,7 +208,7 @@ export default function AboutPage() {
                         Falling in love with the <br/><span className="text-[#27ca3f]">Dublin Tech Scene</span>.
                     </h3>
                     
-                    <div className="space-y-4 text-white/70 text-sm sm:text-base leading-relaxed">
+                    <div className="space-y-4 text-white md:text-white/70 text-sm sm:text-base leading-relaxed">
                         <p>
                             I came to Dublin and was immediately captivated by the energy of the tech community here. It wasn&apos;t just about business; it was about the people and the innovation.
                         </p>
@@ -223,7 +223,7 @@ export default function AboutPage() {
 
                 {/* Huge Wolf Logo - Absolute positioned to allow smaller card height while keeping size */}
                 <div className="absolute -right-16 sm:-right-24 lg:-right-32 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <div className="relative w-[450px] h-[450px] sm:w-[600px] sm:h-[600px] lg:w-[800px] lg:h-[800px] -scale-x-100 filter brightness-0 invert opacity-60 group-hover:opacity-100 transition-all duration-700 ease-out translate-x-12 group-hover:translate-x-0">
+                    <div className="relative w-[450px] h-[450px] sm:w-[600px] sm:h-[600px] lg:w-[800px] lg:h-[800px] -scale-x-100 filter brightness-0 invert opacity-15 md:opacity-60 md:group-hover:opacity-100 transition-all duration-700 ease-out translate-x-12 group-hover:translate-x-0">
                         <Image
                             src="/assets/logo.png"
                             alt="Akella inMotion Logo"
