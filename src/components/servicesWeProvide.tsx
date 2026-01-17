@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react";
+import React, { useRef, useState, useLayoutEffect, useEffect, useMemo } from "react";
 import gsap from "gsap";
 import { Flip } from "gsap/dist/Flip";
+import { Check, ArrowRight, Plus } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(Flip);
@@ -18,6 +19,7 @@ interface Addon {
 interface Service {
   id: string;
   title: string;
+  description: string;
   price: number;
   included: string[];
   addons: Addon[];
@@ -28,6 +30,7 @@ const servicesData: Service[] = [
   {
     id: "landing",
     title: "Landing Pages",
+    description: "High-conversion single page sites designed to sell.",
     price: 800,
     size: "large",
     included: [
@@ -50,8 +53,9 @@ const servicesData: Service[] = [
   {
     id: "business",
     title: "Business Sites",
+    description: "Complete digital presence for growing companies.",
     price: 1200,
-    size: "small",
+    size: "medium",
     included: [
       "Multi-page responsive design",
       "CMS integration (Sanity/Strapi)",
@@ -72,6 +76,7 @@ const servicesData: Service[] = [
   {
     id: "ecommerce",
     title: "E-Commerce",
+    description: "Robust online stores that scale with your sales.",
     price: 2400,
     size: "medium",
     included: [
@@ -94,6 +99,7 @@ const servicesData: Service[] = [
   {
     id: "mvp",
     title: "MVPs",
+    description: "Rapid prototypes to validate your startup idea.",
     price: 4000,
     size: "small",
     included: [
@@ -116,8 +122,9 @@ const servicesData: Service[] = [
   {
     id: "ai",
     title: "AI Automation",
+    description: "Smart workflows that save you 20+ hours a week.",
     price: 3000,
-    size: "large",
+    size: "small",
     included: [
       "AI strategy consultation",
       "Workflow automation design",
@@ -134,6 +141,24 @@ const servicesData: Service[] = [
       { name: "Voice assistant", price: 2400 },
       { name: "Monthly maintenance", price: 800 }
     ]
+  },
+  {
+    id: "gsap",
+    title: "GSAP",
+    description: "High-end motion design and interactive storytelling.",
+    price: 1500,
+    size: "small",
+    included: [
+      "Scroll-based interactions",
+      "SVG morphing & animation",
+      "Advanced page transitions",
+      "Micro-interactions",
+      "Performance optimization"
+    ],
+    addons: [
+      { name: "3D (Three.js) integration", price: 2000 },
+      { name: "Physics-based motion", price: 800 }
+    ]
   }
 ];
 
@@ -141,41 +166,58 @@ function formatPrice(n: number) {
   return `€${n.toLocaleString()}`;
 }
 
-export default function ServicesCarousel() {
-  const gridRef = useRef<HTMLDivElement>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const flipStateRef = useRef<any>(null);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [flippedId, setFlippedId] = useState<string | null>(null);
+interface ServicesBentoProps {
+  onPreview?: (id: string) => void;
+}
+
+export default function ServicesBento({ onPreview }: ServicesBentoProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedAddons, setSelectedAddons] = useState<Record<string, Set<number>>>({});
+  
+  // Ref to store the Flip state
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const flipState = useRef<any>(null);
 
-  const toggleExpand = useCallback((id: string) => {
-    if (!gridRef.current) return;
-    if (expandedId === id) {
-      setFlippedId(null);
-    }
-    flipStateRef.current = Flip.getState(".service-card");
-    setExpandedId(prev => prev === id ? null : id);
-  }, [expandedId]);
+  const activeService = useMemo(() => 
+    servicesData.find(s => s.id === selectedId), 
+  [selectedId]);
 
-  const toggleFlip = useCallback((id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setFlippedId(prev => prev === id ? null : id);
-  }, []);
+  const toggleService = (id: string | null) => {
+    if (!containerRef.current) return;
+    
+    // Capture state before change
+    // We capture the items AND the container to animate height smoothly
+    flipState.current = Flip.getState(".bento-item, .bento-content, .grid-container, .section-header");
+    
+    setSelectedId(id);
+  };
 
   useIsomorphicLayoutEffect(() => {
-    if (!flipStateRef.current) return;
-    const state = flipStateRef.current;
-    flipStateRef.current = null;
-    Flip.from(state, {
-      duration: 0.5,
-      ease: "power2.inOut",
-      absolute: true,
-    });
-  }, [expandedId]);
+    if (!flipState.current || !containerRef.current) return;
 
-  const toggleAddon = (serviceId: string, addonIdx: number, e: React.MouseEvent) => {
-    e.stopPropagation();
+    // Animate from captured state
+    Flip.from(flipState.current, {
+      duration: 0.5,
+      ease: "power3.inOut",
+      absolute: ".bento-item, .bento-content", // Only items should be absolute, container stays in flow
+      targets: ".bento-item, .bento-content, .grid-container, .section-header",
+      nested: true,
+      zIndex: 20, // Ensure moving items stay on top
+      scale: true,
+      onEnter: elements => gsap.fromTo(elements, 
+        { opacity: 0, scale: 0.95 }, 
+        { opacity: 1, scale: 1, duration: 0.4, delay: 0.05, ease: "power2.out" }
+      ),
+      onLeave: elements => gsap.to(elements, 
+        { opacity: 0, scale: 0.95, duration: 0.2, ease: "power2.in" }
+      ),
+    });
+    
+    flipState.current = null;
+  }, [selectedId]);
+
+  const toggleAddon = (serviceId: string, addonIdx: number) => {
     setSelectedAddons(prev => {
       const current = prev[serviceId] || new Set<number>();
       const next = new Set(current);
@@ -194,571 +236,172 @@ export default function ServicesCarousel() {
   };
 
   return (
-    <div>
-      <style dangerouslySetInnerHTML={{ __html: `
-        .services-section {
-          padding: 6rem 5%;
-          background: #ffffff;
-        }
-        .services-header {
-          text-align: center;
-          max-width: 600px;
-          margin: 0 auto 4rem;
-        }
-        .services-header__tag {
-          font-size: 0.75rem;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
-          color: #888888;
-          margin-bottom: 1rem;
-        }
-        .services-header__title {
-          font-size: clamp(2.5rem, 5vw, 4rem);
-          font-weight: 700;
-          color: #1a1a1a;
-          letter-spacing: -0.02em;
-        }
-
-        /* Irregular bento grid */
-        .services-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          grid-auto-rows: 140px;
-          gap: 1rem;
-          max-width: 900px;
-          margin: 0 auto;
-        }
-        @media (max-width: 768px) {
-          .services-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        @media (max-width: 500px) {
-          .services-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        /* Card sizes for irregular look */
-        .service-card {
-          position: relative;
-          background: #fafafa;
-          border-radius: 20px;
-          overflow: hidden;
-          cursor: pointer;
-          transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
-          border: 1px solid transparent;
-          perspective: 1000px;
-        }
-        .service-card:hover {
-          background: #f0f0f0;
-          border-color: #1a1a1a;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-        }
-        .service-card.size-large {
-          grid-column: span 2;
-          grid-row: span 1;
-        }
-        .service-card.size-medium {
-          grid-column: span 1;
-          grid-row: span 2;
-        }
-        .service-card.size-small {
-          grid-column: span 1;
-          grid-row: span 1;
-        }
-        @media (max-width: 500px) {
-          .service-card.size-large,
-          .service-card.size-medium,
-          .service-card.size-small {
-            grid-column: span 1;
-            grid-row: span 1;
-          }
-        }
-
-        /* Expanded */
-        .service-card.expanded {
-          grid-column: span 2;
-          grid-row: span 2;
-          cursor: default;
-          z-index: 10;
-        }
-        @media (max-width: 500px) {
-          .service-card.expanded {
-            grid-column: span 1;
-            grid-row: span 2;
-          }
-        }
-
-        /* Flip */
-        .flip-container {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          transform-style: preserve-3d;
-          transition: transform 0.5s ease;
-        }
-        .service-card.flipped .flip-container {
-          transform: rotateY(180deg);
-        }
-        .flip-face {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-          border-radius: 20px;
-        }
-        .flip-front {
-          background: #fafafa;
-        }
-        .flip-back {
-          background: #1a1a1a;
-          transform: rotateY(180deg);
-        }
-
-        /* Collapsed - minimal */
-        .card-collapsed {
-          padding: 1.5rem;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-        }
-        .card__number {
-          font-size: 4rem;
-          font-weight: 200;
-          color: #e0e0e0;
-          line-height: 1;
-          position: absolute;
-          top: 1rem;
-          left: 1.5rem;
-          transition: color 0.3s;
-        }
-        .service-card:hover .card__number {
-          color: #1a1a1a;
-        }
-        .card__title {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: #1a1a1a;
-        }
-        .card__price {
-          font-size: 0.85rem;
-          color: #888888;
-          margin-top: 0.25rem;
-        }
-
-        /* Expanded front - just buttons */
-        .card-expanded {
-          padding: 2rem;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-        }
-        .card-expanded__header {
-          margin-bottom: auto;
-        }
-        .card-expanded .card__title {
-          font-size: 1.75rem;
-          margin-bottom: 0.25rem;
-        }
-        .card-expanded .card__price {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #1a1a1a;
-        }
-        .card-expanded .card__price span {
-          font-size: 0.7rem;
-          font-weight: 400;
-          color: #888;
-          margin-left: 0.5rem;
-        }
-
-        /* Action buttons container */
-        .card-actions {
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-          margin-top: auto;
-        }
-
-        /* Included button with hover dropdown */
-        .included-btn-wrapper {
-          position: relative;
-        }
-        .btn {
-          width: 100%;
-          padding: 1rem 1.25rem;
-          border-radius: 12px;
-          font-weight: 600;
-          font-size: 0.9rem;
-          cursor: pointer;
-          border: none;
-          transition: all 0.2s;
-          text-align: left;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .btn--included {
-          background: #f0f0f0;
-          color: #1a1a1a;
-        }
-        .btn--included:hover {
-          background: #e8e8e8;
-        }
-        .btn--addons {
-          background: #1a1a1a;
-          color: white;
-        }
-        .btn--addons:hover {
-          background: #333;
-        }
-        .btn--close {
-          background: transparent;
-          color: #888;
-          padding: 0.75rem;
-          text-align: center;
-          justify-content: center;
-        }
-        .btn--close:hover {
-          color: #1a1a1a;
-        }
-
-        /* Hover dropdown for included */
-        .included-dropdown {
-          position: absolute;
-          bottom: 100%;
-          left: 0;
-          right: 0;
-          background: white;
-          border: 1px solid #e0e0e0;
-          border-radius: 12px;
-          padding: 1rem;
-          margin-bottom: 0.5rem;
-          opacity: 0;
-          visibility: hidden;
-          transform: translateY(10px);
-          transition: all 0.2s ease;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-          z-index: 20;
-        }
-        .included-btn-wrapper:hover .included-dropdown {
-          opacity: 1;
-          visibility: visible;
-          transform: translateY(0);
-        }
-        .included-dropdown h4 {
-          font-size: 0.65rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: #888;
-          margin: 0 0 0.75rem 0;
-        }
-        .included-dropdown ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        .included-dropdown li {
-          padding: 0.35rem 0;
-          font-size: 0.8rem;
-          color: #1a1a1a;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .included-dropdown li::before {
-          content: "✓";
-          color: #27ca3f;
-          font-size: 0.7rem;
-          font-weight: 600;
-        }
-
-        /* Back face - addons */
-        .addons-content {
-          padding: 1.5rem;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          color: white;
-        }
-        .addons-content h3 {
-          font-size: 1.25rem;
-          font-weight: 600;
-          margin: 0 0 0.5rem 0;
-        }
-        .addons-content .price-display {
-          font-size: 1.25rem;
-          font-weight: 700;
-          margin-bottom: 1rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .addons-list {
-          flex: 1;
-          overflow-y: auto;
-        }
-        .addon-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0.5rem 0.75rem;
-          margin-bottom: 0.35rem;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
-        }
-        .addon-row:hover {
-          background: rgba(255,255,255,0.1);
-        }
-        .addon-row.selected {
-          background: rgba(39, 202, 63, 0.2);
-          border-color: #27ca3f;
-        }
-        .addon-label {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.8rem;
-        }
-        .checkbox-custom {
-          width: 14px;
-          height: 14px;
-          border: 2px solid rgba(255,255,255,0.3);
-          border-radius: 3px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        .addon-row.selected .checkbox-custom {
-          background: #27ca3f;
-          border-color: #27ca3f;
-        }
-        .addon-price {
-          font-weight: 600;
-          color: #666;
-          font-size: 0.75rem;
-        }
-        .addon-row.selected .addon-price {
-          color: #27ca3f;
-        }
-
-        .addons-footer {
-          margin-top: 0.75rem;
-          padding-top: 0.75rem;
-          border-top: 1px solid rgba(255,255,255,0.1);
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .total-section {
-          display: flex;
-          flex-direction: column;
-        }
-        .total-label {
-          font-size: 0.6rem;
-          color: #888;
-          text-transform: uppercase;
-        }
-        .total-price {
-          font-size: 1.25rem;
-          font-weight: 700;
-        }
-        .footer-btns {
-          display: flex;
-          gap: 0.4rem;
-        }
-        .btn--back {
-          background: white;
-          color: #1a1a1a;
-          padding: 0.6rem 1rem;
-          width: auto;
-          font-size: 0.8rem;
-        }
-        .btn--back:hover {
-          background: #f0f0f0;
-        }
-        .btn--cta {
-          background: #27ca3f;
-          color: white;
-          text-decoration: none;
-          padding: 0.6rem 1rem;
-          width: auto;
-          font-size: 0.8rem;
-          border-radius: 8px;
-          font-weight: 600;
-        }
-        .btn--cta:hover {
-          filter: brightness(1.1);
-        }
-
-        /* CTA section */
-        .services-cta {
-          text-align: center;
-          padding: 5rem 5%;
-          background: #f8f8f8;
-        }
-        .services-cta__title {
-          font-size: clamp(1.75rem, 3vw, 2.25rem);
-          font-weight: 600;
-          margin-bottom: 1rem;
-        }
-        .services-cta__desc {
-          color: #666666;
-          margin-bottom: 2rem;
-        }
-        .services-cta .btn--cta {
-          display: inline-block;
-          padding: 1rem 2rem;
-          font-size: 1rem;
-          border-radius: 12px;
-        }
-      `}} />
-
-      <section className="services-section">
-        <div className="services-header">
-          <div className="services-header__tag">Services</div>
-          <h2 className="services-header__title">What we build.</h2>
+    <div className="py-24 px-4 bg-white relative min-h-screen flex flex-col justify-center">
+      <div className="max-w-6xl mx-auto w-full">
+        
+        {/* Header - Only visible when no service selected or subtle transition */}
+        <div className={`section-header text-center overflow-hidden ${selectedId ? 'opacity-0 h-0 mb-0' : 'opacity-100 mb-16'}`}>
+          <div className="text-xs tracking-[0.3em] uppercase text-[#888888] mb-4">Services</div>
+          <h2 className="text-5xl sm:text-6xl font-bold tracking-tight text-[#1a1a1a]">What we build.</h2>
         </div>
 
-        <div ref={gridRef} className="services-grid">
-          {servicesData.map((service, index) => {
-            const isExpanded = expandedId === service.id;
-            const isFlipped = flippedId === service.id;
-            const serviceAddons = selectedAddons[service.id] || new Set<number>();
+        <div ref={containerRef} className={`
+          grid gap-4 grid-container
+          ${selectedId 
+            ? 'grid-cols-1 md:grid-cols-4 auto-rows-auto' 
+            : 'grid-cols-1 md:grid-cols-3 grid-auto-rows-[280px]'
+          }
+        `}>
+          
+          {/* OVERVIEW MODE */}
+          {!selectedId && servicesData.map((service, index) => {
+             // Determine span based on design
+             const isLarge = service.size === "large";
+             const isMedium = service.size === "medium";
+             const spanClass = isLarge 
+                ? "md:col-span-2" 
+                : isMedium 
+                  ? "md:col-span-1 md:row-span-2" 
+                  : "md:col-span-1";
 
-            const sizeClass = isExpanded ? "" : `size-${service.size}`;
-
+             // Mobile adjustment logic handled by grid-cols-1
+             
             return (
-              <div
+              <div 
                 key={service.id}
-                className={`service-card ${sizeClass} ${isExpanded ? 'expanded' : ''} ${isFlipped ? 'flipped' : ''}`}
-                onClick={() => !isExpanded && toggleExpand(service.id)}
-                data-flip-id={service.id}
+                data-flip-id={`card-${service.id}`}
+                className={`bento-item group relative bg-[#fafafa] rounded-3xl p-8 border border-transparent hover:border-[#1a1a1a] hover:shadow-xl cursor-pointer flex flex-col justify-between overflow-hidden ${spanClass}`}
+                onClick={() => toggleService(service.id)}
               >
-                <div className="flip-container">
-                  {/* FRONT */}
-                  <div className="flip-face flip-front">
-                    {!isExpanded ? (
-                      <div className="card-collapsed">
-                        <span className="card__number">0{index + 1}</span>
-                        <h3 className="card__title">{service.title}</h3>
-                        <p className="card__price">from {formatPrice(service.price)}</p>
-                      </div>
-                    ) : (
-                      <div className="card-expanded">
-                        <div className="card-expanded__header">
-                          <h3 className="card__title">{service.title}</h3>
-                          <p className="card__price">
-                            {formatPrice(service.price)}
-                            <span>starting</span>
-                          </p>
-                        </div>
+                {/* Background Number */}
+                <span className="absolute top-4 right-6 text-6xl font-mono font-medium text-[#1a1a1a] opacity-5 group-hover:opacity-10 transition-opacity">
+                  0{index + 1}
+                </span>
 
-                        <div className="card-actions">
-                          <div className="included-btn-wrapper">
-                            <div className="included-dropdown">
-                              <h4>What&apos;s Included</h4>
-                              <ul>
-                                {service.included.map((item, i) => (
-                                  <li key={i}>{item}</li>
-                                ))}
-                              </ul>
-                            </div>
-                            <button type="button" className="btn btn--included">
-                              What&apos;s Included
-                              <span>↑</span>
-                            </button>
-                          </div>
-
-                          <button
-                            type="button"
-                            className="btn btn--addons"
-                            onClick={(e) => toggleFlip(service.id, e)}
-                          >
-                            Customize Add-ons
-                            <span>→</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            className="btn btn--close"
-                            onClick={(e) => { e.stopPropagation(); toggleExpand(service.id); }}
-                          >
-                            Close
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* BACK */}
-                  <div className="flip-face flip-back">
-                    <div className="addons-content">
-                      <h3>{service.title}</h3>
-                      <div className="price-display">
-                        {formatPrice(getTotal(service))}
-                      </div>
-
-                      <div className="addons-list">
-                        {service.addons.map((addon, i) => (
-                          <div
-                            key={i}
-                            className={`addon-row ${serviceAddons.has(i) ? 'selected' : ''}`}
-                            onClick={(e) => toggleAddon(service.id, i, e)}
-                          >
-                            <div className="addon-label">
-                              <span className="checkbox-custom">
-                                {serviceAddons.has(i) && (
-                                  <svg viewBox="0 0 24 24" width="8" height="8" stroke="currentColor" strokeWidth="3" fill="none">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                  </svg>
-                                )}
-                              </span>
-                              <span>{addon.name}</span>
-                            </div>
-                            <span className="addon-price">+{formatPrice(addon.price)}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="addons-footer">
-                        <div className="total-section">
-                          <span className="total-label">Total</span>
-                          <span className="total-price">{formatPrice(getTotal(service))}</span>
-                        </div>
-                        <div className="footer-btns">
-                          <button
-                            type="button"
-                            className="btn btn--back"
-                            onClick={(e) => toggleFlip(service.id, e)}
-                          >
-                            ← Back
-                          </button>
-                          <a href="#contact" className="btn btn--cta" onClick={(e) => e.stopPropagation()}>
-                            Get Quote
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="relative z-10 mt-auto">
+                   <h3 className="text-3xl font-bold text-[#1a1a1a] mb-2 font-sans tracking-tight">{service.title}</h3>
+                   <p className="text-[#666666] mb-4 max-w-[80%]">{service.description}</p>
+                   <div className="flex items-center gap-2 font-mono text-sm text-[#888888] group-hover:text-[#1a1a1a] transition-colors">
+                      <span>from {formatPrice(service.price)}</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                   </div>
                 </div>
               </div>
             );
           })}
-        </div>
-      </section>
 
-      <section className="services-cta">
-        <h3 className="services-cta__title">Ready to start?</h3>
-        <p className="services-cta__desc">Book a free discovery call to get a fixed quote.</p>
-        <a href="#contact" className="btn btn--cta">Book Discovery Call</a>
-      </section>
+          {/* DETAIL MODE */}
+          {selectedId && activeService && (
+            <>
+              {/* 1. Header Card (Title + Desc) - Morph from original card */}
+              <div 
+                data-flip-id={`card-${activeService.id}`}
+                className="bento-item md:col-span-3 bg-[#1a1a1a] rounded-3xl p-10 flex flex-col justify-between text-white relative overflow-hidden min-h-[300px]"
+              >
+                <div className="relative z-10">
+                  <div className="flex justify-between items-start mb-6">
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); toggleService(null); }}
+                      className="px-4 py-2 rounded-full border border-white/20 hover:bg-white/10 text-xs uppercase tracking-widest transition-colors"
+                    >
+                      ← Back
+                    </button>
+                    <span className="font-mono text-white/40">0{servicesData.findIndex(s => s.id === selectedId) + 1}</span>
+                  </div>
+                  
+                  <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{activeService.title}</h2>
+                  <p className="text-xl text-white/70 max-w-md leading-relaxed">{activeService.description}</p>
+                </div>
+
+                {/* Decorative blob */}
+                <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+              </div>
+
+              {/* 2. Add-ons Selection (Tall column on right) */}
+              <div className="bento-content md:col-span-1 md:row-span-2 bg-white rounded-3xl p-8 border border-[#e0e0e0] flex flex-col hover:border-[#1a1a1a] transition-colors relative overflow-hidden group">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-[#888888] mb-6">Add-ons</h3>
+                <div className="space-y-2 overflow-y-auto pr-2 custom-scrollbar flex-1">
+                  {activeService.addons.map((addon, i) => {
+                    const isSelected = selectedAddons[activeService.id]?.has(i);
+                    return (
+                      <div 
+                        key={i}
+                        onClick={() => toggleAddon(activeService.id, i)}
+                        className={`
+                          flex flex-col gap-2 p-3 rounded-xl cursor-pointer border transition-all duration-200
+                          ${isSelected 
+                            ? 'bg-[#1a1a1a] border-[#1a1a1a] text-white' 
+                            : 'bg-white border-[#f0f0f0] hover:border-[#d0d0d0] text-[#1a1a1a]'
+                          }
+                        `}
+                      >
+                        <div className="flex justify-between items-center w-full">
+                           <span className="text-sm font-medium leading-tight">{addon.name}</span>
+                           {isSelected ? <Check className="w-3 h-3 shrink-0" /> : <Plus className="w-3 h-3 shrink-0" />}
+                        </div>
+                        <span className={`text-xs font-mono self-end ${isSelected ? 'text-white/60' : 'text-[#888888]'}`}>
+                             +{formatPrice(addon.price)}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 3. Included List */}
+              <div className="bento-content md:col-span-2 bg-[#fafafa] rounded-3xl p-8 border border-[#e0e0e0] flex flex-col">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-[#888888] mb-6">Included</h3>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4 flex-1">
+                  {activeService.included.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-[#1a1a1a]">
+                      <div className="mt-0.5 w-5 h-5 rounded-full bg-[#e8fce8] flex items-center justify-center shrink-0 text-[#27ca3f]">
+                        <Check className="w-3 h-3" />
+                      </div>
+                      <span className="leading-snug">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+               {/* 4. Total & Call to Action (Bottom center) */}
+               <div className="bento-content md:col-span-1 bg-[#f8f8f8] rounded-3xl p-8 border border-[#e0e0e0] flex flex-col justify-between gap-8">
+                <div>
+                   <p className="text-xs uppercase tracking-widest text-[#888888] mb-2">Estimated Total</p>
+                   <div className="text-4xl font-bold text-[#1a1a1a] tracking-tight font-mono">
+                     {formatPrice(getTotal(activeService))}
+                   </div>
+                   <p className="text-sm text-[#666666] mt-2">Fixed price.</p>
+                </div>
+
+                <div className="flex flex-col gap-3 w-full">
+                   {activeService.id === 'gsap' && onPreview && (
+                     <button 
+                       onClick={() => onPreview('gsap')}
+                       className="w-full px-6 py-3 rounded-xl bg-[#1a1a1a] text-white font-bold hover:bg-[#333333] transition-all text-center flex items-center justify-center gap-2"
+                     >
+                       Live Demo
+                       <ArrowRight className="w-4 h-4" />
+                     </button>
+                   )}
+                   <a 
+                     href="#contact" 
+                     className="w-full px-6 py-3 rounded-xl bg-[#27ca3f] text-white font-bold hover:brightness-110 shadow-lg shadow-[#27ca3f]/20 transition-all text-center flex items-center justify-center gap-2"
+                   >
+                     Book Call
+                     <ArrowRight className="w-4 h-4" />
+                   </a>
+                   <button 
+                     onClick={() => toggleService(null)}
+                     className="w-full px-6 py-3 rounded-xl border border-[#e0e0e0] text-[#1a1a1a] font-bold hover:bg-white hover:border-[#1a1a1a] transition-all text-center"
+                   >
+                     Close
+                   </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

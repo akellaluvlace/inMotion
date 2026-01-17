@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import ShowDontTellAnimation from './ShowDontTellAnimation';
 import ScrollReveal, { ImageItem } from './ScrollReveal';
+import StyleShowcase from './StyleShowcase';
 import DigitalExperienceHero from './DigitalExperienceHero';
 import imageExamples from './websitesExamples/imageExamples.png';
 import websiteExamplesmobile from './websitesExamples/websiteExamplesmobile.png';
@@ -40,6 +41,7 @@ import LOUDStudio from './websitesExamples/LOUDStudio';
 import BloomWellness from './websitesExamples/BloomWellness';
 import HowthRoadRoasters from './websitesExamples/HowthRoadRoasters';
 import SurgeFitness from './websitesExamples/SurgeFitness';
+import GSAPDemo from './websitesExamples/GSAPDemo';
 import ServicesCarousel from './servicesWeProvide';
 
 import AkellaBadge from './AkellaBadge';
@@ -337,7 +339,7 @@ const customStyles = `
   }
 
   .animate-marquee {
-      animation: marquee 30s linear infinite;
+      animation: marquee 40s linear infinite;
   }
 
   .animate-marquee-slow {
@@ -430,6 +432,11 @@ export default function LandingPage() {
       setActiveExample('surge');
       document.body.style.overflow = 'hidden';
     }
+  };
+
+  const handleServicePreview = (id: string) => {
+    setActiveExample(id);
+    document.body.style.overflow = 'hidden';
   };
 
   const closeExample = () => {
@@ -579,26 +586,21 @@ export default function LandingPage() {
       </section>
 
       {/* Tech Stack Marquee */}
-      <section className="py-8 border-y border-black/5 overflow-hidden">
-        <div className="flex animate-marquee">
+      <section className="py-10 border-y border-black/5 overflow-hidden bg-white group">
+        <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex items-center gap-12 px-6 whitespace-nowrap">
-              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">React</span>
-              <span className="text-black/5">◆</span>
-              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">Next.js</span>
-              <span className="text-black/5">◆</span>
-              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">TypeScript</span>
-              <span className="text-black/5">◆</span>
-              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">Django</span>
-              <span className="text-black/5">◆</span>
-              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">React Native</span>
-              <span className="text-black/5">◆</span>
-              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">PostgreSQL</span>
-              <span className="text-black/5">◆</span>
-              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">Node.js</span>
-              <span className="text-black/5">◆</span>
-              <span className="text-2xl font-bold text-black/10 hover:text-black/30 transition-colors cursor-default">Tailwind</span>
-              <span className="text-black/5">◆</span>
+            <div key={i} className="flex flex-shrink-0 items-center gap-16 md:gap-48 pr-16 md:pr-48 whitespace-nowrap">
+              <img src="/assets/logos/react_light.svg" alt="React" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/nextjs_logo_light.svg" alt="Next.js" className="h-8 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/typescript.svg" alt="TypeScript" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/django.svg" alt="Django" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/expo.svg" alt="Expo" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/postgresql-wordmark-light.svg" alt="PostgreSQL" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/nodejs.svg" alt="Node.js" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/python.svg" alt="Python" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/supabase_wordmark_light.svg" alt="Supabase" className="h-12 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/javascript.svg" alt="JavaScript" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
+              <img src="/assets/logos/c.svg" alt="C" className="h-16 w-auto flex-shrink-0 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" />
             </div>
           ))}
         </div>
@@ -606,7 +608,7 @@ export default function LandingPage() {
 
       {/* Services Section */}
       <div id="services">
-        <ServicesCarousel />
+        <ServicesCarousel onPreview={handleServicePreview} />
       </div>
 
       {/* Vibe Code Rescue Section - Bento Grid */}
@@ -874,26 +876,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Scroll Reveal Gallery Section - Website Examples */}
-      <ScrollReveal
-        centerContent={<ShowDontTellAnimation />}
-        animationMode="pinned-sequence"
-        transitionText=""
-        images={[
-          { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop', label: 'Kavanagh & Cole Architects', id: 'architect' },
-          { src: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=800&auto=format&fit=crop', label: 'Camden Gentlemen Barbers', id: 'barbers' },
-          { src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop', label: 'FlowDesk', id: 'flowdesk' },
-          { src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=800&auto=format&fit=crop', label: 'Kieran Murphy & Associates', id: 'murphy' },
-          { src: '/assets/loud.png', label: 'LOUD Studio', id: 'loud' },
-          { src: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop', label: 'Bloom Wellness', id: 'bloom' },
-          { src: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=800&auto=format&fit=crop', label: 'Howth Road Roasters', id: 'roasters' },
-          { src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop', label: 'Surge Fitness', id: 'surge' },
-          { src: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800&auto=format&fit=crop', label: 'Ashford House Estate', id: 'ashford' },
-        ]}
-        showLabels={true}
-        onImageClick={handleExampleClick}
-        endContent={<DigitalExperienceHero />}
-      />
+      {/* Style Showcase Section - Bento Grid */}
+      <StyleShowcase onExampleClick={handleExampleClick} />
 
       {/* Website Example Popup Modal */}
       {activeExample && (
@@ -930,6 +914,7 @@ export default function LandingPage() {
             {activeExample === 'bloom' && <BloomWellness previewMode={true} />}
             {activeExample === 'roasters' && <HowthRoadRoasters previewMode={true} />}
             {activeExample === 'surge' && <SurgeFitness previewMode={true} />}
+            {activeExample === 'gsap' && <GSAPDemo previewMode={true} />}
           </div>
         </div>
       )}
