@@ -520,6 +520,7 @@ export default function LandingPage() {
                 Vibe Rescue
               </a>
               <a href="#process" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">Process</a>
+              <a href="/about" className="px-4 py-2 text-sm text-[#666666] hover:text-[#1a1a1a] transition-colors rounded-lg hover:bg-black/5">About</a>
             </div>
 
             {/* CTA Button */}

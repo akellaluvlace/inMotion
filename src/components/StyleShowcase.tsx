@@ -123,6 +123,30 @@ const styles: StyleItem[] = [
 ];
 
 export default function StyleShowcase({ onExampleClick }: StyleShowcaseProps) {
+  const [activeCardId, setActiveCardId] = React.useState<string | null>(null);
+
+  const handleCardClick = (style: StyleItem, index: number, e: React.MouseEvent) => {
+    // Check if we are on mobile (using standard md breakpoint of 768px)
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      if (activeCardId === style.id) {
+        // If already active, proceed to preview
+        onExampleClick({ id: style.id, src: style.image, label: style.title }, index);
+      } else {
+        // Otherwise, activate this card to show overlay
+        e.preventDefault(); // Prevent bubbling if needed
+        setActiveCardId(style.id);
+      }
+    } else {
+      // Desktop behavior: immediate action (hover handles overlay)
+      onExampleClick({ id: style.id, src: style.image, label: style.title }, index);
+    }
+  };
+
+  // Clear active card when clicking outside could be nice, but simple toggle is enough for now.
+  // Or clicking another card switches active card automatically via logic above.
+
   return (
     <section className="py-24 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
@@ -141,10 +165,10 @@ export default function StyleShowcase({ onExampleClick }: StyleShowcaseProps) {
               data-aos="fade-up"
               data-aos-delay={index * 50}
               className={`group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-500 border border-[#e0e0e0] hover:border-transparent hover:shadow-xl ${style.span}`}
-              onClick={() => onExampleClick({ id: style.id, src: style.image, label: style.title }, index)}
+              onClick={(e) => handleCardClick(style, index, e)}
             >
               {/* Default Content (Visible initially) */}
-              <div className="h-full bg-[#fafafa] p-5 flex flex-col justify-between relative z-10 transition-opacity duration-300 group-hover:opacity-0">
+              <div className={`h-full bg-[#fafafa] p-5 flex flex-col justify-between relative z-10 transition-opacity duration-300 ${activeCardId === style.id ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'}`}>
                 <div>
                   <div className="flex justify-between items-start mb-3">
                     <div className="p-1.5 rounded-lg bg-white border border-[#e0e0e0]">
@@ -168,11 +192,11 @@ export default function StyleShowcase({ onExampleClick }: StyleShowcaseProps) {
                 </div>
               </div>
 
-              {/* Hover Content (Revealed on hover) */}
-              <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+              {/* Hover Content (Revealed on hover OR active state) */}
+              <div className={`absolute inset-0 z-20 transition-all duration-500 ease-out ${activeCardId === style.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                 {/* Background Image */}
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 ${activeCardId === style.id ? 'scale-105' : 'group-hover:scale-105'}`}
                   style={{ backgroundImage: `url(${style.image})` }}
                 />
                 
@@ -181,10 +205,10 @@ export default function StyleShowcase({ onExampleClick }: StyleShowcaseProps) {
 
                 {/* Content */}
                 <div className="absolute inset-0 p-5 flex flex-col justify-center items-center text-center text-white">
-                  <h3 className="text-2xl font-bold mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">{style.title}</h3>
-                  <p className="text-white/80 text-xs mb-4 max-w-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-150">Preview Style</p>
+                  <h3 className={`text-2xl font-bold mb-1 transition-transform duration-500 delay-100 ${activeCardId === style.id ? 'translate-y-0' : 'translate-y-4 group-hover:translate-y-0'}`}>{style.title}</h3>
+                  <p className={`text-white/80 text-xs mb-4 max-w-sm transition-transform duration-500 delay-150 ${activeCardId === style.id ? 'translate-y-0' : 'translate-y-4 group-hover:translate-y-0'}`}>Preview Style</p>
                   
-                  <button className="px-5 py-2 bg-white text-black rounded-full text-xs font-bold flex items-center gap-2 hover:gap-3 transition-all duration-300 translate-y-4 group-hover:translate-y-0 delay-200">
+                  <button className={`px-5 py-2 bg-white text-black rounded-full text-xs font-bold flex items-center gap-2 hover:gap-3 transition-all duration-300 delay-200 ${activeCardId === style.id ? 'translate-y-0' : 'translate-y-4 group-hover:translate-y-0'}`}>
                     View Project
                     <ArrowRight className="w-3 h-3" />
                   </button>
