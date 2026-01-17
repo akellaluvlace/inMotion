@@ -438,10 +438,11 @@ export default function AshfordHouse({ previewMode = false }: { previewMode?: bo
   return (
     <div className="ashford-wrapper relative">
       {/* Navigation */}
-      <nav 
-        className={`fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-all duration-300 ${
-            scrolled ? 'bg-[#FFFFF0]/95 backdrop-blur-sm shadow-md border-b-[#C9A962]/20' : ''
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-all duration-300 bg-[#FFFFF0]/95 backdrop-blur-sm ${
+            scrolled ? 'shadow-md' : ''
         }`}
+        style={{ borderBottomColor: scrolled ? 'rgba(201, 169, 98, 0.2)' : 'transparent' }}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-20 lg:h-24">
@@ -510,8 +511,7 @@ export default function AshfordHouse({ previewMode = false }: { previewMode?: bo
           Book a Viewing
         </a>
       </div>
-
-      {/* Hero Section */}
+{/* Hero Section */}
       <section className="relative min-h-screen flex items-center">
         {/* Full-bleed Background */}
         <div className="absolute inset-0">
@@ -522,21 +522,23 @@ export default function AshfordHouse({ previewMode = false }: { previewMode?: bo
           />
 
           {/* High Contrast Overlays */}
-          <div className="absolute inset-0 bg-black/40"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#36454F]/80 via-[#36454F]/50 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#36454F]/50 via-transparent to-[#36454F]/50"></div>
+          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}></div>
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(54,69,79,0.8), rgba(54,69,79,0.5), transparent)' }}></div>
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(54,69,79,0.5), transparent, rgba(54,69,79,0.5))' }}></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-24 md:py-32 relative z-10 w-full">
           <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
-            <span className="font-script text-3xl md:text-4xl text-[#F7E7CE] mb-4 block drop-shadow-md">Where Dreams Begin</span>
+            <span className="font-script text-3xl md:text-4xl mb-4 block drop-shadow-md" style={{ color: '#F7E7CE' }}>
+              Where Dreams Begin
+            </span>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-white mb-6 leading-[1.1] drop-shadow-lg">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display mb-6 leading-[1.1] drop-shadow-lg" style={{ color: '#FFFFFF' }}>
               A Timeless Setting for Your{' '}
-              <em className="italic text-[#FBF3E4]">Perfect Day</em>
+              <em className="italic" style={{ color: '#FBF3E4' }}>Perfect Day</em>
             </h1>
 
-            <p className="text-base md:text-lg text-white/90 mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0 drop-shadow-md">
+            <p className="text-base md:text-lg mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0 drop-shadow-md" style={{ color: 'rgba(255,255,255,0.9)' }}>
               Nestled in 500 acres of pristine Irish countryside, Ashford House Estate offers an unparalleled setting for celebrations of love.
             </p>
 
@@ -545,7 +547,11 @@ export default function AshfordHouse({ previewMode = false }: { previewMode?: bo
                 Arrange a Viewing
                 <ArrowRight className="w-4 h-4" />
               </a>
-              <a onClick={() => scrollToSection('venues')} className="btn-elegant-outline border-white/60 text-white hover:bg-white hover:text-[#36454F] w-full sm:w-auto justify-center backdrop-blur-sm cursor-pointer">
+              <a
+                onClick={() => scrollToSection('venues')}
+                className="w-full sm:w-auto justify-center cursor-pointer inline-flex items-center gap-3 px-10 py-[18px] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:opacity-80"
+                style={{ backgroundColor: '#4A5568', color: '#FFFFF0' }}
+              >
                 Explore Venues
               </a>
             </div>
