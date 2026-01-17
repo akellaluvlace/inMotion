@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowRight, MapPin, Award, Globe, Users } from 'lucide-react';
+import { ArrowRight, MapPin, Award, Globe, Users, Briefcase } from 'lucide-react';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 
@@ -98,7 +98,6 @@ export default function AboutPage() {
                 sizes="100vw"
                 className="object-cover object-center"
               />
-              {/* Mobile: bottom gradient, Desktop: side gradient */}
               <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
               <div className="absolute inset-0 p-5 sm:p-8 md:p-12 flex flex-col justify-end sm:justify-center">
                 <div className="inline-flex items-center gap-2 bg-[#27ca3f] text-white px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold w-fit mb-3 sm:mb-4">
@@ -125,7 +124,7 @@ export default function AboutPage() {
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">The journey.</h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
               {/* Ukio Bankas */}
               <div className="bg-[#fafafa] rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-[#e0e0e0] hover:border-[#3b82f6] transition-all group">
                 <div className="h-10 sm:h-12 mb-4 sm:mb-6 flex items-center">
@@ -180,16 +179,59 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              {/* Studio */}
-              <div className="bg-[#1a1a1a] rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-white group hover:bg-[#2a2a2a] transition-all">
+              {/* Lithuania Studio - Updated */}
+              <div className="bg-[#fafafa] rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-[#e0e0e0] hover:border-[#1a1a1a] transition-all group">
                 <div className="h-10 sm:h-12 mb-4 sm:mb-6 flex items-center">
-                  <Globe className="w-8 h-8 sm:w-10 sm:h-10 text-[#27ca3f]" />
+                  <Globe className="w-8 h-8 sm:w-10 sm:h-10 text-[#1a1a1a]" />
                 </div>
-                <h4 className="font-bold text-base sm:text-lg mb-1">The Studio</h4>
-                <p className="text-xs text-[#27ca3f] uppercase tracking-wider mb-2 sm:mb-3">Founder</p>
-                <p className="text-sm text-white/70 leading-relaxed">
-                  Founded my own studio. Hundreds of websites delivered.
+                <h4 className="font-bold text-base sm:text-lg mb-1">Lithuania Studio</h4>
+                <p className="text-xs text-[#1a1a1a] uppercase tracking-wider mb-2 sm:mb-3">Studio Founder</p>
+                <p className="text-sm text-[#666666] leading-relaxed">
+                  Opened my first studio in Lithuania. Delivered <span className="font-semibold text-[#1a1a1a]">100+ websites</span> with a focus on speed and quality.
                 </p>
+              </div>
+            </div>
+
+            {/* DUBLIN ORIGIN STORY - New Box */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2 bg-[#1a1a1a] rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 group hover:bg-[#222222] transition-all relative overflow-hidden flex items-center min-h-[350px] sm:min-h-[400px]">
+                {/* Text Content */}
+                <div className="relative z-10 w-full max-w-xl">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                            <Briefcase className="w-6 h-6 text-[#27ca3f]" />
+                        </div>
+                        <span className="text-xs tracking-[0.2em] uppercase text-[#27ca3f] font-semibold">The New Chapter</span>
+                    </div>
+                    
+                    <h3 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-6 leading-tight text-white">
+                        Falling in love with the <br/><span className="text-[#27ca3f]">Dublin Tech Scene</span>.
+                    </h3>
+                    
+                    <div className="space-y-4 text-white/70 text-sm sm:text-base leading-relaxed">
+                        <p>
+                            I came to Dublin and was immediately captivated by the energy of the tech community here. It wasn&apos;t just about business; it was about the people and the innovation.
+                        </p>
+                        <p>
+                            After freelancing for a while and seeing the incredible demand for high-quality, motion-rich digital experiences, I realized it was time to put down roots.
+                        </p>
+                        <p className="font-medium text-white pt-2">
+                            That&apos;s how <span className="text-[#27ca3f]">Akella inMotion</span> was born.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Huge Wolf Logo - Absolute positioned to allow smaller card height while keeping size */}
+                <div className="absolute -right-16 sm:-right-24 lg:-right-32 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <div className="relative w-[450px] h-[450px] sm:w-[600px] sm:h-[600px] lg:w-[800px] lg:h-[800px] -scale-x-100 filter brightness-0 invert opacity-60 group-hover:opacity-100 transition-all duration-700 ease-out translate-x-12 group-hover:translate-x-0">
+                        <Image
+                            src="/assets/logo.png"
+                            alt="Akella inMotion Logo"
+                            fill
+                            className="object-contain"
+                        />
+                    </div>
+                </div>
               </div>
             </div>
           </div>
